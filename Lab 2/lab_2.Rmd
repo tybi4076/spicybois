@@ -1,7 +1,7 @@
 ---
-title: "Lab_2"
+title: "Lab 2"
 author: "Spicy Bois"
-date: "9/4/2019"
+date: "2019/9/6"
 output: html_document
 ---
 
@@ -9,22 +9,20 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Team Details
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### Photo
+### Want to Accomplish?
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## About Joe
 
-```{r cars}
-summary(cars)
-```
+## About Jack
 
-## Including Plots
+## About Tyler
 
-You can also embed plots, for example:
+## About Trent
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+## About Logan
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
