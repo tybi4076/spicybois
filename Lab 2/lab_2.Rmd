@@ -26,6 +26,11 @@ knitr::opts_chunk$set(echo = TRUE)
  * I really enjoy movies.
 
 ## About Trent
+ * Similar to Tyler, I would also be interested in applying data science to film, but more specifically on marketing and expenses of films.
+ * 6 months after I graduate I hope to be at somr sort of start up position at a company I like, and at 5 years I would like to hopefully be at the same job, or on a steady career path.
+ * I'm not sure if I have a specific goal for my "greatest career accomplishment" yet, but I hope it will ultimatly be something fufilling that I enjoy doing.
+ * In this course, I hope to learn about how to apply data science knowledge that we learn to tangible data sets, as well as learn new tools to work with data (R).
+ * I am also a bit of a cinefile, and I enjoy skiing and roller coasters
 
 ## About Logan
 <!--%![](Photos/loganPhoto.png)-->
