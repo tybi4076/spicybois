@@ -10,7 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Team Details
-*Team Name - Spicy Bois
+* Team Name - Spicy Bois
+![](Photos/teamPhoto.JPG)
 * Photo
 * Want to Accomplish?
 
@@ -37,7 +38,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
  * By analyzing data, i would like to know the what breed a dog is based on an image.
  * Six mounths after graduation I will love to be working as a prgramer working on AI. After 5 years, I would like to be doing the same thing just getting paid more.
- * I would like my greatest career accomplishment to work an AI that is significantly more advance then current AI's. I would like to leans the basics of data science, since data science is a big part of machine learning. 
+ * I would like my greatest career accomplishment to work an AI that is significantly more advance then current AI's. 
+ * I would like to leans the basics of data science, since data science is a big part of machine learning. 
  * I would love to work on the AI that lands rockets, seen by Space X.
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
