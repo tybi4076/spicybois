@@ -16,6 +16,15 @@ knitr::opts_chunk$set(echo = TRUE)
 * Want to Accomplish?
 
 ## About Joe
+1. Why do males tend to consolidate to the weight-lifting section of the gym and the females to the cardio section?
+
+2. Six months after graduation, I hope to be celebrating my 24th birthday at the very latest. I think that my life is still to young to be predicting a career path. however, I would be happy if five years after my graduation I was traveling the world or working an adventurous, active job. It would be unfortunate if I found myself in an office space doing grunt work.
+
+3. I want to be happy and financially stable. That's pretty much the goal.
+
+4. I think that this course will provide valuble insight into a field of work that is rapidly expanding and has been recommended to me by multiple people for the past couple months. I'm excited to see what this class holds for me.
+
+5. Guess the lie: (a) I am a trained elephant caretaker  (b) I once won an international aerospace design competition  (c) I appeared in two Nerf Blasters comercials as a child.
 
 ## About Jack
 
