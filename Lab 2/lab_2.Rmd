@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE)
  * In this course I hope to learn what data science is so I can see if I want to choose it as my major.
  * I really enjoy movies, skiing, and longboarding
 
-## Tyler's Responses
+### Tyler's Feedback
  * Joe - I really like how Joes did a 2 truths and a lie for something interesting about him.
  * Jack -   
  * Trent -  I like how trent also enjoys movies. I feel he could add what his favorite movie is.
