@@ -34,7 +34,7 @@ knitr::opts_chunk$set(echo = TRUE)
  * I am also a bit of a cinefile, and I enjoy skiing and roller coasters
 
 ## About Logan
-<!--%![](Photos/loganPhoto.png)-->
+![](Photos/loganPhoto.JPG)
 
  * By analyzing data, i would like to know the what breed a dog is based on an image.
  * Six mounths after graduation I will love to be working as a prgramer working on AI. After 5 years, I would like to be doing the same thing just getting paid more.
