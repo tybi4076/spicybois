@@ -33,7 +33,13 @@ knitr::opts_chunk$set(echo = TRUE)
  * 6 months after I graduate I would like to be looking for a job and exploring for what to do with my degree.  At 5 years I would like to be working in a field that relates to by degree that I enjoy
  * I hope to lead a team in my career or be some kind of a manager/lead for a company. 
  * In this course I hope to learn what data science is so I can see if I want to choose it as my major.
- * I really enjoy movies.
+ * I really enjoy movies, skiing, and longboarding
+
+## Tyler's Responses
+ * Joe - I really like how Joes did a 2 truths and a lie for something interesting about him.
+ * Jack -   
+ * Trent -  I like how trent also enjoys movies. I feel he could add what his favorite movie is.
+ * Logan - I like how interested Logan is in AI, I would like to know why he's so interested in AI.
 
 ## About Trent
 ![](Photos/Trent_Photo.jpg)
