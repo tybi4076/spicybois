@@ -23,6 +23,17 @@ knitr::opts_chunk$set(echo = TRUE)
 * Guess the lie: (a) I am a trained elephant caretaker  (b) I once won an international aerospace design competition  (c) I appeared in two Nerf Blasters comercials as a child.
 
 ## About Jack
+* I would like to be able to see how much it takes to run music festivals
+* 6 months after I graduate I hope to have a job in the data science field and/or be travelling. At 5 years I would hope to still have a job and work my way up the data science ladder, and I would be excited to continue learning about new things in the data science world.
+*  I wouldn't really know what my greatest career accomplishment would be other than to keep a job or maybe even start something on my own relating to probability and data science.
+* I would really like to learn R and be able to use it to help better myself and gain more knowledge in the data science field.
+* Im on the cheer team at CU and like to snowboard in the winter.
+
+### Jack's Feedback
+* Joe- I like Joe's reference to the weight room. Maybe you could add how some females are very fond of weight training although you are correct in the vast majority being more cardio focused.
+* Tyler- I am also big into skiing/longboarding. You could maybe add what type of career you would like to team lead.
+* Trent- I like how he is into movies. Your responses are concise, but maybe you could elaborate more on what marketing expenses you might be referring to.
+* Logan- Very interesting take on the dog image idea. You could maybe add more details and how data would come more into play with the dog idea.
 
 ## About Tyler
  * I would like to be able to see how much movies make based on budget and actors.
@@ -33,7 +44,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Tyler's Feedback
  * Joe - I really like how Joes did a 2 truths and a lie for something interesting about him.
- * Jack -   
+ * Jack -  I think everything about Jack's goals and interests is fair, although I would like to know more about his career interests.
  * Trent -  I like how trent also enjoys movies. I feel he could add what his favorite movie is.
  * Logan - I like how interested Logan is in AI, I would like to know why he's so interested in AI.
 
@@ -48,7 +59,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
  ### Trent's Feedback
  * Joe: I think you did a good job outlining your personal goals, and I liked how you chose the "two truths one lie" format to share some interesting facts. The only thing I would say needs expanding upon is your gym related statistical section. A few more details would help flesh that out.
- * Jack:
+ * Jack: I t
  * Tyler: I think your goals are well said, especially considering you are still choosing a major. Maybe some more details about why you have an interest in management would add some insight to your business-related interests.
  * Logan: I like how your goals for the future are very specific, which clearly shows your passion for coding and AI. I think a few more details regarding the dog breed analization could help explain why and how you want to accomplish this. 
 
