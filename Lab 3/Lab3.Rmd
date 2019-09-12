@@ -31,6 +31,6 @@ ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) 
   facet_grid(gender~.)
 ```
 
+This plot shows that There isn't a difference in someones general health and their desired weight. 
 
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
