@@ -18,4 +18,19 @@ cdc <- as_tibble(cdc)
 ```
 
 
+```{r}
+##Tyler's Individual
+library(tidyverse)
+source("http://www.openintro.org/stat/data/cdc.R")
+cdc <- as_tibble(cdc)
+
+ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) +
+  geom_point() +
+  labs(title = "General Health  VS  Desired Weight") + 
+  theme_dark() + 
+  facet_grid(gender~.)
+```
+
+
+
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
