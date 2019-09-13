@@ -48,7 +48,7 @@ ggplot(data = cdc, (mapping =  aes(x = exerany))) +
   labs(title = "Whether People Excercised in the Past Month, and How They Describe Their Health")
   
 ```
-**Findings:** 
+**Findings:** The plot shows that their were a significant 
 
 
 ### Does desired weight effect general health? (Tyler)
