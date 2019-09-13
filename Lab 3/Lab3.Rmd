@@ -11,19 +11,11 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
 
-# Lab 3
-```{r}
+#Add Library + Dataset
 library(tidyverse)
 source("http://www.openintro.org/stat/data/cdc.R")
-<<<<<<< HEAD
 cdc <- as_tibble(cdc)
-```
-
-## TEAM QUESTION: Which attributes effect how healthy someone is/feels?
-=======
-(cdc <- as_tibble(cdc))
 ```
 
 ## Which attributes effect how healthy someone is/feels?
@@ -103,8 +95,7 @@ ggplot(cdc, aes(genhlth, ..count..)) + geom_bar(aes(color = hlthplan), position 
 =======
 ### Does having health insurance effect General Health? (Trent)
 ```{r}
-ggplot(cdc, aes(genhlth, ..count.., color = hlthplan)) + geom_bar(aes(position = "dodge")+
->>>>>>> master
+ggplot(cdc, aes(genhlth, ..count..)) + geom_bar(aes(color = hlthplan))+
   labs(title = "Amount of People who have a Healthplan, and How they Descibe their Health") + 
   facet_grid(gender~.)
 ```
@@ -130,13 +121,7 @@ ggplot(cdc, aes(x = genhlth, y = gender)) +
 
 ### What connection is there between General Health and the weight of a person proportional to their height? (Joe)
 ```{r}
-<<<<<<< HEAD
-library(tidyverse)
-cdc <- as_tibble(cdc)
-
-=======
->>>>>>> master
-ggplot(data=cdc, (mapping = aes(x= height, y= weight, color = genhlth)))+ 
+ggplot(data=cdc, (mapping = aes(x= height, y= weight, color = genhlth))) + 
   geom_smooth(se = FALSE) +
   labs(title = "Weight vs Height Divided into Catagories Based on Self-Reported Health") + 
   labs(caption = "The uncolored line is a general representation of a healthy correlation between height and weight.") +
@@ -147,14 +132,16 @@ ggplot(data=cdc, (mapping = aes(x= height, y= weight, color = genhlth)))+
 
 **Findings:** As people rate themselves lower on the general health scale, the percentage of the population that is considered overweight increases significantly.
 
-<<<<<<< HEAD
-### Conclusion
-As a team, we chose to graph the relationship between people's general health and wheter or not they smoke, as smoking is what we considered to be the unhealthiest factor from the dataset. Unsuprisingly, people who claim to have "poor" health is also the group with the most smokers. The other most significant factor that effected people's overall sense of well-being was their weight. The percentage of the population that is considered overweight tended to indicate fair-poor health quality. We also discovered that some factors like gender have no effect on how someone feels about their health. Overall, people who feel better about their health tend to be not-overweight, non-smokers, and have some sort of healthcare plan. So our reccomdation to the public would be to eat health, exercise, and reduce/stop smoking in order to feel as healthy as possible.
+### Conclusion:
+As a team, we chose to graph the relationship between people's general health and whether or not they smoke, as smoking is what we considered to be the unhealthiest factor from the data-set. Unsurprisingly, people who claim to have "poor" health is also the group with the most smokers. The other most significant factor that effected people's overall sense of well-being was their weight. The percentage of the population that is considered overweight tended to indicate fair-poor health quality. We also discovered that some factors like gender have no effect on how someone feels about their health. Overall, people who feel better about their health tend to be not-overweight, non-smokers, and have some sort of healthcare plan. So our recommendation to the public would be to eat health, exercise, and reduce/stop smoking in order to feel as healthy as possible.
 
 ### Team Report: 
 **Jack:** Plotted how people viewed their own health and whether they exercised or not.
 
-**Trent:** Did individual graph and wrote the conclusion 
+**Tyler:** Created graph for how desired weight effects general health.
 
-**Logan Richards:** I created the graph for the correlation between gender and general health. I used stat function, bin2, to calculate the total amount of males/females in each of the gnereral health catagories. I also ues the scale function to edit the ledgend in order to make the limits eaiser to read as well as change the default "count" title of the legend to "Number of People" to better understand the graph. 
->>>>>>> master
+**Trent:** I created the graph for the effect on General Health and health insurance. I also did the Team Conclusion.
+
+**Logan Richards:** I created the graph for the correlation between gender and general health. I used stat function, bin2, to calculate the total amount of males/females in each of the gnereral health catagories. I also ues the scale function to edit the ledgend in order to make the limits eaiser to read as well as change the default "count" title of the legend to "Number of People" to better understand the graph. I also create the team graph.
+
+**Joe:** I created the graph for how general health differers from the weight of a person proportional to their height.
