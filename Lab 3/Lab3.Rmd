@@ -82,7 +82,7 @@ ggplot(cdc, aes(x = genhlth, y = gender)) +
   scale_fill_continuous(name = "Number of People", limits=c(0, 4000), breaks=seq(0,4000,by=1000)) # Edit Legend
 ```
 
-**Findings:** The graph shows that between males and females, there is not an significant defference between general health.
+**Findings:** The graph shows that the total count of males and females in each catagory of General Health is not significant different. This demonstates that gender does not play a major rule in effecting health. 
 
 ### Conclustion:
 
