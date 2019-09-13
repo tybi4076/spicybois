@@ -23,6 +23,12 @@ knitr::opts_chunk$set(echo = TRUE)
 * I think that this course will provide valuble insight into a field of work that is rapidly expanding and has been recommended to me by multiple people for the past couple months. I'm excited to see what this class holds for me.
 * Guess the lie: (a) I am a trained elephant caretaker  (b) I once won an international aerospace design competition  (c) I appeared in two Nerf Blasters comercials as a child.
 
+## Joe's Feedback
+* Jack: I am very interested to learn that you are on the cheer team! That is really cool! I am also interested in learning R so that I can use it in the future.
+* Tyler: I am also curious about persuing data science as a career. I think that it's cool that we get to explore data science as a team this year.
+* Trent: I think it's cool that you and I share the same career goal, enjoying our jobs. I think it's awesome that you have your horizons that open!
+* Logan: I think that your career path is super interesting. AI is the future and the fact that you seem so determined to work in that field is awesome!
+
 ## About Jack
 ![Jack](Photos/jackPhoto.jpg)
 

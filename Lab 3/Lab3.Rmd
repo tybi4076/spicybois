@@ -84,6 +84,23 @@ ggplot(cdc, aes(x = genhlth, y = gender)) +
 
 **Findings:** The graph shows that the total count of males and females in each catagory of General Health is not significant different. This demonstates that gender does not play a major rule in effecting health. 
 
+
+### What connection is there between General Health and the weight of a person proportional to their height? (Joe)
+```{r}
+library(tidyverse)
+cdc <- as_tibble(cdc)
+
+ggplot(data=cdc, (mapping = aes(x= height, y= weight, color = genhlth)))+ 
+  geom_smooth(se = FALSE) +
+  labs(title = "Weight vs Height Divided into Catagories Based on Self-Reported Health") + 
+  labs(caption = "The uncolored line is a general representation of a healthy correlation between height and weight.") +
+  theme_light() +
+  facet_wrap(genhlth~.) +
+  geom_abline(intercept= -60, slope= 3.33)
+```
+
+**Findings: As people rate themselves lower on the general health scale, the percentage of the population that is considered overweight increases significantly.
+
 ### Conclustion:
 
 ### Team Report
