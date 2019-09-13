@@ -151,13 +151,10 @@ ggplot(data=cdc, (mapping = aes(x= height, y= weight, color = genhlth)))+
 ### Conclustion
 As a team, we chose to graph the relationship between people's general health and wheter or not they smoke, as smoking is what we considered to be the unhealthiest factor from the dataset. Unsuprisingly, people who claim to have "poor" health is also the group with the most smokers. The other most significant factor that effected people's overall sense of well-being was their weight. The percentage of the population that is considered overweight tended to indicate fair-poor health quality. We also discovered that some factors like gender have no effect on how someone feels about their health. Overall, people who feel better about their health tend to be not-overweight, non-smokers, and have some sort of healthcare plan. So our reccomdation to the public would be to eat health, exercise, and reduce/stop smoking in order to feel as healthy as possible.
 
-### Team Contributions
-We each worked on our individuak graphs, Logan made the TEAM chart, and Trent worked on the conclusion
-=======
-### Conclusion:
-
 ### Team Report: 
 **Jack:** Plotted how people viewed their own health and whether they exercised or not.
+
+**Trent:** Did individual graph and wrote the conclusion 
 
 **Logan Richards:** I created the graph for the correlation between gender and general health. I used stat function, bin2, to calculate the total amount of males/females in each of the gnereral health catagories. I also ues the scale function to edit the ledgend in order to make the limits eaiser to read as well as change the default "count" title of the legend to "Number of People" to better understand the graph. 
 >>>>>>> master
