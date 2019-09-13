@@ -48,7 +48,7 @@ ggplot(data = cdc, (mapping =  aes(x = exerany))) +
   labs(title = "Whether People Excercised in the Past Month, and How They Describe Their Health")
   
 ```
-**Findings:** 
+**Findings:** The plot shows that although many people worked out, there were still people who worked out and stated that their health was not very good. On the other hand, there were people who did not work out that stated their health was "excellent." All in all, there were people who worked out and didn't work out, but it seems their view on their own health seemed to vary despite working out or not.
 
 
 ### Does desired weight effect general health? (Tyler)
