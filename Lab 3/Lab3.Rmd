@@ -1,7 +1,7 @@
 ---
 title: "Lab3"
 author: "SpicyBois: Jack, Joe, Logan, Trent, Tyler"
-date: "9/10/2019"
+date: "9/13/2019"
 output: html_document
 ---
 
@@ -36,27 +36,19 @@ ggplot(smoke_data, aes(x = genhlth, y = count, fill = genhlth)) + #X axis -> Gen
   labs(title = "Smoking vs. General Health.", x = "General Health", y  = "Average smokers (0 - No, 1 - Yes)") + 
   scale_fill_discrete(name = "Health", labels = c("Excellent", "Very Good", "Good", "Fair", "Poor")) # Edit Legend
 ```
+
 ### Does whether or not people exercised effect how they describe their health? (Jack)
 ```{r}
-library(tidyverse)
-source("http://www.openintro.org/stat/data/cdc.R")
-cdc <- as_tibble(cdc)
-
 ggplot(data = cdc, (mapping =  aes(x = exerany))) +
   stat_count()+
   facet_grid(.~genhlth)+
-  labs(title = "Whether People Excercised in the Past Month, and How They Describe Their Health")
-  
+  labs(title = "Whether People Excercised in the Past Month, and How They Describe Their Health")+
+  theme_light()
 ```
 **Findings:** The plot shows that although many people worked out, there were still people who worked out and stated that their health was not very good. On the other hand, there were people who did not work out that stated their health was "excellent." All in all, there were people who worked out and didn't work out, but it seems their view on their own health seemed to vary despite working out or not.
 
-
 ### Does desired weight effect general health? (Tyler)
 ```{r}
-library(tidyverse)
-source("http://www.openintro.org/stat/data/cdc.R")
-cdc <- as_tibble(cdc)
-
 ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) +
   geom_point() +
   labs(title = "General Health  VS  Desired Weight") + 
@@ -66,12 +58,8 @@ ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) 
 
 **Findings:** This plot shows that There isn't a difference in someones general health and their desired weight. 
 
-## Does having health insurance effect General Health? (Trent)
+### Does having health insurance effect General Health? (Trent)
 ```{r}
-library(tidyverse)
-source("http://www.openintro.org/stat/data/cdc.R")
-cdc <- as_tibble(cdc)
-
 ggplot(cdc, aes(genhlth, ..count..)) + geom_bar(aes(color = hlthplan), position = "dodge")+
   labs(title = "Amount of People who have a Healthplan, and How they Descibe their Health") + 
   facet_grid(gender~.)
@@ -98,9 +86,6 @@ ggplot(cdc, aes(x = genhlth, y = gender)) +
 
 ### What connection is there between General Health and the weight of a person proportional to their height? (Joe)
 ```{r}
-library(tidyverse)
-cdc <- as_tibble(cdc)
-
 ggplot(data=cdc, (mapping = aes(x= height, y= weight, color = genhlth)))+ 
   geom_smooth(se = FALSE) +
   labs(title = "Weight vs Height Divided into Catagories Based on Self-Reported Health") + 
@@ -110,8 +95,11 @@ ggplot(data=cdc, (mapping = aes(x= height, y= weight, color = genhlth)))+
   geom_abline(intercept= -60, slope= 3.33)
 ```
 
-**Findings: As people rate themselves lower on the general health scale, the percentage of the population that is considered overweight increases significantly.
+**Findings:** As people rate themselves lower on the general health scale, the percentage of the population that is considered overweight increases significantly.
 
-### Conclustion:
+### Conclusion:
 
-### Team Report
+### Team Report: 
+**Jack:** Plotted how people viewed their own health and whether they exercised or not.
+
+**Logan Richards:** I created the graph for the correlation between gender and general health. I used stat function, bin2, to calculate the total amount of males/females in each of the gnereral health catagories. I also ues the scale function to edit the ledgend in order to make the limits eaiser to read as well as change the default "count" title of the legend to "Number of People" to better understand the graph. 
