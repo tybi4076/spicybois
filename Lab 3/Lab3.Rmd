@@ -1,6 +1,6 @@
 ---
 title: "Lab3"
-author: "SpicyBois"
+author: "SpicyBois: Jack, Joe, Logan, Trent, Tyler"
 date: "9/10/2019"
 output: html_document
 ---
@@ -10,16 +10,37 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Lab 3
-
 ```{r}
 library(tidyverse)
 source("http://www.openintro.org/stat/data/cdc.R")
 cdc <- as_tibble(cdc)
 ```
-##Group Plot
+
+## Which attributes effect how healthy someone is/feels?
+### Why is the Question important/interesting?
+Finding the different attributes that effect how someone views their health is important for varies reasons. One of which, is to help the general population be/feel healthyer. If we know that most of the people who have smoke over 100 cigerates typically have a poor health, then we can conclude that smoking causes health to decrease. Also we can find certian attributes that do not effect the general health of someone. 
+
+### Does smoking effect general health? (TEAM)
+```{r}
+smoke_data <- cdc %>%
+  group_by(genhlth) %>%
+  summarize(count = mean(smoke100))
+
+ggplot(smoke_data, aes(x = genhlth, y = count, fill = genhlth)) + #X axis -> General Health, Y axis -> Mean Age
+  geom_col() + #Display a bar Graph
+
+  #Edit visuals
+  theme_dark() + 
+  
+  #Add Text
+  labs(title = "Smoking vs. General Health.", x = "General Health", y  = "Average smokers (0 - No, 1 - Yes)") + 
+  scale_fill_discrete(name = "Health", labels = c("Excellent", "Very Good", "Good", "Fair", "Poor")) # Edit Legend
+```
+
+**Findings:** 
 
 
-##Tyler's Individual
+### Does desired weight effect general health? (Tyler)
 ```{r}
 library(tidyverse)
 source("http://www.openintro.org/stat/data/cdc.R")
@@ -32,9 +53,9 @@ ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) 
   facet_grid(gender~.)
 ```
 
-This plot shows that There isn't a difference in someones general health and their desired weight. 
+**Findings:** This plot shows that There isn't a difference in someones general health and their desired weight. 
 
-##Trent's Individual
+## Does having health insurance effect General Health? (Trent)
 ```{r}
 library(tidyverse)
 source("http://www.openintro.org/stat/data/cdc.R")
@@ -45,4 +66,24 @@ ggplot(cdc, aes(genhlth, ..count..)) + geom_bar(aes(color = hlthplan), position 
   facet_grid(gender~.)
 ```
 
-This plot shows how people with good - excellent health tend to have a healthplan care, where as people who say they have fair-good health tend to not have a plan. It it interesting to note that people who descibe their health as "excellent" have less healthcare plans than people who say they have "very good" health. This may be due to some people have such excellent health that they do not feel they need a healthplan. No difference between genders.
+**Findings:** This plot shows how people with good - excellent health tend to have a healthplan care, where as people who say they have fair-good health tend to not have a plan. It it interesting to note that people who descibe their health as "excellent" have less healthcare plans than people who say they have "very good" health. This may be due to some people have such excellent health that they do not feel they need a healthplan. No difference between genders.
+
+
+### Does gender effect general health? (Logan)
+```{r}
+ggplot(cdc, aes(x = genhlth, y = gender)) + 
+  stat_bin2d() + 
+  
+  #Edit visuals
+  theme_dark() + 
+  
+  #Add Labels
+  labs(title = "Gender vs. General Health.", x = "General Health", y = "Gender", caption = "m - Male and f - Female") + 
+  scale_fill_continuous(name = "Number of People", limits=c(0, 4000), breaks=seq(0,4000,by=1000)) # Edit Legend
+```
+
+**Findings:** The graph shows that between males and females, there is not an significant defference between general health.
+
+### Conclustion:
+
+### Team Report
