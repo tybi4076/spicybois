@@ -36,7 +36,18 @@ ggplot(smoke_data, aes(x = genhlth, y = count, fill = genhlth)) + #X axis -> Gen
   labs(title = "Smoking vs. General Health.", x = "General Health", y  = "Average smokers (0 - No, 1 - Yes)") + 
   scale_fill_discrete(name = "Health", labels = c("Excellent", "Very Good", "Good", "Fair", "Poor")) # Edit Legend
 ```
+### Does whether or not people exercised effect how they describe their health? (Jack)
+```{r}
+library(tidyverse)
+source("http://www.openintro.org/stat/data/cdc.R")
+cdc <- as_tibble(cdc)
 
+ggplot(data = cdc, (mapping =  aes(x = exerany))) +
+  stat_count()+
+  facet_grid(.~genhlth)+
+  labs(title = "Whether People Excercised in the Past Month, and How They Describe Their Health")
+  
+```
 **Findings:** 
 
 
