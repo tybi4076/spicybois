@@ -16,10 +16,11 @@ library(tidyverse)
 source("http://www.openintro.org/stat/data/cdc.R")
 cdc <- as_tibble(cdc)
 ```
+##Group Plot
 
 
-```{r}
 ##Tyler's Individual
+```{r}
 library(tidyverse)
 source("http://www.openintro.org/stat/data/cdc.R")
 cdc <- as_tibble(cdc)
@@ -33,8 +34,8 @@ ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) 
 
 This plot shows that There isn't a difference in someones general health and their desired weight. 
 
-```{r}
 ##Trent's Individual
+```{r}
 library(tidyverse)
 source("http://www.openintro.org/stat/data/cdc.R")
 cdc <- as_tibble(cdc)
@@ -44,4 +45,4 @@ ggplot(cdc, aes(genhlth, ..count..)) + geom_bar(aes(color = hlthplan), position 
   facet_grid(gender~.)
 ```
 
-This plot shows how people with good - excellent tend to have a healthplan care, where as people who say they have fair-good health tend to not have a plan. It it interesting to note that people who descibe their health as "excellent" have less healthcare plans than people who say they have "very good" health. This may be due to some people have such excellent health that they do not feel they need a healthplan. No difference between genders.
+This plot shows how people with good - excellent health tend to have a healthplan care, where as people who say they have fair-good health tend to not have a plan. It it interesting to note that people who descibe their health as "excellent" have less healthcare plans than people who say they have "very good" health. This may be due to some people have such excellent health that they do not feel they need a healthplan. No difference between genders.
