@@ -1,11 +1,7 @@
 ---
 title: "Lab3"
 author: "SpicyBois: Jack, Joe, Logan, Trent, Tyler"
-<<<<<<< HEAD
-date: "9/10/2019"
-=======
 date: "9/13/2019"
->>>>>>> master
 output: html_document
 ---
 
@@ -19,7 +15,6 @@ cdc <- as_tibble(cdc)
 ```
 
 ## Which attributes effect how healthy someone is/feels?
->>>>>>> master
 ### Why is the Question important/interesting?
 Finding the different attributes that effect how someone views their health is important for varies reasons. One of which, is to help the general population be/feel healthyer. If we know that most of the people who have smoke over 100 cigerates typically have a poor health, then we can conclude that smoking causes health to decrease. Also we can find certian attributes that do not effect the general health of someone. 
 
@@ -42,27 +37,17 @@ ggplot(smoke_data, aes(x = genhlth, y = count, fill = genhlth)) + #X axis -> Gen
 
 ### Does whether or not people exercised effect how they describe their health? (Jack)
 ```{r}
-<<<<<<< HEAD
-library(tidyverse)
-source("http://www.openintro.org/stat/data/cdc.R")
-cdc <- as_tibble(cdc)
-
 ggplot(data = cdc, (mapping =  aes(x = exerany))) +
   stat_count()+
   facet_grid(.~genhlth)+
   labs(title = "Whether People Excercised in the Past Month, and How They Describe Their Health")
-  
 ```
+
 **Findings:** The plot shows that although many people worked out, there were still people who worked out and stated that their health was not very good. On the other hand, there were people who did not work out that stated their health was "excellent." All in all, there were people who worked out and didn't work out, but it seems their view on their own health seemed to vary despite working out or not.
 
 
 ### Does desired weight effect general health? (Tyler)
 ```{r}
-library(tidyverse)
-source("http://www.openintro.org/stat/data/cdc.R")
-cdc <- as_tibble(cdc)
-
-=======
 ggplot(data = cdc, (mapping =  aes(x = exerany))) +
   stat_count()+
   facet_grid(.~genhlth)+
@@ -74,7 +59,6 @@ ggplot(data = cdc, (mapping =  aes(x = exerany))) +
 
 ### Does desired weight effect general health? (Tyler)
 ```{r}
->>>>>>> master
 ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) +
   geom_point() +
   labs(title = "General Health  VS  Desired Weight") + 
@@ -84,15 +68,6 @@ ggplot(data = cdc, (mapping = aes(x = genhlth, y = wtdesire, color = gender,))) 
 
 **Findings:** This plot shows that There isn't a difference in someones general health and their desired weight. 
 
-<<<<<<< HEAD
-## Does having health insurance effect General Health? (Trent)
-```{r}
-library(tidyverse)
-source("http://www.openintro.org/stat/data/cdc.R")
-cdc <- as_tibble(cdc)
-
-ggplot(cdc, aes(genhlth, ..count..)) + geom_bar(aes(color = hlthplan), position = "dodge")+
-=======
 ### Does having health insurance effect General Health? (Trent)
 ```{r}
 ggplot(cdc, aes(genhlth, ..count..)) + geom_bar(aes(color = hlthplan))+
@@ -117,7 +92,6 @@ ggplot(cdc, aes(x = genhlth, y = gender)) +
 ```
 
 **Findings:** The graph shows that the total count of males and females in each catagory of General Health is not significant different. This demonstates that gender does not play a major rule in effecting health. 
-
 
 ### What connection is there between General Health and the weight of a person proportional to their height? (Joe)
 ```{r}
