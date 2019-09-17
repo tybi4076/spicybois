@@ -1,0 +1,101 @@
+---
+title: "Class 9 Team Exercise"
+author: "SpicyBois"
+date: "9/16/2019"
+output: html_document
+---
+
+
+# Moneyball?
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+mpg <- as.tibble(mpg)
+```
+
+
+Question 1.
+```{r}
+cor(mpg$displ, mpg$hwy)
+ggplot(mpg, aes(y = displ, x = hwy)) + geom_point() + geom_smooth(method = "lm")
+```
+
+
+```{r}
+#download.file("http://www.openintro.org/stat/data/mlb11.RData", destfile = "mlb11.RData")
+#load("m1b11.RData")
+
+load("/Users/loganrichards/Downloads/mlb11.RData")
+
+(mlb11 <- as.tibble(mlb11))
+```
+
+```{r}
+#Moderate -
+cor(mlb11$runs, mlb11$strikeouts)
+
+#None
+cor(mlb11$runs, mlb11$stolen_bases)
+
+#Moderate +
+cor(mlb11$runs, mlb11$wins)
+
+#Strong +
+cor(mlb11$runs, mlb11$at_bats)
+cor(mlb11$runs, mlb11$homeruns)
+cor(mlb11$runs, mlb11$hits)
+cor(mlb11$runs, mlb11$bat_avg)
+cor(mlb11$runs, mlb11$new_onbase)
+cor(mlb11$runs, mlb11$new_slug)
+cor(mlb11$runs, mlb11$new_obs)
+```
+
+
+```{r}
+#Most + Graph
+ggplot(mlb11, aes(y = runs, x = new_obs)) + geom_point() + geom_smooth(method = "lm")
+```
+
+```{r}
+#Most - Graph
+ggplot(mlb11, aes(y = runs, x = strikeouts)) + geom_point() + geom_smooth(method = "lm")
+```
+
+```{r}
+#Weak -
+cor(mlb11$wins, mlb11$strikeouts)
+
+#None
+cor(mlb11$wins, mlb11$stolen_bases)
+cor(mlb11$wins, mlb11$at_bats)
+
+#Weak +
+cor(mlb11$wins, mlb11$hits)
+
+#Moderate +
+cor(mlb11$wins, mlb11$bat_avg)
+cor(mlb11$wins, mlb11$new_onbase)
+
+#Stong + 
+cor(mlb11$wins, mlb11$runs)
+cor(mlb11$wins, mlb11$new_obs)
+cor(mlb11$wins, mlb11$new_slug)
+cor(mlb11$wins, mlb11$homeruns)
+```
+
+
+```{r}
+ggplot(mlb11, aes(y = wins, x = homeruns)) + geom_point() + geom_smooth(method = "lm")
+```
+
+
+```{r}
+ggplot(mlb11, aes(y = wins, x = strikeouts)) + geom_point() + geom_smooth(method = "lm")
+```
+
+
+```{r}
+ggplot(mlb11, aes(y = wins, x = strikeouts)) + geom_point() + geom_smooth(method = "lm")
+```
+
