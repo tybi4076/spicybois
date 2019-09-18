@@ -7,9 +7,40 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+babies <- read.csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = bwt.oz)
 ```
 
-## Lab 4
+# Does Smoking Lead to Babies Born Prematurely and with Low Birth Weight?
 
+## The effects of smoking on gestation. (TEAM)
+
+## Effects of gestation on of birth weights. (TEAM)
+```{r}
+ggplot(babies, aes(x = gestation, y = bwtoz)) + 
+  facet_grid(.~smoke) +
+  geom_density_2d(na.rm = TRUE) + 
+  geom_smooth(se = FALSE, method = "lm", na.rm = TRUE) + 
+  geom_vline(xintercept = 270, color = "red") + 
+  labs(title = "Gestation vs. Babies Weight", x = "Babies Weight (oz)", y = "Gestation", caption = "To left of Red Line is Premature Birth")
+```
+
+**Findings:** The gestation of the babies does effect the weight of the baby after birth. It is seen that, on average, the longer the gestation the heavier the baby will be. However, this gestation seems to effect the weight more, if the momther smokes. 
+
+## Team's Recomendation
+
+## Babies Weight vs. Parity split by Smoke (Logan)
+```{r}
+ggplot(babies, aes(y = bwtoz, x = parity)) + facet_grid(smoke~.) + stat_summary(fun.y="mean", geom="col") + geom_smooth(method = "lm", se = FALSE) + 
+  labs(title = "Parity vs. Average Babies Weight", x = "Parity (How many previous pregrencies)", y = "Average Baby Weight (OZ)") + 
+  scale_x_continuous(breaks = seq(0, 13))
+```
+
+**Findings:** The parity of the mother does not signifcantly effect the babies weight even if the mother smokes or not. In other words, no matter how many previous pregnancies (including fetal deaths and still births), the mother had, will not effect the babies weight, this is true for smokers and non-smokers.
+
+## Team Report
+**Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
 
 
