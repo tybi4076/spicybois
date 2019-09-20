@@ -16,6 +16,12 @@ babies <- rename(babies, bwtoz = bwt.oz)
 # Does Smoking Lead to Babies Born Prematurely and with Low Birth Weight?
 
 ## The effects of smoking on gestation. (TEAM)
+```{r}
+ggplot(babies, aes(Premature, ..count..))+
+geom_bar(aes(fill = Premature), position = "dodge")+
+facet_grid(.~smoke)
+```
+
 
 ## Effects of gestation on of birth weights. (TEAM)
 ```{r}
@@ -39,6 +45,16 @@ ggplot(babies, aes(y = bwtoz, x = parity)) + facet_grid(smoke~.) + stat_summary(
 ```
 
 **Findings:** The parity of the mother does not signifcantly effect the babies weight even if the mother smokes or not. In other words, no matter how many previous pregnancies (including fetal deaths and still births), the mother had, will not effect the babies weight, this is true for smokers and non-smokers.
+
+## Mother's Age vs. Gestation Age of Infant (Trent)
+```{r}
+ggplot(data = babies, aes(x= mage, y=gestation))+
+geom_point(na.rm = TRUE)+
+geom_hline(yintercept = 270, color = "red")+
+labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y = "Gestation Age", caption = "Under Red Line is Premature Birth")
+```
+
+**Findings:** Clearly, mothers at any age can give birth to their infants with a wide range of gestational ranges. However, as shown on the graph by a red line, certain ages seem to have a more prominant amount of gestaional ages under 270 days, which classifies as a premature birth. It seems that women in their early to mid-twenties have a slightly higher tendancy to have premature delivieries. 
 
 ## Team Report
 **Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
