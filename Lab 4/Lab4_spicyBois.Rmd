@@ -19,7 +19,7 @@ babies <- rename(babies, bwtoz = bwt.oz)
 ```{r}
 ggplot(babies, aes(Premature, ..count..))+
 geom_bar(aes(fill = Premature), position = "dodge")+
-facet_grid(.~smoke)
+facet_grid(.~smoke,labeller = label_parsed)
 ```
 
 
@@ -51,6 +51,8 @@ ggplot(babies, aes(y = bwtoz, x = parity)) + facet_grid(smoke~.) + stat_summary(
 ggplot(data = babies, aes(x= mage, y=gestation))+
 geom_point(na.rm = TRUE)+
 geom_hline(yintercept = 270, color = "red")+
+theme_bw()+
+scale_fill_gradient(low="red", high="yellow")
 labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y = "Gestation Age", caption = "Under Red Line is Premature Birth")
 ```
 
