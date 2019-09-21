@@ -58,6 +58,23 @@ labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y =
 
 **Findings:** Clearly, mothers at any age can give birth to their infants with a wide range of gestational ranges. However, as shown on the graph by a red line, certain ages seem to have a more prominant amount of gestaional ages under 270 days, which classifies as a premature birth. It seems that women in their early to mid-twenties have a slightly higher tendancy to have premature delivieries. 
 
+
+##Fathers Weight vs. Weigth at Birth (Tyler)
+
+```{r}
+ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) + 
+  geom_point(mapping = aes(color = smoke), na.rm = TRUE) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_bw() +
+  labs(title = "Fathers Weight V Birth Weight", x = "Weight At Birth", y = "Fathers Weight")
+  
+
+```
+
+**Findings**
+
+
+
 ## Team Report
 **Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
 
