@@ -58,7 +58,7 @@ ggplot(data = babies, aes(x= mage, y=gestation))+
 geom_point(na.rm = TRUE)+
 geom_hline(yintercept = 270, color = "red")+
 theme_bw()+
-scale_fill_gradient(low="red", high="yellow")
+scale_fill_gradient(low="red", high="yellow") +
 labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y = "Gestation Age", caption = "Under Red Line is Premature Birth")
 ```
 
@@ -68,14 +68,22 @@ labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y =
 ##Fathers Weight vs. Weigth at Birth (Tyler)
 
 ```{r}
+bwtoz <- babies$bwtoz
+dwt <- babies$dwt
+corDwtBwtoz <- cor(bwtoz,dwt, use = "na.or.complete")
+
 ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) + 
   geom_point(mapping = aes(color = smoke), na.rm = TRUE) +
   geom_smooth(method = "lm", se = FALSE) +
   theme_bw() +
-  labs(title = "Fathers Weight V Birth Weight", x = "Weight At Birth", y = "Fathers Weight")
+  labs(title = "Fathers Weight V Birth Weight", x = "Weight At Birth", y = "Fathers Weight", caption = corDwtBwtoz)
   
 
 ```
+
+**Findings**
+As Shown in the graph, Fathes weight doesn't have much effect on the weight of the new baby. With a correlation oh 0.1511, the data doesn't really effect eachother. There is not really any clear trends between fathers weight and the weight of a new born baby. 
+
 
 #Age of Mother vs. Weight at Birth (Joe)
 
