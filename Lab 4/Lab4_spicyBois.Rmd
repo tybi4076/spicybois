@@ -89,5 +89,3 @@ ggplot(data= babies, (mapping = aes(x= mage, y= bwtoz)))+
 
 ## Team Report
 **Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
-
-
