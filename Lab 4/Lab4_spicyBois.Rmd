@@ -29,7 +29,7 @@ labs(title = "How Smoking Can Effect if an Infant is Premature", x = "Status of 
 ```
 **Findings:**While the difference is minimal, it is clear that there is a higher number of premature births for women who do smoke, and a smaller amount of healthy and mature infants birthed.
 
-## Effects of gestation on of birth weights. (TEAM)
+## Effects of gestation on birth weights. (TEAM)
 ```{r}
 ggplot(babies, aes(x = gestation, y = bwtoz)) + 
   facet_grid(.~smoke) +
@@ -82,7 +82,7 @@ ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) +
 ```
 
 **Findings**
-As Shown in the graph, Fathes weight doesn't have much effect on the weight of the new baby. With a correlation oh 0.1511, the data doesn't really effect eachother. There is not really any clear trends between fathers weight and the weight of a new born baby. 
+As Shown in the graph, Fathers weight doesn't have much effect on the weight of the new baby. With a correlation oh 0.1511, the data doesn't really effect eachother. There is not really any clear trends between fathers weight and the weight of a new born baby. 
 
 
 #Age of Mother vs. Weight at Birth (Joe)
@@ -100,8 +100,26 @@ ggplot(data= babies, (mapping = aes(x= mage, y= bwtoz)))+
 **Findings**
 
 
+#Mother's Height vs. Weight at Birth (Jack)
+
+```{r}
+cor(babies$bwtoz, babies$mht, use = "na.or.complete")
+
+ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+  facet_wrap(~smoke)+
+  theme_bw()
+  
+  labs(title = "Mother's Height vs. Baby's Weight at Birth split by Smokers", x = "Baby's Weight", y = "Mother's Height")
+```
+
+**Findings**
+As shown in the graphs, the mother's height doesn't seem to have an effect on the baby's weight. At first I thought a confounding variable may be the mother's weight because the taller you are, typically the more you weigh. The results with the smoking didn't change much as the correlation between the height and weight was .1845, and faceting with smoker's had similar correlation, with an exception of "NA" as there weren't many data points.
 
 ## Team Report
 **Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
 
 **Trent:** I created the team plot that compared the amount of premature births between smokers and non smokers, as well as my individual graph. I used the facet function to compare smokers and non smokers, and used the horizontal line function as well as a different theme to add non-default aesthetics to my graphs.
+
+**Jack:** I created the plot for Mother's height vs. Baby's weight split by smokers. I used the facet function in order to split the data between smoker's and non-smoker's (as well as those who answered "N/A"). I also used a different theme to change up the aesthetic of my graphs.
