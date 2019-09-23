@@ -118,3 +118,5 @@ ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
 **Trent:** I created the team plot that compared the amount of premature births between smokers and non smokers, as well as my individual graph. I used the facet function to compare smokers and non smokers, and used the horizontal line function as well as a different theme to add non-default aesthetics to my graphs.
 
 **Jack:** I created the plot for Mother's height vs. Baby's weight split by smokers. I used the facet function in order to split the data between smoker's and non-smoker's (as well as those who answered "N/A"). I also used a different theme to change up the aesthetic of my graphs.
+
+**Joe.** I created a graph that plotted the age of the mother versus the birthweight of the child. I used a geom_smooth function to show the general general trend of the graph which yielded a general positive correleation. I think that this is fairly showing that the age of the mother is positively correlated with the birthweight of the child.
