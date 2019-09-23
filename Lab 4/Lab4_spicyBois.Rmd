@@ -1,6 +1,6 @@
 ---
 title: "Lab 4"
-author: "SpicyBois"
+author: "SpicyBois: Logan, Trent, Tyler, Joe, Jack"
 date: "9/16/2019"
 output: html_document
 ---
@@ -27,6 +27,7 @@ geom_bar()+
 facet_grid(.~smoke, labeller = as_labeller(smoke_names))+
 labs(title = "How Smoking Can Effect if an Infant is Premature", x = "Status of Birth", y = "Count", caption = "0 represents a normal mature birth, 1 represents a premature birth")
 ```
+
 **Findings:**While the difference is minimal, it is clear that there is a higher number of premature births for women who do smoke, and a smaller amount of healthy and mature infants birthed.
 
 ## Effects of gestation on birth weights. (TEAM)
@@ -42,6 +43,7 @@ ggplot(babies, aes(x = gestation, y = bwtoz)) +
 **Findings:** The gestation of the babies does effect the weight of the baby after birth. It is seen that, on average, the longer the gestation the heavier the baby will be. However, this gestation seems to effect the weight more, if the momther smokes. 
 
 ## Team's Recomendation
+Our recomendation is the doctor's to warn against smoking while pregrent, as it can decrease teh gestation possibly make the baby come out prematurly. 
 
 ## Babies Weight vs. Parity split by Smoke (Logan)
 ```{r}
@@ -64,8 +66,7 @@ labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y =
 
 **Findings:** Clearly, mothers at any age can give birth to their infants with a wide range of gestational ranges. However, as shown on the graph by a red line, certain ages seem to have a more prominant amount of gestaional ages under 270 days, which classifies as a premature birth. It seems that women in their early to mid-twenties have a slightly higher tendancy to have premature delivieries. 
 
-
-##Fathers Weight vs. Weigth at Birth (Tyler)
+## Fathers Weight vs. Weigth at Birth (Tyler)
 
 ```{r}
 bwtoz <- babies$bwtoz
@@ -74,7 +75,7 @@ corDwtBwtoz <- cor(bwtoz,dwt, use = "na.or.complete")
 
 ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) + 
   geom_point(mapping = aes(color = smoke), na.rm = TRUE) +
-  geom_smooth(method = "lm", se = FALSE) +
+  geom_smooth(method = "lm", se = FALSE, na.rm = TRUE) +
   theme_bw() +
   labs(title = "Fathers Weight V Birth Weight", x = "Weight At Birth", y = "Fathers Weight", caption = corDwtBwtoz)
   
@@ -84,23 +85,19 @@ ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) +
 **Findings**
 As Shown in the graph, Fathers weight doesn't have much effect on the weight of the new baby. With a correlation oh 0.1511, the data doesn't really effect eachother. There is not really any clear trends between fathers weight and the weight of a new born baby. 
 
-
-#Age of Mother vs. Weight at Birth (Joe)
+## Age of Mother vs. Weight at Birth (Joe)
 
 ```{r}
-library(tidyverse)
-babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
-babies <- rename(babies, bwtoz = `bwt/oz`)
 ggplot(data= babies, (mapping = aes(x= mage, y= bwtoz)))+
   geom_point(na.rm = TRUE) +
-  geom_smooth(method= "lm") +
+  geom_smooth(method= "lm", na.rm = TRUE) +
   theme_minimal()
 ```
 
 **Findings**
 
 
-#Mother's Height vs. Weight at Birth (Jack)
+## Mother's Height vs. Weight at Birth (Jack)
 
 ```{r}
 cor(babies$bwtoz, babies$mht, use = "na.or.complete")
@@ -109,13 +106,11 @@ ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
   geom_point()+
   geom_smooth(method = "lm", se = FALSE)+
   facet_wrap(~smoke)+
-  theme_bw()
-  
+  theme_bw() +
   labs(title = "Mother's Height vs. Baby's Weight at Birth split by Smokers", x = "Baby's Weight", y = "Mother's Height")
 ```
 
-**Findings**
-As shown in the graphs, the mother's height doesn't seem to have an effect on the baby's weight. At first I thought a confounding variable may be the mother's weight because the taller you are, typically the more you weigh. The results with the smoking didn't change much as the correlation between the height and weight was .1845, and faceting with smoker's had similar correlation, with an exception of "NA" as there weren't many data points.
+**Findings: ** As shown in the graphs, the mother's height doesn't seem to have an effect on the baby's weight. At first I thought a confounding variable may be the mother's weight because the taller you are, typically the more you weigh. The results with the smoking didn't change much as the correlation between the height and weight was .1845, and faceting with smoker's had similar correlation, with an exception of "NA" as there weren't many data points.
 
 ## Team Report
 **Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
