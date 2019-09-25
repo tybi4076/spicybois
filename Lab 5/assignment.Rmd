@@ -1,0 +1,178 @@
+---
+title: "Lab 5"
+date: "September 23, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overall Description
+
+For this lab, you will perform exploratory data analysis on a dataset describing dairy production at the state level, dating back to 1970. The raw data was orignally collected and made public by the United States Department of Agriculture (USDA). Feel free to check it out [here](https://www.ers.usda.gov/data-products/dairy-data/). The data that we will be working with was cleaned and processed by contributers to the [tidy tuesday](https://github.com/rfordatascience/tidytuesday) github repository.
+
+## Goals
+
+- Identify overall trends in the milk production dataset.
+- Hypothesize possible explanations for these trends and identify additional data sources that cound be helpful.
+
+In order to get the data yourself, you will need to clone the repository using GitKraken or Github. Once you clone this repository, the dataset that you need to load is present at the following file location
+
+- tidytuesday/data/2019/2019-01-29/state_milk_production.csv
+
+Finally, let’s load the tidyverse library and view the milk production datset. Make sure that your script or markdown file is in the same file location as the data.
+
+```{r, warning=FALSE, message=FALSE}
+# Load tidyverse
+library(tidyverse)
+
+# Load and view the data
+milk <- read.csv('state_milk_production.csv')
+head(milk)
+```
+
+It appears that we have four columns of data, corresponding to region, state, year, and milk_produced (in pounds).One thing to notice is that the ‘milk_produced’ column has high magnitude. Let’s create a new column to indicate millions of pounds of milk. Our figures and tables will look nicer if we work with millions of pounds, rather than pounds.
+
+```{r}
+# Add a column for millions of milk pounds
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000)
+```
+
+
+Now we have a column indicating millions of pounds of milk. Since we have taken care of that, let’s check out the initial year of data given, 1970. We can extract the data for that particular year with the following functions.
+
+```{r}
+# Extract the data for 1970 only
+milk1970 <- milk %>%
+  filter(year == 1970)
+```
+
+
+# Univariate Distribution
+
+One usefule tool for exploratory data analysis is to visualize the distribution of your data. For continuous data, we can get an estimate for the univariate distribution of a variable by using geom_histogram and geom_density.
+
+For the 1970s milk data, let’s plot a histogram for millions of pounds of milk used. Make sure you choose an appropriate number of bins to make the plot look good.
+
+```{r}
+ggplot(data = milk1970, aes(x = milk_million)) +
+  geom_histogram(bins = 15) + 
+  ggtitle('Histogram of milk produced in 1970 by state')
+```
+
+It appears that most states in 1970 produced about 2 billion pounds of milk. One state produced over 15 billion pounds of milk! Can you identify this state?
+
+Another similar kind of plot is a probability density plot. Here is what a density plot looks like. With a density plot, we estimate a probability density function for the data that is presented
+
+```{r}
+ggplot(data = milk1970, aes(x = milk_million)) +
+  geom_density() + 
+  ggtitle('Distribution estimate of milk produced in 1970 by state')
+```
+
+
+# Comparing Univariate Distributions
+
+Another kind of plot that is useful for comparing univariate distributions across different groups are boxplots. For example, we can filter the data for three years, say 1970, 1990, and 2010, to visualize how the distribution of milk procutions changes across those years.
+
+
+```{r}
+# Extract data for the years 1970, 1990, and 2010
+boxMilk <- milk %>%
+  filter(year %in% c('1970','1990','2010'))
+```
+
+Now that we have filtered our data, let’s create a boxplot
+
+```{r}
+ggplot(data = boxMilk, aes(x = as.factor(year), y = milk_million, fill = as.factor(year))) +
+  geom_boxplot() + 
+  ggtitle('Pounds of milk produced at the state-level') + 
+  scale_fill_discrete(name = 'Year') + 
+  xlab('Year') +
+  ylab('Milk Produced (Millions lb)')
+```
+
+There are “outliers” present in the data that is disrupting the scale of the plot. Try to remedy this when you are creating your own plots. To interpret the above plot, it appears that the variation in the state-level milk production increases from 1970 to 2010. This is evident from the expanded inter-quartile range (colored area) as you cross the graph from left to right. We also see more substantial “outliers” in 2010, than we do in 1970. It appears the the median milk production stays approximately the same over the years. We can veryify this with the following computation.
+
+```{r}
+# Extract data for the years 1970, 1990, and 2010
+median_year <- boxMilk %>%
+  group_by(year) %>%
+  summarise(Med = median(milk_million)) %>%
+  as_tibble()
+median_year
+```
+
+Other plots similar to a boxplot are violin plots and dot plots. You can try out geom_dotplot and related geom_violin. Generally, data scientists recommend a dotplot when there are not many data points to plot, and a violin plot when there are too many data points to plot.
+
+# Bivariate Distributions
+
+We haven’t even checked out the coolest part about this data: it’s time series data. We can plot the milk production over time to get an understanding of how consumption changed at the state level. Let’s plot the milk consumption over time for the states: New York, Wyoming, Maryland, Maine, and Florida. While we are at it, we only really need the columns state, year, and milk_million. We will only select these columns
+
+```{r}
+milksub <- milk %>%
+  filter(state %in% c('New York','Wyoming','Maryland','Maine','Florida')) %>%
+  select(state, year, milk_million)
+```
+
+Now finally, let’s plot the time series data for these 5 states.
+
+```{r}
+ggplot(data = milksub, aes(x = year, y = milk_million, color = state)) +
+  geom_point() + 
+  ggtitle('Pounds of milk over time by state') +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)')
+```
+
+What does this tell you about the milk production from 1970 to now?
+
+Other useful plots for visualizing bivariate relationships are geom_line, geom_jitter, geom_bin2d, geom_hex, and others.
+
+# Summarising Statistics
+
+We did some summarising in a previous code-chunk, however we will formally cover it here. We will be using the function group_by and summarise to report correlations between year and milk production for our 5 states.
+
+```{r}
+cor_sum <- milksub %>%
+  group_by(state) %>%
+  summarise(Correlation = cor(year,milk_million)) %>%
+  as_tibble()
+cor_sum
+```
+
+The Pearson correlation give us a measurement on the strength of the linear relationship between two variables. For example, the correlation between year and milk produced for New York is .9, indicating that there is a strong linear relationship here. While for Wyoming, we obtain a correlation of -.25, indicating a weak linear realtionship.
+
+**Note that correlations have nothing to do with the of the linear relationship between two variables.** For example, the correlation between year and milk produced for New York and Maryland are .9 and -.9 respectively. However, the size of this relationship between the two states is clearly different, as evident from the last graph.
+
+Other useful summary statistics are:
+
+- Mean
+- Median
+- Variance
+- Standard Deviation
+- Max
+- Min
+
+# Assignment Instructions
+
+*Due: 5:00PM Sunday, Sept 29, 2019 on OSF*
+
+Individually, perform three tasks. For the first, display the distribution of the yearly milk production (in millions of pounds) for your birth-year. For the second, summarise the data for your birth year. Report the average milk produced by each state, the median milk produced be each state, the state that produced the most milk, and the state that produced the least amount of milk.
+
+As a team, select all of the states in which at least one of your group members has lived in. If there are less than 5, choose additional states so that you select 5 of them. For these states, plot a yearly time series for the milk production (in millions of pounds). **On this plot, display a line showing the average milk produced each year for all states.** Display this plot on the front page and comment on what information the plot conveys.
+
+Then using the whole dataset, report the following on the front page.
+
+- The year when the most milk was produced in the United States.
+- The year when the least milk was produced in the United States.
+- In 2017, report the 5 states that produced the most milk. (Hint: Use arrange)
+- In 2017, report the 5 states that produced the least milk. (Hint: Use arrange)
+
+After everyone is finished, as a team, write a few sentences in the team report in R Markdown detailing what you found to be the most helpful in learning about this data. Include all individual work in this document as well.
+
+The final task is to reflect on the ethics of this data analysis. Brainstorm with your team on who could benefit most from this analysis? Who could suffer? Write a few sentences explaining who could benefit and suffer from this analysis and why.
+

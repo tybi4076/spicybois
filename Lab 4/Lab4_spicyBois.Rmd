@@ -28,7 +28,7 @@ facet_grid(.~smoke, labeller = as_labeller(smoke_names))+
 labs(title = "How Smoking Can Effect if an Infant is Premature", x = "Status of Birth", y = "Count", caption = "0 represents a normal mature birth, 1 represents a premature birth")
 ```
 
-**Findings:**While the difference is minimal, it is clear that there is a higher number of premature births for women who do smoke, and a smaller amount of healthy and mature infants birthed.
+**Findings:** While the difference is minimal, it is clear that there is a higher number of premature births for women who do smoke, and a smaller amount of healthy and mature infants birthed.
 
 ## Effects of gestation on birth weights. (TEAM)
 ```{r}
@@ -82,8 +82,7 @@ ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) +
 
 ```
 
-**Findings**
-As Shown in the graph, Fathers weight doesn't have much effect on the weight of the new baby. With a correlation oh 0.1511, the data doesn't really effect eachother. There is not really any clear trends between fathers weight and the weight of a new born baby. 
+**Findings:** As Shown in the graph, Fathers weight doesn't have much effect on the weight of the new baby. With a correlation oh 0.1511, the data doesn't really effect eachother. There is not really any clear trends between fathers weight and the weight of a new born baby. 
 
 ## Age of Mother vs. Weight at Birth (Joe)
 
@@ -93,8 +92,6 @@ ggplot(data= babies, (mapping = aes(x= mage, y= bwtoz)))+
   geom_smooth(method= "lm", na.rm = TRUE) +
   theme_minimal()
 ```
-
-**Findings**
 
 
 ## Mother's Height vs. Weight at Birth (Jack)
@@ -119,4 +116,4 @@ ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
 
 **Jack:** I created the plot for Mother's height vs. Baby's weight split by smokers. I used the facet function in order to split the data between smoker's and non-smoker's (as well as those who answered "N/A"). I also used a different theme to change up the aesthetic of my graphs.
 
-**Joe.** I created a graph that plotted the age of the mother versus the birthweight of the child. I used a geom_smooth function to show the general general trend of the graph which yielded a general positive correleation. I think that this is fairly showing that the age of the mother is positively correlated with the birthweight of the child.
+**Joe:** I created a graph that plotted the age of the mother versus the birthweight of the child. I used a geom_smooth function to show the general general trend of the graph which yielded a general positive correleation. I think that this is fairly showing that the age of the mother is positively correlated with the birthweight of the child.
