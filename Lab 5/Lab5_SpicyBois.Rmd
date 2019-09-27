@@ -9,3 +9,39 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(tidyverse)
+
+
+milk <- read.csv('state_milk_production.csv')
+head(milk)
+
+
+milk <- milk %>% mutate(milk_million = milk_produced/1000000)
+
+milkBirthYr <- milk %>% filter(year == 1998)
+
+summarize(milk, )
+
+teamStates <- milk %>% filter(state == Georgia, Colorado, California, Wyoming, Florida)
+ggplot(data = milk, mapping = aes(x = milk_million, y = year, color = teamStates))+
+  geom_scatter()+
+  geom_smooth(color = FALSE)
+
+#The geom_smooth line will take the average of all the points on the scatter no matter what state they are from and will show a line that is approximately the average of all milk produced each year for the given states. This essentially means any point on the graph will tell you the year and average milk produced for that year by the 5 states.
+
+
+```
+didnt know how to clone the file / data set but here are formulas to find who produced most and least milk
+
+In 2017, report the 5 states that produced the most milk. (Hint: Use arrange)
+
+milk %>% filter(year == 2017)
+select(milk, states, milk_million)
+arrange(milk, desc(milk_million))  <- this will order the summary with the states with the most produced milk
+
+In 2017, report the 5 states that produced the least milk. (Hint: Use arrange)
+
+milk %>% filter(year == 2017)
+select(milk, states, milk_million)
+arrange(milk, milk_million)
