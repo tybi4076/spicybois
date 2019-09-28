@@ -7,5 +7,46 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+# Load tidyverse
+library(tidyverse)
+
+# Load and view the data
+milk <- read.csv('state_milk_production.csv')
+head(milk)
+```
+
+#Finding Trends in the Milk Production Data Set
+
+
+##Distribution of the Yearly Milk Production for 1998 (Trent)
+```{r}
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000)
+milk1998 <- milk %>%
+  filter(year == 1998)
+
+ggplot(data = milk1998, aes(x = milk_million)) +
+  geom_histogram(bins = 15) + 
+  theme_light()+
+  labs(title = "Distribution estimate of milk produced in 1998 by state", x = "Milk Produced (millions of milk pounds)", y = "Count (states)")
+```
+```{r}
+milkcor98 <- milk %>% select(state, year, milk_million) %>% group_by(state) %>%
+  summarise(Average = mean(milk_million), Median = median(milk_million)) %>%
+  as_tibble()
+milkcor98
+```
+
+##Yearly Time Series for the Milk Production for Wisconsin (Trent)
+```{r}
+milkWIS <- milk %>%
+  filter(state %in% c('Wisconsin')) %>%
+  select(state, year, milk_million)
+ggplot(data = milkWIS, aes(x = year, y = milk_million, color = state)) +
+  geom_point() + 
+  ggtitle('Pounds of milk over time in Wisconsin') +
+  geom_smooth(method= "lm", na.rm = TRUE, se = FALSE) +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)')
 ```
 
