@@ -157,6 +157,19 @@ ggplot(data = milkCo, mapping = aes(x = year, y = milk_million)) +
 ```
 **Findings** The plot shows that as the years go on that more and more milk was produced in Colorado. One year in particular, 2008, had a big surge in milk production. The years following had the production of milk decrease until 2011 where it started to rise again. For this plot, a linear model does not best fit the graph, a exponential fit would be better.  
 
+##Milk Production in New Mexico over Time (Joe)
+```{r}
+MexMilk <- milk %>% filter(state %in% c('New Mexico'))
+
+ggplot(data = MexMilk, aes(x= year, y= milk_million)) +
+  geom_point()+
+  geom_smooth(method= "lm", na.rm = TRUE, se = FALSE) +
+  ggtitle('Production of Milk in New Mexico') +
+  ylab('Millions of Pounds of Milk Produced') +
+  xlab('Year')
+
+```
+**Findings** This plot shows a very consistent upward trend in milk production since 1970. There is a huge abnormality in 2008, most likely due to the 2008 Housing Market crash, but besides that one abnormal change in growth, the graph is very steady. I found that for this reason, the linear model fits the graph well.
 
 ## Milk production for Colorado, Georgia, New Mexico, California, Wisconsin. (TEAM)
 ```{r}
@@ -241,7 +254,7 @@ milkLeast
 
 **Jack:**
 
-**Joe:**
+**Joe:** I created the plot for the milk production of the year I was born, 1999. I utilized the filter function to isolate the data that I wanted to work with, then used the density graph to show a general distribution of the aggregate milk production of all US states. I used the summarise function to find the Average and Median values of milk production separated by state. I also used the Arrange function to get an ascending and descending list of milk production. This makes the data extremely accessibly and easy to draw conclusions from. I also generated a graph for the yearly production of milk from New Mexico. I used a simple point graph and a line to match its general trend.
 
 **Tyler:** I created the plot for the prodection of states milk in 1997(not my birth year, but didn't want to do repeat graphs). For this I used the filter funtion to get the pecific yeat I wanted, and then used a density plot to report the findings. I also created the plot for the state of Colorado's milk production over the years. To do this plot I filtered again, but this time to Colorado, and used a geom point plot to show the exact amount of milk produced per year, and then a smooth plot to get the overall trend of the data. Finally I found what states produced the most and least amount of milk in 2017. To do this I filtered by the year 2017 and grouped the data by state. Then I sumarised the data for a sum of all the milk produced by state and printed out the table in descending order and ascending order.
 
