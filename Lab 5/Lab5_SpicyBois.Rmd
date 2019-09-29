@@ -7,21 +7,34 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
 # Load tidyverse
 library(tidyverse)
 
 # Load and view the data
 milk <- read.csv('state_milk_production.csv')
 head(milk)
-```
 
-#Finding Trends in the Milk Production Data Set
-
-
-##Distribution of the Yearly Milk Production for 1998 (Trent)
-```{r}
 milk <- milk %>%
   mutate(milk_million = milk_produced/1000000)
+```
+
+# Assignment Details
+## Individually
+  1) For the first, display the distribution of the yearly milk production (in millions of pounds) for your birth-year. 
+  2) Summarise the data for your birth year. Mean, median, max (add amount), min (add amount).
+  
+## Team
+  1) Select all of the states in which at least one of your group members has lived in. If there are less than 5, choose additional states so that you select 5 of them. For these states, plot a yearly time series for the milk production (in millions of pounds). On this plot, display a line showing the average milk produced each year for all states.
+  2) The year when the most milk was produced in the United States.
+  3) The year when the least milk was produced in the United States.
+  4) In 2017, report the 5 states that produced the most milk. (Hint: Use arrange)
+  5) In 2017, report the 5 states that produced the least milk. (Hint: Use arrange)
+
+# Distribution of Milk Production for our Birth Year.
+
+## Distribution of the Yearly Milk Production for 1998 (Trent)
+```{r}
 milk1998 <- milk %>%
   filter(year == 1998)
 
@@ -37,7 +50,25 @@ milkcor98 <- milk %>% select(state, year, milk_million) %>% group_by(state) %>%
 milkcor98
 ```
 
-##Yearly Time Series for the Milk Production for Wisconsin (Trent)
+## The Distribution of the yearly milk production for 2000. (Logan)
+```{r}
+milk2000 <- milk %>% filter(year == 2000)
+ggplot(data = milk2000, aes(x = milk_million)) + 
+  geom_density() + 
+  scale_x_continuous(breaks = seq(0, 45000, 2000)) +
+  labs(title = 'Distribution estimate of milk produced in 1970 by state')
+
+milk2000.median = milk2000 %>% summarise(me = median(milk_million))
+milk2000.mean = milk2000 %>% summarise(avg = mean(milk_million))
+milk2000.max = milk2000 %>% summarise(max = max(milk_million)) #California
+milk2000.min = milk2000 %>% summarise(max = min(milk_million)) #Alaska
+```
+
+**Findings:** In the year 2000, the mediam was 1.4535 billion pounds of milk. The average amount of milk produced was 3.334784 billion pounds of milk per state. California produced the most amount of milk, producing 32.245 billion pounds of milk. Alaska produced the least amount of milk, with only 13 million pounds of milk. 
+
+# Distribution of Milk Production for our State.
+
+## Yearly Time Series for the Milk Production for Wisconsin (Trent)
 ```{r}
 milkWIS <- milk %>%
   filter(state %in% c('Wisconsin')) %>%
@@ -50,8 +81,92 @@ ggplot(data = milkWIS, aes(x = year, y = milk_million, color = state)) +
   xlab('Year') +
   ylab('Milk Produced (Million lb)')
 ```
+
 **Findings: ** This plot displays some interesting findings, predominantly the decline in milk production from the late 80's to the mid 2000's, followed by a sharp increase of milk production that we currently see. One of Wisconsin's biggest exports is dairy products, so it is slightly puzzling for there to be such a significant dip.
 
-## Team Report: 
+## Yearly Time Series for the Milk Production for California (Logan)
+```{r}
+milkCal <- milk %>%
+  filter(state %in% c('California'))
 
+ggplot(data = milkCal, aes(x = year, y = milk_million)) +
+  geom_point() + 
+  ggtitle('Pounds of milk over time in California') +
+  geom_smooth(method= "lm", na.rm = TRUE, se = FALSE) +
+  labs(x = 'Year', y = 'Milk Produced (Million lb)') + 
+  scale_x_continuous(breaks = seq(1970, 2017, 4))
+```
+
+**Findings:** The plot above shows that Colorado is constatly increasing between the years 1970 - 2008. In 2009 it is seen that there is a drop in milk production. After 2009, milk production is on the raise again until, 2014, were it seems that milk production is starting to decrease gradualy. 
+
+## Milk production for Colorado, Georgia, New Mexico, California, Wisconsin. (TEAM)
+```{r}
+milkAvg <- milk %>% group_by(year) %>% summarise(avg = mean(milk_produced), avg_million = mean(milk_million))
+milkAvg <- unname(milkAvg)
+
+milkState <- milk
+for (row in 1:48) {
+  myYear <- milkAvg[row, 1]
+  myAvg <- milkAvg[row, 2]
+  myAvg_million <- milkAvg[row, 3]
+  
+  milkState <- rbind(milkState, data.frame(region = 'Average', state = 'Average', year = myYear, milk_produced = myAvg, milk_million = myAvg_million))
+}
+
+milksub <- milkState %>%
+  filter(state %in% c('Colorado','Georgia','New Mexico','California','Wisconsin', 'Average')) %>%
+  select(state, year, milk_million)
+
+ggplot(data = milksub, aes(x = year, y = milk_million, color = state)) +
+  geom_point() +
+  labs(title = 'Pounds of milk over time by state', x = 'Year', y = 'Milk Produced (Million lb)')
+```
+
+# Stats for Milk production in United States.
+
+## What year did the most amount of milk produced in the United States. (TEAM)
+```{r}
+milkTotal <- milk %>% 
+  group_by(year) %>%
+  summarise(count = sum(milk_produced), count_million = sum(milk_million))
+
+ggplot(data = milkTotal, aes(x = year, y = count_million)) + geom_col()
+milkTotal %>% arrange(desc(count_million))
+```
+
+**Findings:** The year when the least amount of milk was prduced in the United States was 2017.
+
+## The year when the least milk was produced in the United States. (TEAM)
+```{r}
+
+```
+
+**Findings:** 
+
+## In 2017, report the 5 states that produced the most milk. (TEAM)
+```{r}
+
+```
+
+**Findings:** 
+
+## In 2017, report the 5 states that produced the least milk. (TEAM)
+```{r}
+
+```
+
+**Findings:** 
+
+# Team Reports
 **Trent:** I created the plot for the milk production in Wisconsin, as well as the data set for my birth year, 1998. I used the filter function to isolate just the 1998 data, and used a histogram to display the milk produced between all states. For the Wisconsin data, I used the filter function to isolate just Wisconsin's data, and used the geometric point function to graph the findings.
+
+**Logan:** I created the plot for the milk prodcution stats for the year 2000 (my birth year). To do this I used the filter function, to filter out all years exept year 2000. Using this data I created a density plot for milk produced between all states. I then used the summerize mean, mediam, max, min functions to indetify the state that produced the most and least amount of milk, as well as how much most states produce, and the average amount of milk produced per state. I created the graph for the yearly production in California, (I have never lived their, but we needed more states). To create this graph I used filiter function to single out Califonia, then used a point graph to show the total milk produced for each year. I also used a smooth function to show the general trend of what the data is doing with the increase in year. I also created the graph for the year when the most amount of milk was produced in the United States.
+
+**Jack:**
+
+**Joe:**
+
+**Tyler:**
+
+# Ethics of this data analysis.
+The final task is to reflect on the ethics of this data analysis. Brainstorm with your team on who could benefit most from this analysis? Who could suffer? Write a few sentences explaining who could benefit and suffer from this analysis and why.
