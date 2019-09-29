@@ -182,17 +182,30 @@ milkTotal %>% arrange(count_million)
 
 ## In 2017, report the 5 states that produced the most milk. (TEAM)
 ```{r}
+milkMost <- milk %>%
+  filter(year == 2017) %>%
+  group_by(state) %>%
+  summarise(count = sum(milk_produced), countMil = sum(milk_million)) %>%
+  arrange(desc(countMil))
+
+milkMost
 
 ```
 
-**Findings:** 
+**Findings:** The 5 states that produced the Most milk in 2017 were California, Wisconsin, New York, Idaho, and Texas
 
 ## In 2017, report the 5 states that produced the least milk. (TEAM)
 ```{r}
+milkLeast <- milk %>%
+  filter(year == 2017) %>%
+  group_by(state) %>%
+  summarise(count = sum(milk_produced), countMil = sum(milk_million)) %>%
+  arrange(countMil)
 
+milkLeast
 ```
 
-**Findings:** 
+**Findings:** The 5 States that produced the least amount of milk in 2017 were Alaska, Rhode Island, Hawaii, Arkansas, and Alabama.
 
 # Team Reports
 **Trent:** I created the plot for the milk production in Wisconsin, as well as the data set for my birth year, 1998. I used the filter function to isolate just the 1998 data, and used a histogram to display the milk produced between all states. For the Wisconsin data, I used the filter function to isolate just Wisconsin's data, and used the geometric point function to graph the findings.
