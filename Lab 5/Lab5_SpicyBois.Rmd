@@ -31,7 +31,7 @@ milk <- milk %>%
   4) In 2017, report the 5 states that produced the most milk. (Hint: Use arrange)
   5) In 2017, report the 5 states that produced the least milk. (Hint: Use arrange)
 
-# Distribution of Milk Production for our Birth Year.
+# Distribution of Milk Production for our Birth Year (Individual)
 
 ## Distribution of the Yearly Milk Production for 1998 (Trent)
 ```{r}
@@ -45,7 +45,7 @@ ggplot(data = milk1998, aes(x = milk_million)) +
 ```
 ```{r}
 milkcor98 <- milk %>% select(state, year, milk_million) %>% group_by(state) %>%
-  summarise(Average = mean(milk_million), Median = median(milk_million)) %>%
+  summarise(Average = mean(milk_million), Median = median(milk_million), Max = max(milk_million), Min = min(milk_million)) %>%
   as_tibble()
 milkcor98
 ```
