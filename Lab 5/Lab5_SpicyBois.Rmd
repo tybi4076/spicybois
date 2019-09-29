@@ -42,6 +42,7 @@ milkcor98
 milkWIS <- milk %>%
   filter(state %in% c('Wisconsin')) %>%
   select(state, year, milk_million)
+
 ggplot(data = milkWIS, aes(x = year, y = milk_million, color = state)) +
   geom_point() + 
   ggtitle('Pounds of milk over time in Wisconsin') +
@@ -49,4 +50,8 @@ ggplot(data = milkWIS, aes(x = year, y = milk_million, color = state)) +
   xlab('Year') +
   ylab('Milk Produced (Million lb)')
 ```
+**Findings: ** This plot displays some interesting findings, predominantly the decline in milk production from the late 80's to the mid 2000's, followed by a sharp increase of milk production that we currently see. One of Wisconsin's biggest exports is dairy products, so it is slightly puzzling for there to be such a significant dip.
 
+## Team Report: 
+
+**Trent:** I created the plot for the milk production in Wisconsin, as well as the data set for my birth year, 1998. I used the filter function to isolate just the 1998 data, and used a histogram to display the milk produced between all states. For the Wisconsin data, I used the filter function to isolate just Wisconsin's data, and used the geometric point function to graph the findings.
