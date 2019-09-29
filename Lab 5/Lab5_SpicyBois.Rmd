@@ -33,6 +33,27 @@ milk <- milk %>%
 
 # Distribution of Milk Production for our Birth Year (Individual)
 
+## Distribution of the Yearly Milk Production for 1997 (Tyler)
+
+```{r}
+milk1997 <- milk %>%
+  filter(year == 1997)
+
+ggplot(data = milk1997, mapping = aes(x = milk_million)) +
+         geom_density() +
+         theme_bw() +
+         labs(title = "Distribution of milk produced in 1997 by state", x = "Milk Produced in millions", y = "Density")
+
+milkSummary1997 <- milk1997 %>%
+  select(state, milk_million) %>%
+  group_by(state) %>%
+  summarise(Average = mean(milk_million), Median = median(milk_million), Maximum = max(milk_million), Minimum = min(milk_million)) %>%
+  as_tibble
+
+milkSummary1997
+
+```
+
 ## Distribution of the Yearly Milk Production for 1998 (Trent)
 ```{r}
 milk1998 <- milk %>%
