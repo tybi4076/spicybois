@@ -1,7 +1,7 @@
 ---
-title: "Lab5_SpicyBois"
+title: "Lab5"
 author: "SpicyBois"
-date: "9/25/2019"
+date: "9/29/2019"
 output: html_document
 ---
 
@@ -56,7 +56,7 @@ milk2000 <- milk %>% filter(year == 2000)
 ggplot(data = milk2000, aes(x = milk_million)) + 
   geom_density() + 
   scale_x_continuous(breaks = seq(0, 45000, 2000)) +
-  labs(title = 'Distribution estimate of milk produced in 1970 by state')
+  labs(title = 'Distribution estimate of milk produced in 2000', x = "Milk Produced (Million lb)", y = "Density")
 
 milk2000.median = milk2000 %>% summarise(me = median(milk_million))
 milk2000.mean = milk2000 %>% summarise(avg = mean(milk_million))
@@ -105,7 +105,7 @@ milkAvg <- milk %>% group_by(year) %>% summarise(avg = mean(milk_produced), avg_
 milkAvg <- unname(milkAvg)
 
 milkState <- milk
-for (row in 1:48) {
+for (row in 1:nrow(milkAvg)) {
   myYear <- milkAvg[row, 1]
   myAvg <- milkAvg[row, 2]
   myAvg_million <- milkAvg[row, 3]
@@ -130,7 +130,7 @@ milkTotal <- milk %>%
   group_by(year) %>%
   summarise(count = sum(milk_produced), count_million = sum(milk_million))
 
-ggplot(data = milkTotal, aes(x = year, y = count_million)) + geom_col()
+ggplot(data = milkTotal, aes(x = year, y = count_million)) + geom_col() + labs(title = "Total amount of Milk Produced Each year", x = "Year", y = "Total Milk Produced (Million lb)")
 milkTotal %>% arrange(desc(count_million))
 ```
 
@@ -138,10 +138,15 @@ milkTotal %>% arrange(desc(count_million))
 
 ## The year when the least milk was produced in the United States. (TEAM)
 ```{r}
+milkTotal <- milk %>% 
+  group_by(year) %>%
+  summarise(count = sum(milk_produced), count_million = sum(milk_million))
 
+ggplot(data = milkTotal, aes(x = year, y = count_million)) + geom_col() + labs(title = "Total amount of Milk Produced Each year", x = "Year", y = "Total Milk Produced (Million lb)")
+milkTotal %>% arrange(count_million)
 ```
 
-**Findings:** 
+**Findings:** The year when the least amount of milk was prduced in the United States was 1975.
 
 ## In 2017, report the 5 states that produced the most milk. (TEAM)
 ```{r}
