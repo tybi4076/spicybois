@@ -243,7 +243,7 @@ milkLeast
 
 **Joe:**
 
-**Tyler:**
+**Tyler:** I created the plot for the prodection of states milk in 1997(not my birth year, but didn't want to do repeat graphs). For this I used the filter funtion to get the pecific yeat I wanted, and then used a density plot to report the findings. I also created the plot for the state of Colorado's milk production over the years. To do this plot I filtered again, but this time to Colorado, and used a geom point plot to show the exact amount of milk produced per year, and then a smooth plot to get the overall trend of the data. Finally I found what states produced the most and least amount of milk in 2017. To do this I filtered by the year 2017 and grouped the data by state. Then I sumarised the data for a sum of all the milk produced by state and printed out the table in descending order and ascending order.
 
 # Ethics of this data analysis.
 The final task is to reflect on the ethics of this data analysis. Brainstorm with your team on who could benefit most from this analysis? Who could suffer? Write a few sentences explaining who could benefit and suffer from this analysis and why.
