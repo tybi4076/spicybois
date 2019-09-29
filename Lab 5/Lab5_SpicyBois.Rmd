@@ -142,6 +142,22 @@ ggplot(data = milkCal, aes(x = year, y = milk_million)) +
 
 **Findings:** The plot above shows that Colorado is constatly increasing between the years 1970 - 2008. In 2009 it is seen that there is a drop in milk production. After 2009, milk production is on the raise again until, 2014, were it seems that milk production is starting to decrease gradualy. 
 
+## Yearly Time Series for the Milk Production for Colorado (Tyler)
+```{r}
+milkCo <- milk %>%
+  filter(state %in% c('Colorado'))
+
+ggplot(data = milkCo, mapping = aes(x = year, y = milk_million)) +
+  geom_point() +
+  ggtitle('Pounds of milk over time in Colorado') +
+  geom_smooth(method = "lm", na.rm = TRUE, se = FALSE) +
+  xlab('Year') +
+  ylab('Milk Produced in Millions')
+
+```
+**Findings** The plot shows that as the years go on that more and more milk was produced in Colorado. One year in particular, 2008, had a big surge in milk production. The years following had the production of milk decrease until 2011 where it started to rise again. For this plot, a linear model does not best fit the graph, a exponential fit would be better.  
+
+
 ## Milk production for Colorado, Georgia, New Mexico, California, Wisconsin. (TEAM)
 ```{r}
 milkAvg <- milk %>% group_by(year) %>% summarise(avg = mean(milk_produced), avg_million = mean(milk_million))
