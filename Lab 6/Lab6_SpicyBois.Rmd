@@ -19,3 +19,33 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 ```
 
 
+#Studies from Individual Members
+
+##Probabilities Flights will be Delayed Based on Season (Trent)
+```{r}
+DENflights <- DENflights %>% mutate(ARR_DELAY_LOG = (ARR_DELAY >= 15 ))
+
+SPRdelay <- DENflights %>% filter(MONTH == "3" | MONTH == "4" | MONTH == "5") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+SPRdelay
+
+SUMdelay <- DENflights %>% filter(MONTH == "6" | MONTH == "7" | MONTH == "8") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+SUMdelay
+
+FALLdelay <- DENflights %>% filter(MONTH == "9" | MONTH == "10" | MONTH == "11") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+FALLdelay
+
+WINdelay <- DENflights %>% filter(MONTH == "12" | MONTH == "1" | MONTH == "2") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+WINdelay
+```
+
+```{r}
+ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 
+                     labels = c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG",
+                                "SEP", "OCT", "NOV", "DEC"))+
+  labs(title = 'Total time of delay by Month',
+       x='Total time of departure delay',
+       y='Month')
+```
+
+##Probabilities Flights will be Delayed Based on Season (Trent)
