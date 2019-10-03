@@ -23,6 +23,16 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 
 ##Probabilities Flights will be Delayed Based on Season (Trent)
 ```{r}
+ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
+  theme_bw() +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 
+                     labels = c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG",
+                                "SEP", "OCT", "NOV", "DEC"))+
+  labs(title = 'Total time of delay by Month',
+       x='Total time of departure delay',
+       y='Month')
+```
+```{r}
 DENflights <- DENflights %>% mutate(ARR_DELAY_LOG = (ARR_DELAY >= 15 ))
 
 SPRdelay <- DENflights %>% filter(MONTH == "3" | MONTH == "4" | MONTH == "5") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
@@ -37,15 +47,33 @@ FALLdelay
 WINdelay <- DENflights %>% filter(MONTH == "12" | MONTH == "1" | MONTH == "2") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
 WINdelay
 ```
+Time of year can be a major factor that can effect whether or not a flight may be delayed, due to factors such as weather, school holidays, and major holidays such Christmas. As show in the graph above, there is not a significant amount of discrepancy between the amounts of delayed flights per month, but there are still some apparent and relevant trends. The months with a larger amount of delays are July and December, unsurprising due to the higher number of vacations that happen in the summer, and the large air traffic that comes with the Christmas season. If we break the year down in seasons, there is roughly a 16.8% chance to be delayed during the spring months (March, April, May), a 19.7% chance of being delayed during the summer months (June, July, and August), a 12.1% chance of being delayed during the fall months (September, October, November), and a 19.8% of being delayed during the winter months (December, January, February).
 
+
+##Probabilities Flights will be Delayed Based on Carrier (Trent)
 ```{r}
-ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
-  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 
-                     labels = c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG",
-                                "SEP", "OCT", "NOV", "DEC"))+
-  labs(title = 'Total time of delay by Month',
-       x='Total time of departure delay',
-       y='Month')
+ggplot(DENflights) + geom_point(aes(ARR_DELAY, CARRIER)) + 
+  theme_bw() +
+  labs(title = 'Total time of delay by carrier',
+       subtitle = 'Departure delay',
+       xlab='Total time of departure delay',
+       ylab='Airline Carrier')
 ```
+```{r}
+UAdelay <- DENflights %>% filter(CARRIER == "UA") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+UAdelay
 
-##Probabilities Flights will be Delayed Based on Season (Trent)
+OOdelay <- DENflights %>% filter(CARRIER == "OO") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+OOdelay
+
+VXdelay <- DENflights %>% filter(CARRIER == "VX") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+VXdelay
+
+ASdelay <- DENflights %>% filter(CARRIER == "AS") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
+ASdelay
+```
+Which airline comsumers choose to fly on can also be a major factor that can affect if a flight is delayed. From plotting the amount and scale of each carrier's arrival delay, it would seem from the graph that the two airlines with the most and longest delays are UA (United Airlines) and OO (Skywest), and the two airlines with the least delays are VX (Virgin Airlines) and AS (Alaska Airlines). When calculating the probabilities, there is roughly a 12.9% chance of being delayed flying with United, and a 16.0% chance of being delayed on Skywest, the two biggest culprits for tardy flights. However, the probability of being delayed when flying with Virgin is
+roughly 25.6%, and a 16.9% of being delayed on Alaska. So even though Alaska and Vrgin appear to be the airlines with the smaller and least amount of delays, they have a siginificantly smaller amount of total flights when compared to larger airlines like United and Skywest. This is due to the larger airlines being prone to more extreme outliers and different outcomes, resulting in a larger, more misleading spread of data.
+
+## Team Report
+**Trent:** I created the graphs and found the probabilites for the amount of delays over 15 minutes by season and by airline carrier. I used the filter, group_by, sumarise, and mutate functions to find the probabilities, and ggplot, specifically geometric point to graph the data. 
