@@ -1,6 +1,6 @@
 ---
 title: "Lab6"
-author: "Logan Richards"
+author: "Spicy Bois: Logan, Tyler, Trent, Joe, Jack"
 date: "10/1/2019"
 output: html_document
 ---
@@ -13,15 +13,14 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 ```
 
 # What Factors Lead to On-time Arrivals in Denver?
+## Overall questions, why they are important, and why those reasons are important
+## Your team’s plots and the answers to the two questions (conclusions)
+## Your team’s recommendation and why implementing it is important for the DIA managers
+## A series of individual findings and plots (separate subsections for each team member)
+## A summary of who did what and what non-defaults were used to generate which plots.
 
-```{r}
-(DENflights)
-```
-
-
-#Studies from Individual Members
-
-##Probability Flights will be Delayed based on Weather (Tyler)
+# Studies from Individual Members
+## Probability Flights will be Delayed based on Weather (Tyler)
 ```{r}
 DENdelay <- DENflights %>% filter(ARR_DELAY >= 15) %>% mutate(DELAY_WEATHER = (WEATHER_DELAY >= 15))
 
@@ -29,8 +28,7 @@ ggplot(data = DENdelay) +  geom_bar(mapping = aes(x = ARR_DELAY, binwidth = 500)
 
 ```
 
-
-##Probabilities Flights will be Delayed Based on Season (Trent)
+## Probabilities Flights will be Delayed Based on Season (Trent)
 ```{r}
 ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
   theme_bw() +
@@ -40,8 +38,7 @@ ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
   labs(title = 'Total time of delay by Month',
        x='Total time of departure delay',
        y='Month')
-```
-```{r}
+
 DENflights <- DENflights %>% mutate(ARR_DELAY_LOG = (ARR_DELAY >= 15 ))
 
 SPRdelay <- DENflights %>% filter(MONTH == "3" | MONTH == "4" | MONTH == "5") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
@@ -59,7 +56,7 @@ WINdelay
 Time of year can be a major factor that can effect whether or not a flight may be delayed, due to factors such as weather, school holidays, and major holidays such Christmas. As show in the graph above, there is not a significant amount of discrepancy between the amounts of delayed flights per month, but there are still some apparent and relevant trends. The months with a larger amount of delays are July and December, unsurprising due to the higher number of vacations that happen in the summer, and the large air traffic that comes with the Christmas season. If we break the year down in seasons, there is roughly a 16.8% chance to be delayed during the spring months (March, April, May), a 19.7% chance of being delayed during the summer months (June, July, and August), a 12.1% chance of being delayed during the fall months (September, October, November), and a 19.8% of being delayed during the winter months (December, January, February).
 
 
-##Probabilities Flights will be Delayed Based on Carrier (Trent)
+## Probabilities Flights will be Delayed Based on Carrier (Trent)
 ```{r}
 ggplot(DENflights) + geom_point(aes(ARR_DELAY, CARRIER)) + 
   theme_bw() +
@@ -68,6 +65,7 @@ ggplot(DENflights) + geom_point(aes(ARR_DELAY, CARRIER)) +
        xlab='Total time of departure delay',
        ylab='Airline Carrier')
 ```
+
 ```{r}
 UAdelay <- DENflights %>% filter(CARRIER == "UA") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
 UAdelay
@@ -81,7 +79,59 @@ VXdelay
 ASdelay <- DENflights %>% filter(CARRIER == "AS") %>% group_by(ARR_DELAY_LOG) %>% summarise(count = n()) %>% mutate(total = sum(count))
 ASdelay
 ```
+
 Which airline consumers choose to fly on can also be a major factor that can affect if a flight is delayed. From plotting the amount and scale of each carrier's arrival delay, it would seem from the graph that the two airlines with the most and longest delays are UA (United Airlines) and OO (Skywest), and the two airlines with the least delays are VX (Virgin Airlines) and AS (Alaska Airlines). When calculating the probabilities, there is roughly a 12.9% chance of being delayed flying with United, and a 16.0% chance of being delayed on Skywest, the two biggest culprits for tardy flights. However, the probability of being delayed when flying with Virgin is roughly 25.6%, and a 16.9% of being delayed on Alaska. So even though Alaska and Virgin appear to be the airlines with the smaller and least amount of delays, they have a significantly smaller amount of total flights when compared to larger airlines like United and Skywest. This is due to the larger airlines being prone to more extreme outliers and different outcomes, resulting in a larger, more misleading spread of data.
+
+## Probabilities Flight Landing in DEN will be Delayed Based on Origin. (LOGAN)
+```{r}
+DEN_ORGIN_Delay <- DENflights %>% filter(DEST == "DEN", !is.na(ARR_DELAY)) %>%
+  group_by(ORIGIN) %>% 
+  summarise(min_delay = min(ARR_DELAY), 
+            max_delay = max(ARR_DELAY), 
+            avg_delay = mean(ARR_DELAY), 
+            sum_delay = sum(ARR_DELAY >= 15), 
+            sum_flights = n(), 
+            prop_delay = sum_delay / sum_flights *100) %>% 
+  arrange(desc(prop_delay)) %>%
+  slice(1:15)
+
+DEN_ORGIN_Delay$ORIGIN <- factor(DEN_ORGIN_Delay$ORIGIN, levels = DEN_ORGIN_Delay$ORIGIN[order(DEN_ORGIN_Delay$prop_delay)])
+
+ggplot(DEN_ORGIN_Delay, aes(x = ORIGIN, y = prop_delay, fill = (sum_flights >= 1000))) +
+  geom_col() +
+  theme_dark() +
+  labs(title = "Highest Probability of flight comming from ORGIN being delayed.", x = "Origin", y = "Probability of Being Delayed", caption = "Only Showing the top 15 Orgins") +
+  scale_fill_discrete(name = "Total Flights", labels = c("< 1000", "≥ 1000"))
+```
+
+**Findings:** Based on the chart above, where the fight is comming from has a big part on wether the flight is delayed. It is seen that that TWF has the highest probability of beeing delayed, with 45% chance that a flight from TWF is going to be delayed. Of corse TWF does not have alot of flights from TWF (only 20), where as JFK (#7), DAL (#8), and SFO (#9) has alot more flight from them. These means, that although TWF and AMA have a high probality of being delayed, it might be better to look at airports such as JFK, DAL, and SFO, first since they have a lot more traffic going from them, which means they will have a lot more total flights that going to be delayed.
+
+## Probabilities Flight Leaving from DEN will be Delayed Based on DEST. (LOGAN)
+```{r}
+DEST_DEN_Delay <- DENflights %>% 
+  filter(ORIGIN == "DEN", !is.na(DEP_DELAY)) %>%
+  group_by(DEST) %>% 
+  summarise(min_delay = min(DEP_DELAY), 
+            max_delay = max(DEP_DELAY), 
+            avg_delay = mean(DEP_DELAY), 
+            sum_delay = sum(DEP_DELAY >= 15), 
+            sum_flights = n(), 
+            prop_delay = sum_delay / sum_flights *100) %>% 
+  arrange(desc(prop_delay)) %>%
+  slice(1:15)
+
+DEST_DEN_Delay$DEST <- factor(DEST_DEN_Delay$DEST, levels = DEST_DEN_Delay$DEST[order(DEST_DEN_Delay$prop_delay)])
+
+ggplot(DEST_DEN_Delay, aes(x = DEST, y = prop_delay, fill = (sum_flights >= 1000))) + 
+  theme_dark() +
+  geom_col() +
+  labs(title = "Highest Probability of flight going to DEST being delayed.", x = "Destanation", y = "Probability of Being Delayed", caption = "Only showing the top 15 DEST") +
+  scale_fill_discrete(name = "Total Flights", labels = c("< 1000", "≥ 1000"))
+```
+
+**Findings:** Based on the chart above, where the fight is going to has a big part on wether the flight is delayed. It is seen that that ALB has the highest probability of beeing delayed, with 42% chance that a flight going to ALB is going to be delayed. Of couse it is also seen that ALB, does not have alot of flights going to it. Destanations, such as EWR (#3) and SFO (#7) do have a lot of flights going to it, yet still have a high chance of being delayed. These types of airports will have a more signifanct impact to DEN.
 
 ## Team Report
 **Trent:** I created the graphs and found the probabilities for the amount of delays over 15 minutes by season and by airline carrier. I used the filter, group_by, summaries, and mutate functions to find the probabilities, and ggplot, specifically geometric point to graph the data. 
+
+**Logan:** I created the graphs and probailites of the flights going to DEN, and flights going from DEN, which DEST/ORIGIN will have the hightest propablitiy of being delyaed. I used fliter, summarise, arrange, slice, theme, scale, geom_col, labs (with caption) in my plots and to find the probabilities. 
