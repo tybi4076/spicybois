@@ -25,7 +25,7 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 ```{r}
 DENdelay <- DENflights %>% filter(ARR_DELAY >= 15) %>% mutate(DELAY_WEATHER = (WEATHER_DELAY >= 15))
 
-ggplot(data = DENdelay) +  geom_histogram(mapping = aes(x = WEATHER_DELAY, binwidth = 1))
+ggplot(data = DENdelay) +  geom_bar(mapping = aes(x = ARR_DELAY, binwidth = 500)) + facet_wrap(.~DELAY_WEATHER) + coord_cartesian(xlim = c(0, 500))
 
 ```
 
