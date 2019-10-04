@@ -168,6 +168,7 @@ ggplot(DEST_DEN_Delay, aes(x = DEST, y = prop_delay, fill = (sum_flights >= 1000
   labs(title = "Highest Probability of flight going to DEST being delayed.", x = "Destanation", y = "Probability of Being Delayed", caption = "Only showing the top 15 DEST") +
   scale_fill_discrete(name = "Total Flights", labels = c("< 1000", "≥ 1000"))
 ```
+**Findings:** Based on the chart above, where the fight is going to has a big part on wether the flight is delayed. It is seen that that ALB has the highest probability of beeing delayed, with 42% chance that a flight going to ALB is going to be delayed. Of couse it is also seen that ALB, does not have alot of flights going to it. Destanations, such as EWR (#3) and SFO (#7) do have a lot of flights going to it, yet still have a high chance of being delayed. These types of airports will have a more signifanct impact to DEN.
 
 ### Probability Flights will be Arriving late based on National Air System delays (Jack)
 ```{r}
@@ -181,12 +182,22 @@ ggplot(data = delay) +  geom_bar(mapping = aes(x = ARR_DELAY)) + facet_wrap(~DEL
 76329/446399 #probability flight was delayed on arrival
 25199/446399 #probability flight was delayed on arrival due to NAS delays
 25199/76329 #probability a delayed flight was due to a NAS delay
+
                                                                                                 
 ```
 National Air System delays don't happen very often, but they are still a factor determining whether a flight will arrive on time. The graph above shows all arrival delays in groups, the first being the flight did not have an NAS delay, and the second being that the flight did have an NAS delay. It seems as if the graphs had a very similar trend with the amount of times the time of delay was counted and whether or not it had an NAS delay. The probability that a delayed arrival was caused by the NAS was about 33.01%. This means that for all delayed arriving flights, there's about a 1 in 3 chance that it was caused by the NAS.
 
-### 
-**Findings:** Based on the chart above, where the fight is going to has a big part on wether the flight is delayed. It is seen that that ALB has the highest probability of beeing delayed, with 42% chance that a flight going to ALB is going to be delayed. Of couse it is also seen that ALB, does not have alot of flights going to it. Destanations, such as EWR (#3) and SFO (#7) do have a lot of flights going to it, yet still have a high chance of being delayed. These types of airports will have a more signifanct impact to DEN.
+### Probability Departing Flight will be Delayed due to Late Aircraft Delays
+```{r}
+delay <- DENflights %>% filter(DEP_DELAY >= 15) %>%  filter(!is.na(LATE_AIRCRAFT_DELAY)) %>% mutate(LATE_DELAY = (LATE_AIRCRAFT_DELAY >= 15)) 
+LATE <- DENflights %>% filter(DEP_DELAY >= 15) %>% filter(LATE_AIRCRAFT_DELAY >= 15)
+ggplot(data = delay) +  geom_bar(mapping = aes(x = DEP_DELAY)) + facet_wrap(~LATE_DELAY) + theme_bw() + coord_cartesian(xlim =c(0, 750)) + 
+  labs(title = 'Departure Delay with Respect to Late Aircraft Delay (FALSE = No L.A. Delay, TRUE = L.A. Delay',
+       x = 'Departure Delay in Minutes',
+       y = 'Amount of times that Delay Occurs')
+
+```
+Based
 
 ## Team Report
 **Trent:** I created the graphs and found the probabilities for the amount of delays over 15 minutes by season and by airline carrier. I used the filter, group_by, summaries, and mutate functions to find the probabilities, and ggplot, specifically geometric point to graph the data. 
