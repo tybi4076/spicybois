@@ -21,6 +21,15 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 
 #Studies from Individual Members
 
+##Probability Flights will be Delayed based on Weather (Tyler)
+```{r}
+DENdelay <- DENflights %>% filter(ARR_DELAY >= 15) %>% mutate(DELAY_WEATHER = (WEATHER_DELAY >= 15))
+
+ggplot(data = DENdelay) +  geom_histogram(mapping = aes(x = WEATHER_DELAY, binwidth = 1))
+
+```
+
+
 ##Probabilities Flights will be Delayed Based on Season (Trent)
 ```{r}
 ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
