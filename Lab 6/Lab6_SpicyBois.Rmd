@@ -202,6 +202,50 @@ ggplot(data = delay) +  geom_bar(mapping = aes(x = DEP_DELAY)) + facet_wrap(~LAT
 ```
 The graphs above show the all departure delays. The one on the left is all departure delays that were not caused by a late aircraft, and the one on the right are the delays that were. Just by looking at the graph, it seems as if the amount of times the delay time in minutes occured were very similar between the two graphs. I calculated the probability that given the flight was delayed, what was the chance that occurred due to a late aircraft delay. Turns out, more than half the flights that had a flight depart late was caused by a late aircraft delay. This means that over 1 in 2 flights that departed late were due to the fact that a plane had departed late as well.
 
+
+##Is there a connection between the taxi times of a flight and whether the flight was late to arrive or not? (JOE)
+```{r}
+library(tidyverse)
+COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+```
+```{r}
+library(tidyverse)
+
+denfly <- COflights%>% filter(DEST == 'DEN') %>% filter(!is.na(ARR_TIME))
+
+taxinum <- denfly %>% filter(ARR_DELAY > 15) %>% count()
+taxidenom <- denfly %>% filter (TAXI_OUT > 30) %>% filter(ARR_DELAY > 15) %>% count()
+taxipercent <- taxinum/taxidenom
+
+taxipercent
+```
+```{r}
+library(tidyverse)
+
+taxonum <- denfly %>% filter(ARR_DELAY > 15) %>% count()
+taxodenom <- denfly %>% filter (TAXI_IN > 30) %>% filter(ARR_DELAY > 15) %>% count()
+taxopercent <- taxonum/taxodenom
+
+taxopercent
+```
+```{r}
+ggplot(data = denfly)+
+  geom_point(
+    mapping = aes(x = ARR_DELAY, y = TAXI_IN)) +
+  xlab("Delay of the flight in mins")+
+  ylab("Taxi in time of the flight in mins")
+```
+```{r}
+ggplot(data = denfly)+
+  geom_point(
+    mapping = aes(x = ARR_DELAY, y = TAXI_OUT)) +
+  xlab("Delay of flight in mins") +
+  ylab("Taxi out time of the flight in mins")
+```
+##Findings: I found that while not very many late flights have long taxi out times, a good percentage of total late flights have long taxi in times.
+##Conclusion: While it doesn't seem that taxiing times cause late flights, the taxi in times are certainly associated with late flights. I believe that long taxiing times are caused because of late flights as the timing of the flights gets messed up.
+
+
 ## Team Report
 **Trent:** I created the graphs and found the probabilities for the amount of delays over 15 minutes by season and by airline carrier. I used the filter, group_by, summaries, and mutate functions to find the probabilities, and ggplot, specifically geometric point to graph the data. 
 
@@ -210,3 +254,5 @@ The graphs above show the all departure delays. The one on the left is all depar
 **Tyler**I created the graphs and found the probabilitys of all the flights that were delayed, how many of those are caused by the weather. As well as the plot for how air time affects the probability of being delayed. I used the mutate function to find if flights that were delayed if it was the weather, as well as to find the total amount of delayed flights in and out of denver. I used the filter function significantly to only use the flights that were delayed by weather and all the flights that were delayed. I grouped by carrier just have a variable that I could use to count everything under. I also created one of the team plots.
 
 **Jack** I created the graphs and found the probabilities of flights based on whether there was a National Air System delay and whether there was a late aircraft delay. I used the filter and mutate functions to create my date for my graphs and find my probabilities, as well as the facet function to group my graphs into categories. I also added labels and a theme to my graph.
+
+**Joe** I created the data set and graph associated with correlating taxiing times to delay times. I found that there was a strong correlation between taxi in times and the chance that the flight would be delayed, but not much of a correlation between taxi out times and the chance the flight would be delayed. I used lots of filter functions to find the data that I needed to correlate these three variables. 
