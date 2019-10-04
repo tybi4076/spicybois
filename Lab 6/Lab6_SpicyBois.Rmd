@@ -17,6 +17,15 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 
 ## Team's Studies
 ### Plot 1
+```{r}
+DENCanceled <- DENflights %>% filter(!is.na(CANCELLATION_CODE))
+
+ggplot(data = DENCanceled) + geom_bar(mapping = aes(x = CANCELLATION_CODE)) +
+  scale_x_discrete(labels = c("Carrier", "Weather", "NAS*", "Security")) +
+  labs(title = "Reason for cancelled Flights", x = "Reason for Cancelation", y =" Count",  caption = "*Nattional Air System")
+
+
+```
 
 ### Plot 2
 
@@ -27,9 +36,37 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 ```{r}
 DENdelay <- DENflights %>% filter(ARR_DELAY >= 15) %>% mutate(DELAY_WEATHER = (WEATHER_DELAY >= 15))
 
-ggplot(data = DENdelay) +  geom_bar(mapping = aes(x = ARR_DELAY, binwidth = 500)) + facet_wrap(.~DELAY_WEATHER) + coord_cartesian(xlim = c(0, 500))
+ggplot(data = DENdelay) +  geom_bar(mapping = aes(x = DELAY_WEATHER)) +
+  labs(title = "Flights Delayed By Weather", x = "Flights Delayed By Weather", y = "Count") +
+  theme_bw() +
+  scale_x_discrete(labels = c("Delay Not Due to Weather", "Delay Due To Weather"))
+
+total <- DENdelay %>% group_by(DELAY_WEATHER) %>% summarise(count = n()) %>% mutate(count = sum(count)) %>% filter(DELAY_WEATHER == FALSE)
+
+truth <- DENdelay %>% group_by(DELAY_WEATHER) %>% summarise(count = n()) %>% filter(DELAY_WEATHER == TRUE)
+
+truth$count/total$count * 100
 
 ```
+
+As shown by the graph the weather delay does not affect flights being delayed to or from denver. Only 3.12% of delayed flights end up being delayed by the weather. There is a big difference in the amount of flights delayed by weather and the ones not delayed by weather. This clearly shows that weather is not a main cause of the flights that get delayed. 
+
+###How does Air Time affect if a flights delayed (Tyler)
+```{r}
+airDelay <- DENflights %>% filter(ARR_DELAY >= 15) 
+
+ggplot(data = airDelay) + geom_density(mapping = aes(x = AIR_TIME)) +
+  theme_bw() + 
+  labs(title = "Amount of Delayed Flights Based on Flight Length", x = "Air Time (Minuets) ", y = "Density")
+
+shortAir <- airDelay %>% filter(AIR_TIME <= 180) %>% group_by(CARRIER) %>% summarise(count = n()) %>% mutate(count = sum(count)) %>% filter(CARRIER == 'UA')
+
+totalAir <- airDelay %>% group_by(CARRIER) %>% summarise(count = n()) %>% mutate(count = sum(count)) %>% filter(CARRIER == 'UA')
+
+shortAir$count/totalAir$count *100
+
+```
+As shows by the graph a lot of flights under 3 hours(a short flight) tend to be delayed more often then long flights. Of all flights that got delayed, 84% of them were a short flight. The longer the flight became, the less they would be delayed. A possible confounding variable could be the amount of flights that are short against the amount of flights that are long. There are more short flights per day then there are long flights.
 
 ### Probabilities Flights will be Delayed Based on Season (Trent)
 ```{r}
@@ -137,4 +174,6 @@ ggplot(DEST_DEN_Delay, aes(x = DEST, y = prop_delay, fill = (sum_flights >= 1000
 ## Team Report
 **Trent:** I created the graphs and found the probabilities for the amount of delays over 15 minutes by season and by airline carrier. I used the filter, group_by, summaries, and mutate functions to find the probabilities, and ggplot, specifically geometric point to graph the data. 
 
-**Logan:** I created the graphs and probailites of the flights going to DEN, and flights going from DEN, which DEST/ORIGIN will have the hightest propablitiy of being delyaed. I used fliter, summarise, arrange, slice, theme, scale, geom_col, labs (with caption) in my plots and to find the probabilities. 
+**Logan:** I created the graphs and probailites of the flights going to DEN, and flights going from DEN, which DEST/ORIGIN will have the hightest propablitiy of being delyaed. I used fliter, summarise, arrange, slice, theme, scale, geom_col, labs (with caption) in my plots and to find the probabilities.
+
+**Tyler**I created the graphs and found the probabilitys of all the flights that were delayed, how many of those are caused by the weather. As well as the plot for how air time affects the probability of being delayed. I used the mutate function to find if flights that were delayed if it was the weather, as well as to find the total amount of delayed flights in and out of denver. I used the filter function significantly to only use the flights that were delayed by weather and all the flights that were delayed. I grouped by carrier just have a variable that I could use to count everything under. I also created one of the team plots.
