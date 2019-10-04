@@ -169,6 +169,23 @@ ggplot(DEST_DEN_Delay, aes(x = DEST, y = prop_delay, fill = (sum_flights >= 1000
   scale_fill_discrete(name = "Total Flights", labels = c("< 1000", "≥ 1000"))
 ```
 
+### Probability Flights will be Arriving late based on National Air System delays (Jack)
+```{r}
+delay <- DENflights %>% filter(ARR_DELAY >= 15) %>% mutate(DELAY_NAS = (NAS_DELAY >= 15))
+NAS <- DENflights %>% filter(ARR_DELAY >= 15) %>% filter(NAS_DELAY >= 15)
+ggplot(data = delay) +  geom_bar(mapping = aes(x = ARR_DELAY)) + facet_wrap(~DELAY_NAS) + theme_bw() + coord_cartesian(xlim =c(0, 1000)) + 
+  labs(title = 'Arrival Delay with Respect to NAS Delay (FALSE = No NAS Delay, TRUE = NAS Delay',
+       x = 'Arrival Delay in Minutes',
+       y = 'Amount of times that Delay Occurs')
+
+76329/446399 #probability flight was delayed on arrival
+25199/446399 #probability flight was delayed on arrival due to NAS delays
+25199/76329 #probability a delayed flight was due to a NAS delay
+                                                                                                
+```
+National Air System delays don't happen very often, but they are still a factor determining whether a flight will arrive on time. The graph above shows all arrival delays in groups, the first being the flight did not have an NAS delay, and the second being that the flight did have an NAS delay. It seems as if the graphs had a very similar trend with the amount of times the time of delay was counted and whether or not it had an NAS delay. The probability that a delayed arrival was caused by the NAS was about 33.01%. This means that for all delayed arriving flights, there's about a 1 in 3 chance that it was caused by the NAS.
+
+### 
 **Findings:** Based on the chart above, where the fight is going to has a big part on wether the flight is delayed. It is seen that that ALB has the highest probability of beeing delayed, with 42% chance that a flight going to ALB is going to be delayed. Of couse it is also seen that ALB, does not have alot of flights going to it. Destanations, such as EWR (#3) and SFO (#7) do have a lot of flights going to it, yet still have a high chance of being delayed. These types of airports will have a more signifanct impact to DEN.
 
 ## Team Report
