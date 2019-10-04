@@ -210,22 +210,17 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 ```
 ```{r}
 library(tidyverse)
-
 denfly <- COflights%>% filter(DEST == 'DEN') %>% filter(!is.na(ARR_TIME))
-
 taxinum <- denfly %>% filter(ARR_DELAY > 15) %>% count()
 taxidenom <- denfly %>% filter (TAXI_OUT > 30) %>% filter(ARR_DELAY > 15) %>% count()
 taxipercent <- taxinum/taxidenom
-
 taxipercent
 ```
 ```{r}
 library(tidyverse)
-
 taxonum <- denfly %>% filter(ARR_DELAY > 15) %>% count()
 taxodenom <- denfly %>% filter (TAXI_IN > 30) %>% filter(ARR_DELAY > 15) %>% count()
 taxopercent <- taxonum/taxodenom
-
 taxopercent
 ```
 ```{r}
