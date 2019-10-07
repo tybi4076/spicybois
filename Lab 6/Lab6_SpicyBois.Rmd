@@ -241,6 +241,27 @@ ggplot(data = denfly)+
 ##Conclusion: While it doesn't seem that taxiing times cause late flights, the taxi in times are certainly associated with late flights. I believe that long taxiing times are caused because of late flights as the timing of the flights gets messed up.
 
 
+##Graphs that answer our essential question (Trent and Logan)
+```{r}
+ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
+  theme_bw() +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 
+                     labels = c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG",
+                                "SEP", "OCT", "NOV", "DEC"))+
+  labs(title = 'Total time of delay by Month',
+       x='Total time of departure delay',
+       y='Month')
+```
+```{r}
+ggplot(DEST_DEN_Delay, aes(x = DEST, y = prop_delay, fill = (sum_flights >= 1000))) + 
+  theme_dark() +
+  geom_col() +
+  labs(title = "Highest Probability of flight going to DEST being delayed.", x = "Destanation", y = "Probability of Being Delayed", caption = "Only showing the top 15 DEST") +
+  scale_fill_discrete(name = "Total Flights", labels = c("< 1000", "≥ 1000"))
+```
+##These two graphs represent the reality of the question which is that the answer depends. The reason for a plane's delay depends on its setting and the conditions that its setting put onto the plane. For example, a plane in upstate New York in January will have a much lower chance of arriving on time than a plane in Phoenix in October. The circumstances of a flight are the most defining factors for its chances of being delayed.
+
+
 ## Team Report
 **Trent:** I created the graphs and found the probabilities for the amount of delays over 15 minutes by season and by airline carrier. I used the filter, group_by, summaries, and mutate functions to find the probabilities, and ggplot, specifically geometric point to graph the data. 
 
