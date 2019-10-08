@@ -1,0 +1,32 @@
+---
+title: "Appeal 1"
+author: "Spicy Bois"
+date: "10/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## tRat Appeal
+**Question 33:** Which of the following lines of code will produce a 2x3 tibble?
+  
+  C.
+```{r}
+read_csv("a,b,c\n1,2,3\n1,2,3", col_names = TRUE) 
+```
+
+**Question 39:** What code would best tidy the tibble "tb" bellow so you can use first and last names individually?
+```{r}
+(tb <- read_csv("Question39.csv"))
+```
+
+  B.
+```{r}
+separate(tb, person, into = c("last", "first"), sep = ",")
+```
+
+
+

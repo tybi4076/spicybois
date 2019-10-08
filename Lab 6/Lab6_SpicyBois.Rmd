@@ -13,10 +13,19 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 ```
 
 # What Factors Lead to On-time Arrivals in Denver?
-**Why are they Important:** This questions is important, because knowing the factors that lead to delay's will allow the DEN to make changes in order to reduce these delay's. This will increase custermore satifaction and lead to allowing more flights to come in and out of DEN. This will generate more profits, and money is important to any company.
+**Why are they Important:** This question is important, because knowing the factors that lead to delay's will allow the DEN to make changes in order to reduce these delay's. This will increase custermore satifaction and lead to allowing more flights to come in and out of DEN. This will generate more profits, and money is important to any company.
 
 ## Team's Studies
 ### Plot 1
+```{r}
+DENCanceled <- DENflights %>% filter(!is.na(CANCELLATION_CODE))
+
+ggplot(data = DENCanceled) + geom_bar(mapping = aes(x = CANCELLATION_CODE)) +
+  scale_x_discrete(labels = c("Carrier", "Weather", "NAS*", "Security")) +
+  labs(title = "Reason for cancelled Flights", x = "Reason for Cancelation", y =" Count",  caption = "*Nattional Air System")
+
+
+```
 
 ### Plot 2
 
@@ -27,9 +36,37 @@ DENflights <- COflights %>% filter(ORIGIN == "DEN" | DEST == "DEN")
 ```{r}
 DENdelay <- DENflights %>% filter(ARR_DELAY >= 15) %>% mutate(DELAY_WEATHER = (WEATHER_DELAY >= 15))
 
-ggplot(data = DENdelay) +  geom_bar(mapping = aes(x = ARR_DELAY, binwidth = 500)) + facet_wrap(.~DELAY_WEATHER) + coord_cartesian(xlim = c(0, 500))
+ggplot(data = DENdelay) +  geom_bar(mapping = aes(x = DELAY_WEATHER)) +
+  labs(title = "Flights Delayed By Weather", x = "Flights Delayed By Weather", y = "Count") +
+  theme_bw() +
+  scale_x_discrete(labels = c("Delay Not Due to Weather", "Delay Due To Weather"))
+
+total <- DENdelay %>% group_by(DELAY_WEATHER) %>% summarise(count = n()) %>% mutate(count = sum(count)) %>% filter(DELAY_WEATHER == FALSE)
+
+truth <- DENdelay %>% group_by(DELAY_WEATHER) %>% summarise(count = n()) %>% filter(DELAY_WEATHER == TRUE)
+
+truth$count/total$count * 100
 
 ```
+
+As shown by the graph the weather delay does not affect flights being delayed to or from denver. Only 3.12% of delayed flights end up being delayed by the weather. There is a big difference in the amount of flights delayed by weather and the ones not delayed by weather. This clearly shows that weather is not a main cause of the flights that get delayed. 
+
+###How does Air Time affect if a flights delayed (Tyler)
+```{r}
+airDelay <- DENflights %>% filter(ARR_DELAY >= 15) 
+
+ggplot(data = airDelay) + geom_density(mapping = aes(x = AIR_TIME)) +
+  theme_bw() + 
+  labs(title = "Amount of Delayed Flights Based on Flight Length", x = "Air Time (Minuets) ", y = "Density")
+
+shortAir <- airDelay %>% filter(AIR_TIME <= 180) %>% group_by(CARRIER) %>% summarise(count = n()) %>% mutate(count = sum(count)) %>% filter(CARRIER == 'UA')
+
+totalAir <- airDelay %>% group_by(CARRIER) %>% summarise(count = n()) %>% mutate(count = sum(count)) %>% filter(CARRIER == 'UA')
+
+shortAir$count/totalAir$count *100
+
+```
+As shows by the graph a lot of flights under 3 hours(a short flight) tend to be delayed more often then long flights. Of all flights that got delayed, 84% of them were a short flight. The longer the flight became, the less they would be delayed. A possible confounding variable could be the amount of flights that are short against the amount of flights that are long. There are more short flights per day then there are long flights.
 
 ### Probabilities Flights will be Delayed Based on Season (Trent)
 ```{r}
@@ -131,10 +168,107 @@ ggplot(DEST_DEN_Delay, aes(x = DEST, y = prop_delay, fill = (sum_flights >= 1000
   labs(title = "Highest Probability of flight going to DEST being delayed.", x = "Destanation", y = "Probability of Being Delayed", caption = "Only showing the top 15 DEST") +
   scale_fill_discrete(name = "Total Flights", labels = c("< 1000", "≥ 1000"))
 ```
-
 **Findings:** Based on the chart above, where the fight is going to has a big part on wether the flight is delayed. It is seen that that ALB has the highest probability of beeing delayed, with 42% chance that a flight going to ALB is going to be delayed. Of couse it is also seen that ALB, does not have alot of flights going to it. Destanations, such as EWR (#3) and SFO (#7) do have a lot of flights going to it, yet still have a high chance of being delayed. These types of airports will have a more signifanct impact to DEN.
+
+### Probability Flights will be Arriving late based on National Air System delays (Jack)
+```{r}
+delay <- DENflights %>% filter(ARR_DELAY >= 15) %>% mutate(DELAY_NAS = (NAS_DELAY >= 15))
+NAS <- DENflights %>% filter(ARR_DELAY >= 15) %>% filter(NAS_DELAY >= 15)
+ggplot(data = delay) +  geom_bar(mapping = aes(x = ARR_DELAY)) + facet_wrap(~DELAY_NAS) + theme_bw() + coord_cartesian(xlim =c(0, 1000)) + 
+  labs(title = 'Arrival Delay with Respect to NAS Delay (FALSE = No NAS Delay, TRUE = NAS Delay',
+       x = 'Arrival Delay in Minutes',
+       y = 'Amount of times that Delay Occurs')
+
+76329/446399 #probability flight was delayed on arrival
+25199/446399 #probability flight was delayed on arrival due to NAS delays
+25199/76329 #probability a delayed flight was due to a NAS delay
+
+                                                                                                
+```
+National Air System delays don't happen very often, but they are still a factor determining whether a flight will arrive on time. The graph above shows all arrival delays in groups, the first being the flight did not have an NAS delay, and the second being that the flight did have an NAS delay. It seems as if the graphs had a very similar trend with the amount of times the time of delay was counted and whether or not it had an NAS delay. The probability that a delayed arrival was caused by the NAS was about 33.01%. This means that for all delayed arriving flights, there's about a 1 in 3 chance that it was caused by the NAS.
+
+### Probability Departing Flight will be Delayed due to Late Aircraft Delays (Jack)
+```{r}
+delay <- DENflights %>% filter(DEP_DELAY >= 15) %>%  filter(!is.na(LATE_AIRCRAFT_DELAY)) %>% mutate(LATE_DELAY = (LATE_AIRCRAFT_DELAY >= 15)) 
+LATE <- DENflights %>% filter(DEP_DELAY >= 15) %>% filter(LATE_AIRCRAFT_DELAY >= 15)
+ggplot(data = delay) +  geom_bar(mapping = aes(x = DEP_DELAY)) + facet_wrap(~LATE_DELAY) + theme_bw() + coord_cartesian(xlim =c(0, 750)) + 
+  labs(title = 'Departure Delay with Respect to Late Aircraft Delay (FALSE = No L.A. Delay, TRUE = L.A. Delay',
+       x = 'Departure Delay in Minutes',
+       y = 'Amount of times that Delay Occurs')
+
+58426/446399 #probability flight had delayed departure
+30628/446399 #probability flight departed late due to late aircraft delays
+30628/58426 #probability a delayed flight was due to a late aircraft delay
+```
+The graphs above show the all departure delays. The one on the left is all departure delays that were not caused by a late aircraft, and the one on the right are the delays that were. Just by looking at the graph, it seems as if the amount of times the delay time in minutes occured were very similar between the two graphs. I calculated the probability that given the flight was delayed, what was the chance that occurred due to a late aircraft delay. Turns out, more than half the flights that had a flight depart late was caused by a late aircraft delay. This means that over 1 in 2 flights that departed late were due to the fact that a plane had departed late as well.
+
+
+##Is there a connection between the taxi times of a flight and whether the flight was late to arrive or not? (JOE)
+```{r}
+library(tidyverse)
+COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+```
+```{r}
+library(tidyverse)
+denfly <- COflights%>% filter(DEST == 'DEN') %>% filter(!is.na(ARR_TIME))
+taxinum <- denfly %>% filter(ARR_DELAY > 15) %>% count()
+taxidenom <- denfly %>% filter (TAXI_OUT > 30) %>% filter(ARR_DELAY > 15) %>% count()
+taxipercent <- taxinum/taxidenom
+taxipercent
+```
+```{r}
+library(tidyverse)
+taxonum <- denfly %>% filter(ARR_DELAY > 15) %>% count()
+taxodenom <- denfly %>% filter (TAXI_IN > 30) %>% filter(ARR_DELAY > 15) %>% count()
+taxopercent <- taxonum/taxodenom
+taxopercent
+```
+```{r}
+ggplot(data = denfly)+
+  geom_point(
+    mapping = aes(x = ARR_DELAY, y = TAXI_IN)) +
+  xlab("Delay of the flight in mins")+
+  ylab("Taxi in time of the flight in mins")
+```
+```{r}
+ggplot(data = denfly)+
+  geom_point(
+    mapping = aes(x = ARR_DELAY, y = TAXI_OUT)) +
+  xlab("Delay of flight in mins") +
+  ylab("Taxi out time of the flight in mins")
+```
+##Findings: I found that while not very many late flights have long taxi out times, a good percentage of total late flights have long taxi in times.
+##Conclusion: While it doesn't seem that taxiing times cause late flights, the taxi in times are certainly associated with late flights. I believe that long taxiing times are caused because of late flights as the timing of the flights gets messed up.
+
+
+##Graphs that answer our essential question (Trent and Logan)
+```{r}
+ggplot(DENflights) + geom_point(aes(ARR_DELAY, MONTH)) +
+  theme_bw() +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 
+                     labels = c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG",
+                                "SEP", "OCT", "NOV", "DEC"))+
+  labs(title = 'Total time of delay by Month',
+       x='Total time of departure delay',
+       y='Month')
+```
+```{r}
+ggplot(DEST_DEN_Delay, aes(x = DEST, y = prop_delay, fill = (sum_flights >= 1000))) + 
+  theme_dark() +
+  geom_col() +
+  labs(title = "Highest Probability of flight going to DEST being delayed.", x = "Destanation", y = "Probability of Being Delayed", caption = "Only showing the top 15 DEST") +
+  scale_fill_discrete(name = "Total Flights", labels = c("< 1000", "≥ 1000"))
+```
+##These two graphs represent the reality of the question which is that the answer depends. The reason for a plane's delay depends on its setting and the conditions that its setting put onto the plane. For example, a plane in upstate New York in January will have a much lower chance of arriving on time than a plane in Phoenix in October. The circumstances of a flight are the most defining factors for its chances of being delayed.
+
 
 ## Team Report
 **Trent:** I created the graphs and found the probabilities for the amount of delays over 15 minutes by season and by airline carrier. I used the filter, group_by, summaries, and mutate functions to find the probabilities, and ggplot, specifically geometric point to graph the data. 
 
-**Logan:** I created the graphs and probailites of the flights going to DEN, and flights going from DEN, which DEST/ORIGIN will have the hightest propablitiy of being delyaed. I used fliter, summarise, arrange, slice, theme, scale, geom_col, labs (with caption) in my plots and to find the probabilities. 
+**Logan:** I created the graphs and probailites of the flights going to DEN, and flights going from DEN, which DEST/ORIGIN will have the hightest propablitiy of being delyaed. I used fliter, summarise, arrange, slice, theme, scale, geom_col, labs (with caption) in my plots and to find the probabilities.
+
+**Tyler**I created the graphs and found the probabilitys of all the flights that were delayed, how many of those are caused by the weather. As well as the plot for how air time affects the probability of being delayed. I used the mutate function to find if flights that were delayed if it was the weather, as well as to find the total amount of delayed flights in and out of denver. I used the filter function significantly to only use the flights that were delayed by weather and all the flights that were delayed. I grouped by carrier just have a variable that I could use to count everything under. I also created one of the team plots.
+
+**Jack** I created the graphs and found the probabilities of flights based on whether there was a National Air System delay and whether there was a late aircraft delay. I used the filter and mutate functions to create my date for my graphs and find my probabilities, as well as the facet function to group my graphs into categories. I also added labels and a theme to my graph.
+
+**Joe** I created the data set and graph associated with correlating taxiing times to delay times. I found that there was a strong correlation between taxi in times and the chance that the flight would be delayed, but not much of a correlation between taxi out times and the chance the flight would be delayed. I used lots of filter functions to find the data that I needed to correlate these three variables. 
