@@ -1,8 +1,10 @@
 ---
 title: "Lab6"
-author: "Spicy Bois: Logan, Tyler, Trent, Joe, Jack"
+author: 'Spicy Bois: Logan, Tyler, Trent, Joe, Jack'
 date: "10/1/2019"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
