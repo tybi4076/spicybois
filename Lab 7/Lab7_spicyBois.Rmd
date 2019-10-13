@@ -67,3 +67,18 @@ ggplot(powerData_logan, aes(x = Month)) +
 **Who Benefits from this information** The energy commpany will most likley benifit from this information, as they can plan ahead, and create less energy for these months.
 
 **Who is harmed from this information** The family is harmed, although they most likly agreed to sharing the energy consumtion energy, they probably did not think that alot of information, such as the times when the family is on vaction, could be found in the data. This means that the family has had the privicy invaded.
+
+##How does energy consumption from kitchen appliances change throughout a day(Tyler)
+**How I Came Up With This Question**I wanted to see how energy consumption changed in a day 
+```{r}
+dataDay <- powerData %>% filter(day == 10, month == 10, year == 2010)
+ggplot(dataDay) + geom_smooth(aes(x = hour, y = Sub_metering_1), se = FALSE) + labs(title = "Power Used in the Kitchen in one Day", x = "Hour of Day", y = "Power Used in Kitchen (Watts)")
+
+dinnerEnergy <- dataDay %>% filter(hour <= 21 & hour >= 19) %>% group_by(Date) %>% mutate(total = sum(Sub_metering_1)) %>%  filter(hour ==  19, minute == 0)
+totalEnergy <- dataDay %>% group_by(Date) %>% mutate(total = sum(Sub_metering_1)) %>%  filter(hour ==  19, minute == 0)
+
+
+dinnerEnergy$total/totalEnergy$total * 100
+```
+
+
