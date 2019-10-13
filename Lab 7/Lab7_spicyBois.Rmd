@@ -5,25 +5,67 @@ date: "10/8/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+powerData <- read_delim(file = "household_power_consumption.txt", delim = ";", na = c('', '?'), col_types = cols(
+  Date = col_date(format = "%d/%m/%Y"),
+  Time = col_time(format = "%H:%M:%S"),
+  Global_active_power = col_double(),
+  Global_reactive_power = col_double(),
+  Voltage = col_double(),
+  Global_intensity = col_double(),
+  Sub_metering_1 = col_double(),
+  Sub_metering_2 = col_double(),
+  Sub_metering_3 = col_double()
+  ))
+powerData <- separate(powerData, Date, into = c("Year", "Month", "Day"), sep = "-", convert = TRUE)
+powerData <- separate(powerData, Time, into = c("Hour", "Minute", "Second"), sep = ":", convert = TRUE)
+powerData <- powerData %>% mutate(dateTime = make_datetime(Year, Month, Day, Hour, Minute, Second))
 ```
 
+# Lab 7
+**Description of the dataset:** The dataset is details the energy consumtion of a family between 2006-2010. There are 9 varibles including date, time, active power, reactive power, voltage, intensity, active energy for kitchen, active energy for laundry and refrigerator, and active energy for the water-heater and air-conditioner. As for the missing data, we just filtered it out. 
 
+## Why come in July and Augest the energy graphs look significently different from the other months? (Logan)
+**How I came up with this Question:** Loooking at the graph below, which outlines the average Hourly + Minutly consumstion of engery split by month. Each month looks basically looks the same, with the same peeks and drops, execpt for July and Augest. Thus I was curious as to why July and Augest is so drasically diffent energy consumtions from the other months.
 
+```{r}
+powerData_logan <- powerData %>%
+  filter(!is.na(Sub_metering_1)) %>%
+  group_by(Month, Hour, Minute) %>%
+  summarise(avg_1 = mean(Sub_metering_1), avg_2 = mean(Sub_metering_2), avg_3 = mean(Sub_metering_3), avg_total = (avg_1 + avg_2 + avg_3))
 
+ggplot(powerData_logan, aes(x = (Hour + (Minute/60)))) + 
+  facet_wrap(.~Month) + 
+  geom_line(aes(y = avg_1, color = "kitchen")) +
+  geom_line(aes(y = avg_2, color = "laundry + refrigerator")) + 
+  geom_line(aes(y = avg_3, color = "water-heater + air-conditioner")) + 
+  geom_line(aes(y = avg_total, color = "total")) +
+  labs(title = "Average Hourly/Minutly energy consumption splip by months and meater", x = "Time of Day", y = "Energy Consummed (watt-hours/Minute)")
+```
 
+**Why is this question intersting:** I would think do to the different seasons, each month should show drastically different energy consumtions, with winter and summer showing higher energy consumtions, and fall and spring, having lesser energy consumtions. However, dispite what I thought, there was very minimal change in energy consumtions (as seen in graph bellow, only about ±2 watt-hours). But in July and Augest there is a signifanct change in energy consumtion which is weird thus interesting. 
 
+**Findings:** The graph bellow shows the average energy consumtion for each day of a certain month. It is seen that although there are differeneces between each month that were less aperanct on the graph above, they are slight compared to the giant drop that is seen in July and Augest. It also seen that the drop is mostly due to the meter 1 and 3 which are air-conditional, water heater, and kitchen appliances. Where as meater_2 which landray and refigerator only has slight drop. This concludes that the drop in energy consumtions is due to the lack of use of the air-conditioner, water heater, and kitchen, which most likly means that the family were not home to use these appliances. Since it can be concluded that they were not home plus that fact that it was during summer months, it can be determined that the signifanct change in energy consumtion in July and Augest is most likly do to the family going on vaction.
 
+```{r}
+powerData_logan <- powerData %>%
+  filter(!is.na(Sub_metering_1)) %>%
+  group_by(Month) %>%
+  summarise(avg_1 = mean(Sub_metering_1), avg_2 = mean(Sub_metering_2), avg_3 = mean(Sub_metering_3), avg_total = (avg_1 + avg_2 + avg_3))
+ggplot(powerData_logan, aes(x = Month)) + 
+  geom_line(aes(y = avg_total, color = "total")) + 
+  geom_line(aes(y = avg_1, color = "kitchen")) + 
+  geom_line(aes(y = avg_2, color = "landray + refrigerator")) + 
+  geom_line(aes(y = avg_3, color = "water-heater + air-conditioner")) +
+  labs(title = "Average Daily energy consumption grouped by month split by meater", x = "Month", y = "Energy Consummed (watt-hours/day)")
+```
 
+**Who Benefits from this information** The energy commpany will most likley benifit from this information, as they can plan ahead, and create less energy for these months.
 
-
-
-
-
-
-
-
+**Who is harmed from this information** The family is harmed, although they most likly agreed to sharing the energy consumtion energy, they probably did not think that alot of information, such as the times when the family is on vaction, could be found in the data. This means that the family has had the privicy invaded.
 
 
 
