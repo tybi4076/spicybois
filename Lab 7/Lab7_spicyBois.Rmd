@@ -68,8 +68,9 @@ ggplot(powerData_logan, aes(x = Month)) +
 
 **Who is harmed from this information** The family is harmed, although they most likly agreed to sharing the energy consumtion energy, they probably did not think that alot of information, such as the times when the family is on vaction, could be found in the data. This means that the family has had the privicy invaded.
 
+
 ##How does energy consumption from kitchen appliances change throughout a day(Tyler)
-**How I Came Up With This Question**I wanted to see how energy consumption changed in a day 
+**How I Came Up With This Question**I wanted to see how energy consumption changed in a day so I chose to focus on one part of the house and I like the kitchen so I chose the Kitchen.
 ```{r}
 dataDay <- powerData %>% filter(day == 10, month == 10, year == 2010)
 ggplot(dataDay) + geom_smooth(aes(x = hour, y = Sub_metering_1), se = FALSE) + labs(title = "Power Used in the Kitchen in one Day", x = "Hour of Day", y = "Power Used in Kitchen (Watts)")
@@ -80,5 +81,8 @@ totalEnergy <- dataDay %>% group_by(Date) %>% mutate(total = sum(Sub_metering_1)
 
 dinnerEnergy$total/totalEnergy$total * 100
 ```
+**Why is it Interesting** This is interesting cause it shows a change over time for a part of the houses use of energy.
 
+**Findings**This shows that a lot of energy is used mostly durring the dinner hours. Specifically 57% of all of the energy used in the kitchen durring the day is used durring dinner hours(7pm - 9pm). The humps in the graph are when appliances are being used and they tend to occur durring hours of the day when someone would eat food.
 
+**Who Is Benifited and Who is Harmed** An Energy company would benifit as they could see when the energy in the kitchen is being used and can plan to make more money. The Family would be harmed for this as they can see how much energy is used by the kitchen without realizing how much it costs.
