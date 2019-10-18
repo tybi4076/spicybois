@@ -37,7 +37,10 @@ This Data set has 397 observations (professors) on the following 6 variables: ra
 ## Which discipline makes the most money? (Logan)
 **Why is it important/interesting:** This question is interesting becuase it shows which deperment is valued the most in a typical campus. Which shows things like wether we value Arts more or Science more.
 
-# Visualizations
+## Question (Joe): How does the gender of a professor impact their salary? 
+**This is important to understand because if an inequality in gender is apparent, movements to close a gender pay gap can be made.** 
+
+
 ## Challa (Joe)
 ```{r, warning=FALSE, message=FALSE}
 challa <- read_excel("East Africa lake data.xlsx", sheet = "Challa", col_names = FALSE, col_types = NULL, na = "", skip = 3)
