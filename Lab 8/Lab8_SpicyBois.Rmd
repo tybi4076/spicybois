@@ -41,6 +41,8 @@ This Data set has 397 observations (professors) on the following 6 variables: ra
 
 ## How does the seniority of a professor impact their salary? (Trent)
 **Why is it important/interesting:** This question could be interesting to see if professors who have had more years of service tend to be paid more, or if their pay remains stagnent over the years.
+## How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
+**Why is it important/interesting:** This question is interesting cause it can show how the time since they got their phd can effect their sallary now with new advancments being found in fields that they have their phd's in.
 
 # Visuals
 ### Challa (Joe)
