@@ -2,7 +2,9 @@
 title: "Lab 8"
 author: "Spicy Bois"
 date: "10/17/2019"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -15,18 +17,21 @@ library(readxl)
 # Who is hiring us?
 **Domain Expert:** For the purpose of our the data we found, we are being asked by a college ethics board to analyze the salaries of several different types of professors to ensure equality and fairness in their compensations. 
 
-# Overall Question (TEAM)
-
-**Question:** How do factors like professor rank, discipline, years since phd, years of service and sex effect the salaries of professors. 
-
+# How do factors like professor rank, discipline, years since phd, years of service and sex effect the salaries of professors. (TEAM)
 **Why is it important/interesting:** This question could help find trends and patterens within the salaries of professors to ensure that fair compesnation is being provided, especially considering factors such as gender and senority. 
 
 # Description of the Dataset
-This Data set has 397 observations(professors) on the following 6 variables: rank, discipline, years since PHD, years of service, gender, and salary.
+This Data set has 397 observations (professors) on the following 6 variables: rank, discipline, years since PHD, years of service, gender, and salary, from the accademic year 2008-09.
+  * **rank:** Associate Professor (AssocProf), Asstistant Proffessor  (AsstProf), Proffessor (Prof)
+  * **discipline:** a factor with levels A (“theoretical” departments) or B (“applied” departments).
+  * **yrs.since.phd:** The years since professor got PhD.
+  * **yrs.service:** The years years the professor has worked/service.
+  * **sex:** Female or Male
+  * **salary:** nine-month salary, in dollars.
 
 # Individual Questions
-## Question ()
-**Why is it important/interesting:**
+## Which discipline makes the most money? (Logan)
+**Why is it important/interesting:** This question is interesting becuase it shows which deperment is valued the most in a typical campus. Which shows things like wether we value Arts more or Science more.
 
 # Visualizations
 ## Challa (Joe)
@@ -46,10 +51,10 @@ ggplot(data = challa, mapping = aes(x= Date))+
   ylab("Thickness of layer in milimeters")
 ```
 
+
 ## Tanganyika (Trent)
-```{r}
+```{r, message=FALSE}
 VOI_Rainfall <- read_excel("East Africa lake data.xlsx", sheet = "Tanganyika")
-Tanganyika <- select()
 ```
 
 ## Malawi (Tyler)
@@ -86,8 +91,14 @@ ggplot(data = myData) +
 ```
 
 ## CRU and MAM Rainfall (Jack)
-```{r}
+```{r, message=FALSE}
+CRUnMAM_Rainfall <- read_excel("East Africa lake data.xlsx", sheet = 9)
+CRUnMAM_Rainfall_tidy <- select(CRUnMAM_Rainfall, 'GPCC MAM Normalized',	'CRU MAM Normalized',	'GPCC OND Normalized', 'CRU OND Normalized')
+CRUnMAM_Rainfall_tidy <- rename(CRUnMAM_Rainfall, GPCC_MAM = 'GPCC MAM Normalized',	CRU_MAM = 'CRU MAM Normalized',	GPCC_OND = 'GPCC OND Normalized', CRU_OND = 'CRU OND Normalized') %>% gather(GPCC_MAM, CRU_MAM,	GPCC_OND, CRU_OND, key = "Rainfall_type", value = "value")
 
+ggplot(CRUnMAM_Rainfall_tidy, aes(y = value, x = Year, color = Rainfall_type)) +
+geom_line()+
+labs(title = "Rainfall Types for every year", x = "Year", y = "Rainfall")
 ```
 
 

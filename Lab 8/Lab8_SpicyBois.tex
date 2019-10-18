@@ -1,0 +1,192 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Lab 8},
+            pdfauthor={Spicy Bois},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Lab 8}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Spicy Bois}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{10/17/2019}
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{who-is-hiring-us}{%
+\section{Who is hiring us?}\label{who-is-hiring-us}}
+
+\textbf{Domain Expert} Trent
+
+\hypertarget{overall-question-team}{%
+\section{Overall Question (TEAM)}\label{overall-question-team}}
+
+\textbf{Question:} \textbf{Why is it important/interesting:}
+
+\hypertarget{description-of-the-dataset}{%
+\section{Description of the Dataset}\label{description-of-the-dataset}}
+
+\hypertarget{individual-questions}{%
+\section{Individual Questions}\label{individual-questions}}
+
+\hypertarget{question}{%
+\subsection{Question ()}\label{question}}
+
+\textbf{Why is it important/interesting:}
+
+\hypertarget{visualizations}{%
+\section{Visualizations}\label{visualizations}}
+
+\hypertarget{challa-joe}{%
+\subsection{Challa (Joe)}\label{challa-joe}}
+
+\hypertarget{tanganyika-trent}{%
+\subsection{Tanganyika (Trent)}\label{tanganyika-trent}}
+
+\hypertarget{malawi-tyler}{%
+\subsection{Malawi (Tyler)}\label{malawi-tyler}}
+
+\hypertarget{cru-and-mam-rainfall-jack}{%
+\subsection{CRU and MAM Rainfall
+(Jack)}\label{cru-and-mam-rainfall-jack}}
+
+\hypertarget{voi-rainfall-logan}{%
+\subsection{VOI Rainfall (Logan)}\label{voi-rainfall-logan}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{VOI_Rainfall <-}\StringTok{ }\KeywordTok{read_excel}\NormalTok{(}\StringTok{"East Africa lake data.xlsx"}\NormalTok{, }\DataTypeTok{sheet =} \StringTok{"VOI rainfall station data"}\NormalTok{)}
+\NormalTok{VOI_Rainfall_tidy <-}\StringTok{ }\NormalTok{VOI_Rainfall }\OperatorTok{%>%}\StringTok{ }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\StringTok{`}\DataTypeTok{...14}\StringTok{`}\NormalTok{, }\StringTok{`}\DataTypeTok{...15}\StringTok{`}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{gather}\NormalTok{(}\StringTok{"Jan"}\NormalTok{, }\StringTok{"Feb"}\NormalTok{, }\StringTok{"Mar"}\NormalTok{, }\StringTok{"Apr"}\NormalTok{, }\StringTok{"May"}\NormalTok{, }\StringTok{"Jun"}\NormalTok{, }\StringTok{"Jul"}\NormalTok{, }\StringTok{"Aug"}\NormalTok{, }\StringTok{"Sep"}\NormalTok{, }\StringTok{"Oct"}\NormalTok{, }\StringTok{"Nov"}\NormalTok{, }\StringTok{"Dec"}\NormalTok{, }\DataTypeTok{key =} \StringTok{"Month"}\NormalTok{, }\DataTypeTok{value =} \StringTok{"Rainfall"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Month =} \KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Jan"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Feb"}\NormalTok{, }\DecValTok{2}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Mar"}\NormalTok{, }\DecValTok{3}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Apr"}\NormalTok{, }\DecValTok{4}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "May"}\NormalTok{, }\DecValTok{5}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Jun"}\NormalTok{, }\DecValTok{6}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Jul"}\NormalTok{, }\DecValTok{7}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Aug"}\NormalTok{, }\DecValTok{8}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Sep"}\NormalTok{, }\DecValTok{9}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Oct"}\NormalTok{, }\DecValTok{10}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Nov"}\NormalTok{, }\DecValTok{11}\NormalTok{, }\KeywordTok{if_else}\NormalTok{(Month }\OperatorTok{==}\StringTok{ "Dec"}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{0}\NormalTok{))))))))))))) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(Year) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(Rainfall))}
+
+\NormalTok{labels <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DataTypeTok{Female =} \StringTok{"Women"}\NormalTok{, }\DataTypeTok{Male =} \StringTok{"Men"}\NormalTok{)}
+
+\KeywordTok{ggplot}\NormalTok{(VOI_Rainfall_tidy, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Year, }\DataTypeTok{y =}\NormalTok{ Rainfall)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(.}\OperatorTok{~}\NormalTok{Month, }\DataTypeTok{labeller=}\KeywordTok{labeller}\NormalTok{(}\DataTypeTok{Month =}  \KeywordTok{c}\NormalTok{(}\StringTok{`}\DataTypeTok{1}\StringTok{`}\NormalTok{ =}\StringTok{ "January"}\NormalTok{, }\StringTok{`}\DataTypeTok{2}\StringTok{`}\NormalTok{ =}\StringTok{ "February"}\NormalTok{, }\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{ =}\StringTok{ "March"}\NormalTok{, }\StringTok{`}\DataTypeTok{4}\StringTok{`}\NormalTok{ =}\StringTok{ "April"}\NormalTok{, }\StringTok{`}\DataTypeTok{5}\StringTok{`}\NormalTok{ =}\StringTok{ "May"}\NormalTok{, }\StringTok{`}\DataTypeTok{6}\StringTok{`}\NormalTok{ =}\StringTok{ "June"}\NormalTok{, }\StringTok{`}\DataTypeTok{7}\StringTok{`}\NormalTok{ =}\StringTok{ "July"}\NormalTok{, }\StringTok{`}\DataTypeTok{8}\StringTok{`}\NormalTok{ =}\StringTok{ "August"}\NormalTok{, }\StringTok{`}\DataTypeTok{9}\StringTok{`}\NormalTok{ =}\StringTok{ "September"}\NormalTok{, }\StringTok{`}\DataTypeTok{10}\StringTok{`}\NormalTok{ =}\StringTok{ "October"}\NormalTok{, }\StringTok{`}\DataTypeTok{11}\StringTok{`}\NormalTok{ =}\StringTok{ "November"}\NormalTok{, }\StringTok{`}\DataTypeTok{12}\StringTok{`}\NormalTok{ =}\StringTok{ "December"}\NormalTok{))) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"VOI Rainfall for every month vs. year"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Rainfall (cm)"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab8_SpicyBois_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+
+\end{document}
