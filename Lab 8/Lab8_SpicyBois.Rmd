@@ -22,8 +22,8 @@ library(readxl)
 # Description of the Dataset
 
 # Individual Questions
-## Is there any reacurring events in the the previous months/years of rainfall that indicates whether a drought is comming? (Ex. Dose a lot of rain in the previous year indicate that this year will most likly have a drought?) (Logan)
-**Why is it important/interesting:** Finding out when droughts happen is extremmly important. Droughts can effect many things from food supply to wild fires to diseases. Without water, farms won't prouduce as much food, resulating in a food crisis. Forests will be more dry, increasing the likly hood of fires starting. If there is less water, natives will decrease usage of water, resualting in less wasing hands and bathing which will increase the risk of spreading dieseases. If it can be found that a drought is likley to happen, people can plan ahead, reseving water now while its still in ample supply to make sure that there will still be plenty during the drought. 
+## Question ()
+**Why is it important/interesting:**
 
 # Visualizations
 ## Challa (Joe)
