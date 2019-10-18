@@ -7,24 +7,63 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Who is hiring us?
+**Domain Expert**
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# Overall Question (TEAM)
+**Question:**
+**Why is it important/interesting:**
 
-```{r cars}
-summary(cars)
+# Description of the Dataset
+
+# Individual Questions
+## Is there any reacurring events in the the previous months/years of rainfall that indicates whether a drought is comming? (Ex. Dose a lot of rain in the previous year indicate that this year will most likly have a drought?) (Logan)
+**Why is it important/interesting:** Finding out when droughts happen is extremmly important. Droughts can effect many things from food supply to wild fires to diseases. Without water, farms won't prouduce as much food, resulating in a food crisis. Forests will be more dry, increasing the likly hood of fires starting. If there is less water, natives will decrease usage of water, resualting in less wasing hands and bathing which will increase the risk of spreading dieseases. If it can be found that a drought is likley to happen, people can plan ahead, reseving water now while its still in ample supply to make sure that there will still be plenty during the drought. 
+
+# Visualizations
+## Challa (Joe)
+```{r}
+
 ```
 
-## Including Plots
+## Tanganyika (Trent)
+```{r}
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Malawi (Tyler)
+```{r}
+
+```
+
+## CRU and MAM Rainfall (Jack)
+```{r}
+
+```
+
+
+## VOI Rainfall (Logan)
+```{r, message=FALSE}
+VOI_Rainfall <- read_excel("East Africa lake data.xlsx", sheet = "VOI rainfall station data")
+VOI_Rainfall_tidy <- VOI_Rainfall %>% select(-c(`...14`, `...15`)) %>% 
+  gather("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", key = "Month", value = "Rainfall") %>%
+  mutate(Month = if_else(Month == "Jan", 1, if_else(Month == "Feb", 2, if_else(Month == "Mar", 3, if_else(Month == "Apr", 4, if_else(Month == "May", 5, if_else(Month == "Jun", 6, if_else(Month == "Jul", 7, if_else(Month == "Aug", 8, if_else(Month == "Sep", 9, if_else(Month == "Oct", 10, if_else(Month == "Nov", 11, if_else(Month == "Dec", 12, 0))))))))))))) %>% 
+  arrange(Year) %>%
+  filter(!is.na(Rainfall))
+
+labels <- c(Female = "Women", Male = "Men")
+
+ggplot(VOI_Rainfall_tidy, aes(x = Year, y = Rainfall)) + 
+  facet_wrap(.~Month, labeller=labeller(Month =  c(`1` = "Janerary", `2` = "Feberary", `3` = "March", `4` = "April", `5` = "May", `6` = "June", `7` = "July", `8` = "Auguest", `9` = "September", `10` = "October", `11` = "Novermber", `12` = "December"))) + 
+  geom_line() + 
+  labs(title = "VOI Rainfall for every month vs. year", y = "Rainfall (cm)", x = "Year")
+```
+
+
+
+
