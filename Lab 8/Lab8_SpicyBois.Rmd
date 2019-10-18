@@ -31,7 +31,19 @@ This Data set has 397 observations(professors) on the following 6 variables: ran
 # Visualizations
 ## Challa (Joe)
 ```{r}
+library(tidyverse)
+library("readxl")
+challa <- read_excel("eastafricalakedata.xlsx", sheet = "Challa", col_names = FALSE, col_types = NULL, na = "", skip = 3)
 
+challa <- rename(challa, `Date` = `...1`, `Varve Number`= `...2`, `VarveThickness` = `...3`, `LightThickness` = `...4`, `DarkThickness`= `...5`)
+
+ggplot(data = challa, mapping = aes(x= Date))+
+ geom_smooth(aes(y= LightThickness, color = "LightThickness"))+
+  geom_smooth(aes(y=DarkThickness, color = "DarkThickness")) +
+  geom_smooth(aes(y= VarveThickness, color="VarveThickness"))+
+  labs(title = "Measurement of sediment deposit on the bed of Lake Challa", caption= "Varve is the cumulative value of DarkThickness and LightThickness.", fill= "Layers")+
+  xlab("Date (AD)")+
+  ylab("Thickness of layer in milimeters")
 ```
 
 ## Tanganyika (Trent)
