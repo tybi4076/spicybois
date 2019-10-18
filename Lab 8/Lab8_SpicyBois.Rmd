@@ -41,6 +41,7 @@ This Data set has 397 observations (professors) on the following 6 variables: ra
 
 ## How does the seniority of a professor impact their salary? (Trent)
 **Why is it important/interesting:** This question could be interesting to see if professors who have had more years of service tend to be paid more, or if their pay remains stagnent over the years.
+
 ## How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
 **Why is it important/interesting:** This question is interesting cause it can show how the time since they got their phd can effect their sallary now with new advancments being found in fields that they have their phd's in.
 
@@ -62,11 +63,9 @@ ggplot(data = challa, mapping = aes(x= Date))+
 
 
 ### Tanganyika (Trent)
-```{r}
+```{r, warning=FALSE, message=FALSE}
 Tanganyika <- read_excel("East Africa lake data.xlsx", sheet = 6)
-
 Tanganyika <- select(Tanganyika, 'Year AD...1', 'BSi (normalized)', 'Year AD...4', 'Charcoal (normalized)','Year', TEX86)
-
 Tanganyika <- rename(Tanganyika, Year1 = 'Year AD...1', BSi = 'BSi (normalized)',Year2 = 'Year AD...4', Charcoal = 'Charcoal (normalized)', Year3 = 'Year')
 
 Tang1 <- Tanganyika %>% select(Year1, BSi) %>%
@@ -79,9 +78,8 @@ Tang3 <- Tanganyika %>% select(Year3, TEX86) %>%
 Tang12 <- full_join(Tang1, Tang2, by = c("Year1" = "Year2"))
 AllTang <- full_join(Tang12, Tang3, by = c("Year1" = "Year3")) 
 
-ggplot(AllTang) + geom_point(aes(x = Year1, y = BSi, color = 'BSi Data')) + geom_point(aes(x = Year1, y = Charcoal, color='Charcoal Data')) + geom_point(aes(x = Year1, y = TEX86, color='TEX86 Data'))
+ggplot(AllTang) + geom_point(aes(x = Year1, y = BSi, color = 'BSi Data')) + geom_point(aes(x = Year1, y = Charcoal, color='Charcoal Data')) + geom_point(aes(x = Year1, y = TEX86, color='TEX86 Data')) +
   labs(title = "How Rroxies of Rainfall Data in Tanganyika Change by Year", y = "Rainfall (cm)", x = "Year")
-
 ```
 
 ### Malawi (Tyler)
@@ -115,7 +113,7 @@ ggplot(data = myData) +
 ```
 
 ### CRU and MAM Rainfall (Jack)
-```{r, message=FALSE}
+```{r, warning=FALSE, message=FALSE}
 CRUnMAM_Rainfall <- read_excel("East Africa lake data.xlsx", sheet = 9)
 CRUnMAM_Rainfall_tidy <- select(CRUnMAM_Rainfall, 'GPCC MAM Normalized',	'CRU MAM Normalized',	'GPCC OND Normalized', 'CRU OND Normalized')
 CRUnMAM_Rainfall_tidy <- rename(CRUnMAM_Rainfall, GPCC_MAM = 'GPCC MAM Normalized',	CRU_MAM = 'CRU MAM Normalized',	GPCC_OND = 'GPCC OND Normalized', CRU_OND = 'CRU OND Normalized') %>% gather(GPCC_MAM, CRU_MAM,	GPCC_OND, CRU_OND, key = "Rainfall_type", value = "value")
@@ -127,7 +125,7 @@ labs(title = "Rainfall Types for every year", x = "Year", y = "Rainfall")
 
 
 ### VOI Rainfall (Logan)
-```{r, message=FALSE}
+```{r, warning=FALSE, message=FALSE}
 VOI_Rainfall <- read_excel("East Africa lake data.xlsx", sheet = "VOI rainfall station data")
 VOI_Rainfall_tidy <- VOI_Rainfall %>% select(-c(`...14`, `...15`)) %>% 
   gather("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", key = "Month", value = "Rainfall") %>%
