@@ -3,7 +3,6 @@ title: "Lab 8"
 author: "Spicy Bois"
 date: "10/17/2019"
 output: html_document
-
 ---
 
 ```{r setup, include=FALSE}
@@ -21,11 +20,17 @@ library(readxl)
 
 # Description of the Dataset
 This Data set has 397 observations (professors) on the following 6 variables: rank, discipline, years since PHD, years of service, gender, and salary, from the accademic year 2008-09.
+
   * **rank:** Associate Professor (AssocProf), Asstistant Proffessor  (AsstProf), Proffessor (Prof)
+
   * **discipline:** a factor with levels A (“theoretical” departments) or B (“applied” departments).
+
   * **yrs.since.phd:** The years since professor got PhD.
+
   * **yrs.service:** The years years the professor has worked/service.
+
   * **sex:** Female or Male
+
   * **salary:** nine-month salary, in dollars.
 
 # Individual Questions
