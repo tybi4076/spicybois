@@ -54,7 +54,35 @@ Tanganyika <- select()
 
 ## Malawi (Tyler)
 ```{r}
+library(tidyverse)
+library(readxl)
 
+malawi <- read_xlsx("East Africa lake data.xlsx", sheet = "Malawi", skip = 2, col_names = FALSE)
+
+part1 <- malawi %>%
+  select('...1', '...2', '...3')%>%
+  rename(BSi = '...3', 'Calender Year' = '...2', 'Not Cal' = '...1')
+part1$'Calender Year' <- round(part1$'Calender Year')
+
+part2 <- malawi %>%
+  select('...6', '...7', '...8')%>%
+  rename('BSi 2' = '...8', 'Calender Year' = '...7', 'Cal' = '...6')
+part2$'Calender Year' <- round(part2$'Calender Year')
+
+
+myData <- full_join(part1,part2) %>%
+  gather('Cal', 'Not Cal', value = 'Years Before 2002', key = 'LakeData') %>%
+  gather(BSi, 'BSi 2', key = Delete, value = BSi) %>%
+  mutate(Delete = LakeData) %>%
+  filter(LakeData == Delete) %>%
+  select(-Delete) %>%
+  rename(Year = 'Calender Year') %>%
+  filter(LakeData == 'Cal')
+
+ggplot(data = myData) +
+  geom_smooth(mapping = aes(x = Year, y = BSi), se = FALSE) +
+  labs(title = "BSi index of Malawi Lake Data over Time") + 
+  theme_dark()
 ```
 
 ## CRU and MAM Rainfall (Jack)
