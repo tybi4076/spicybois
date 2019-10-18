@@ -59,7 +59,7 @@ VOI_Rainfall_tidy <- VOI_Rainfall %>% select(-c(`...14`, `...15`)) %>%
 labels <- c(Female = "Women", Male = "Men")
 
 ggplot(VOI_Rainfall_tidy, aes(x = Year, y = Rainfall)) + 
-  facet_wrap(.~Month, labeller=labeller(Month =  c(`1` = "Janerary", `2` = "Feberary", `3` = "March", `4` = "April", `5` = "May", `6` = "June", `7` = "July", `8` = "Auguest", `9` = "September", `10` = "October", `11` = "Novermber", `12` = "December"))) + 
+  facet_wrap(.~Month, labeller=labeller(Month =  c(`1` = "January", `2` = "February", `3` = "March", `4` = "April", `5` = "May", `6` = "June", `7` = "July", `8` = "August", `9` = "September", `10` = "October", `11` = "November", `12` = "December"))) + 
   geom_line() + 
   labs(title = "VOI Rainfall for every month vs. year", y = "Rainfall (cm)", x = "Year")
 ```
