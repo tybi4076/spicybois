@@ -1,0 +1,14 @@
+---
+title: "Lab 9"
+author: "Spicy Bois"
+date: "10/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+dataBase <- read_csv("Salaries.csv")
+```
+
+

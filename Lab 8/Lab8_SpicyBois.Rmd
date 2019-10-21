@@ -11,13 +11,14 @@ library(tidyverse)
 library(readxl)
 ```
 
-# Who is hiring us?
-**Domain Expert:** For the purpose of our the data we found, we are being asked by a college ethics board to analyze the salaries of several different types of professors to ensure equality and fairness in their compensations. 
+# How do factors like professor rank, discipline, years since phd, years of service and sex effect the salaries of professors?
+### Why is it important/interesting
+This question could help find trends and patterns within the salaries of professors to ensure that fair compensation is being provided, especially considering factors such as gender and seniority.
 
-# How do factors like professor rank, discipline, years since phd, years of service and sex effect the salaries of professors. (TEAM)
-**Why is it important/interesting:** This question could help find trends and patterns within the salaries of professors to ensure that fair compensation is being provided, especially considering factors such as gender and seniority.
+### Who is hiring us?
+For the purpose of our the data we found, we are being asked by a college ethics board to analyze the salaries of several different types of professors to ensure equality and fairness in their compensations. 
 
-# Description of the Dataset
+### Description of the Dataset
 This Data set has 397 observations (professors) on the following 6 variables: rank, discipline, years since PHD, years of service, gender, and salary, from the accademic year 2008-09.
 
   * **rank:** Associate Professor (AssocProf), Asstistant Proffessor  (AsstProf), Proffessor (Prof)
@@ -32,20 +33,20 @@ This Data set has 397 observations (professors) on the following 6 variables: ra
 
   * **salary:** nine-month salary, in dollars.
 
-# Individual Questions
-## Which discipline makes the most money? (Logan)
+## Individual Questions
+### Which discipline makes the most money? (Logan)
 **Why is it important/interesting:** This question is interesting becuase it shows which deperment is valued the most in a typical campus. Which shows things like wether we value Arts more or Science more.
 
-## How does the gender of a professor impact their salary? (Joe)
+### How does the gender of a professor impact their salary? (Joe)
 **Why is it important/interesting:** This is important to understand because if an inequality in gender is apparent, movements to close a gender pay gap can be made.
 
-## How does the seniority of a professor impact their salary? (Trent)
+### How does the seniority of a professor impact their salary? (Trent)
 **Why is it important/interesting:** This question could be interesting to see if professors who have had more years of service tend to be paid more, or if their pay remains stagnent over the years.
 
-## How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
+### How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
 **Why is it important/interesting:** This question is interesting cause it can show how the time since they got their phd can effect their sallary now with new advancments being found in fields that they have their phd's in.
 
-# Visuals
+## Visuals
 ### Challa (Joe)
 ```{r, warning=FALSE, message=FALSE}
 challa <- read_excel("East Africa lake data.xlsx", sheet = "Challa", col_names = FALSE, col_types = NULL, na = "", skip = 3)
