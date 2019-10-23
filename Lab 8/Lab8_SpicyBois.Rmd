@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Lab 8"
 author: "Spicy Bois"
@@ -150,3 +151,152 @@ ggplot(VOI_Rainfall_tidy, aes(x = Year, y = Rainfall)) +
 
 
 
+=======
+---
+title: "Lab 8"
+author: "Spicy Bois"
+date: "10/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+```
+
+# How do factors like professor rank, discipline, years since phd, years of service and sex effect the salaries of professors?
+### Why is it important/interesting
+This question could help find trends and patterns within the salaries of professors to ensure that fair compensation is being provided, especially considering factors such as gender and seniority.
+
+### Who is hiring us?
+For the purpose of our the data we found, we are being asked by a college ethics board to analyze the salaries of several different types of professors to ensure equality and fairness in their compensations. 
+
+### Description of the Dataset
+This Data set has 397 observations (professors) on the following 6 variables: rank, discipline, years since PHD, years of service, gender, and salary, from the accademic year 2008-09.
+
+  * **rank:** Associate Professor (AssocProf), Asstistant Proffessor  (AsstProf), Proffessor (Prof)
+
+  * **discipline:** a factor with levels A (“theoretical” departments) or B (“applied” departments).
+
+  * **yrs.since.phd:** The years since professor got PhD.
+
+  * **yrs.service:** The years years the professor has worked/service.
+
+  * **sex:** Female or Male
+
+  * **salary:** nine-month salary, in dollars.
+
+## Individual Questions
+### Which discipline makes the most money? (Logan)
+**Why is it important/interesting:** This question is interesting becuase it shows which deperment is valued the most in a typical campus. Which shows things like wether we value Arts more or Science more.
+
+### How does the gender of a professor impact their salary? (Joe)
+**Why is it important/interesting:** This is important to understand because if an inequality in gender is apparent, movements to close a gender pay gap can be made.
+
+### How does the seniority of a professor impact their salary? (Trent)
+**Why is it important/interesting:** This question could be interesting to see if professors who have had more years of service tend to be paid more, or if their pay remains stagnent over the years.
+
+### How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
+**Why is it important/interesting:** This question is interesting cause it can show how the time since they got their phd can effect their sallary now with new advancments being found in fields that they have their phd's in.
+
+## Visuals
+### Challa (Joe)
+```{r, warning=FALSE, message=FALSE}
+challa <- read_excel("East Africa lake data.xlsx", sheet = "Challa", col_names = FALSE, col_types = NULL, na = "", skip = 3)
+
+challa <- rename(challa, `Date` = `...1`, `Varve Number`= `...2`, `VarveThickness` = `...3`, `LightThickness` = `...4`, `DarkThickness`= `...5`)
+
+ggplot(data = challa, mapping = aes(x= Date))+
+ geom_smooth(aes(y= LightThickness, color = "LightThickness"))+
+  geom_smooth(aes(y=DarkThickness, color = "DarkThickness")) +
+  geom_smooth(aes(y= VarveThickness, color="VarveThickness"))+
+  labs(title = "Measurement of sediment deposit on the bed of Lake Challa", caption= "Varve is the cumulative value of DarkThickness and LightThickness.", fill= "Layers")+
+  xlab("Date (AD)")+
+  ylab("Thickness of layer in milimeters")
+```
+
+
+### Tanganyika (Trent)
+```{r, warning=FALSE, message=FALSE}
+Tanganyika <- read_excel("East Africa lake data.xlsx", sheet = 6)
+Tanganyika <- select(Tanganyika, 'Year AD...1', 'BSi (normalized)', 'Year AD...4', 'Charcoal (normalized)','Year', TEX86)
+Tanganyika <- rename(Tanganyika, Year1 = 'Year AD...1', BSi = 'BSi (normalized)',Year2 = 'Year AD...4', Charcoal = 'Charcoal (normalized)', Year3 = 'Year')
+
+Tang1 <- Tanganyika %>% select(Year1, BSi) %>%
+  filter(!is.na(BSi)) 
+Tang2 <- Tanganyika %>% select(Year2, Charcoal) %>%
+  filter(!is.na(Charcoal))
+Tang3 <- Tanganyika %>% select(Year3, TEX86) %>%
+  filter(!is.na(TEX86))
+
+Tang12 <- full_join(Tang1, Tang2, by = c("Year1" = "Year2"))
+AllTang <- full_join(Tang12, Tang3, by = c("Year1" = "Year3")) 
+
+ggplot(AllTang) + geom_point(aes(x = Year1, y = BSi, color = 'BSi Data')) + geom_point(aes(x = Year1, y = Charcoal, color='Charcoal Data')) + geom_point(aes(x = Year1, y = TEX86, color='TEX86 Data')) +
+  labs(title = "How Rroxies of Rainfall Data in Tanganyika Change by Year", y = "Rainfall (cm)", x = "Year")
+```
+
+### Malawi (Tyler)
+```{r, message=FALSE, warning=FALSE}
+malawi <- read_xlsx("East Africa lake data.xlsx", sheet = "Malawi", skip = 2, col_names = FALSE)
+
+part1 <- malawi %>%
+  select('...1', '...2', '...3')%>%
+  rename(BSi = '...3', 'Calender Year' = '...2', 'Not Cal' = '...1')
+part1$'Calender Year' <- round(part1$'Calender Year')
+
+part2 <- malawi %>%
+  select('...6', '...7', '...8')%>%
+  rename('BSi 2' = '...8', 'Calender Year' = '...7', 'Cal' = '...6')
+part2$'Calender Year' <- round(part2$'Calender Year')
+
+
+myData <- full_join(part1,part2) %>%
+  gather('Cal', 'Not Cal', value = 'Years Before 2002', key = 'LakeData') %>%
+  gather(BSi, 'BSi 2', key = Delete, value = BSi) %>%
+  mutate(Delete = LakeData) %>%
+  filter(LakeData == Delete) %>%
+  select(-Delete) %>%
+  rename(Year = 'Calender Year') %>%
+  filter(LakeData == 'Cal')
+
+ggplot(data = myData) +
+  geom_smooth(mapping = aes(x = Year, y = BSi), se = FALSE) +
+  labs(title = "BSi index of Malawi Lake Data over Time") + 
+  theme_dark()
+```
+
+### CRU and MAM Rainfall (Jack)
+```{r, warning=FALSE, message=FALSE}
+CRUnMAM_Rainfall <- read_excel("East Africa lake data.xlsx", sheet = 9)
+CRUnMAM_Rainfall_tidy <- select(CRUnMAM_Rainfall, 'GPCC MAM Normalized',	'CRU MAM Normalized',	'GPCC OND Normalized', 'CRU OND Normalized')
+CRUnMAM_Rainfall_tidy <- rename(CRUnMAM_Rainfall, GPCC_MAM = 'GPCC MAM Normalized',	CRU_MAM = 'CRU MAM Normalized',	GPCC_OND = 'GPCC OND Normalized', CRU_OND = 'CRU OND Normalized') %>% gather(GPCC_MAM, CRU_MAM,	GPCC_OND, CRU_OND, key = "Rainfall_type", value = "value")
+
+ggplot(CRUnMAM_Rainfall_tidy, aes(y = value, x = Year, color = Rainfall_type)) +
+geom_line()+
+labs(title = "Rainfall Types for every year", x = "Year", y = "Rainfall")
+```
+
+
+### VOI Rainfall (Logan)
+```{r, warning=FALSE, message=FALSE}
+VOI_Rainfall <- read_excel("East Africa lake data.xlsx", sheet = "VOI rainfall station data")
+VOI_Rainfall_tidy <- VOI_Rainfall %>% select(-c(`...14`, `...15`)) %>% 
+  gather("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", key = "Month", value = "Rainfall") %>%
+  mutate(Month = if_else(Month == "Jan", 1, if_else(Month == "Feb", 2, if_else(Month == "Mar", 3, if_else(Month == "Apr", 4, if_else(Month == "May", 5, if_else(Month == "Jun", 6, if_else(Month == "Jul", 7, if_else(Month == "Aug", 8, if_else(Month == "Sep", 9, if_else(Month == "Oct", 10, if_else(Month == "Nov", 11, if_else(Month == "Dec", 12, 0))))))))))))) %>% 
+  arrange(Year) %>%
+  filter(!is.na(Rainfall))
+
+labels <- c(Female = "Women", Male = "Men")
+
+ggplot(VOI_Rainfall_tidy, aes(x = Year, y = Rainfall)) + 
+  facet_wrap(.~Month, labeller=labeller(Month =  c(`1` = "January", `2` = "February", `3` = "March", `4` = "April", `5` = "May", `6` = "June", `7` = "July", `8` = "August", `9` = "September", `10` = "October", `11` = "November", `12` = "December"))) + 
+  geom_line() + 
+  labs(title = "VOI Rainfall for every month vs. year", y = "Rainfall (cm)", x = "Year")
+```
+
+
+
+
+>>>>>>> master
