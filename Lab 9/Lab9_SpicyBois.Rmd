@@ -77,6 +77,41 @@ ggplot(data_disp, aes(x = discipline)) +
 **Finings:** The graph above shows that Discipline B, which is the applied depertments, gets payed more than Discipline A (theoretical depertments). This is stays true no matter if you look at the average, minimun, or maximun salary for each discipline.
 
 ### How does the gender of a professor impact their salary? (Joe)
+```{r}
+library(tidyverse)
+data <- read.csv('Salaries.csv')
+
+yassdata <- data %>% select(sex, salary, rank) %>% filter(!is.na(rank)) %>% filter(rank == 'AssocProf') %>% filter( sex == 'Male')
+plot1 <- yassdata$salary
+
+xassdata <-data %>% select(sex, salary, rank) %>% filter(!is.na(rank)) %>% filter(rank == 'AssocProf') %>% filter( sex == 'Female')
+plot2 <- xassdata$salary
+
+yastdata <- data %>% select(sex, salary, rank) %>% filter(!is.na(rank)) %>% filter(rank == 'AsstProf') %>% filter( sex == 'Male')
+plot3 <- yastdata$salary
+
+xastdata <-data %>% select(sex, salary, rank) %>% filter(!is.na(rank)) %>% filter(rank == 'AsstProf') %>% filter( sex == 'Female')
+plot4 <- xastdata$salary
+
+yprofdata <- data %>% select(sex, salary, rank) %>% filter(!is.na(rank)) %>% filter(rank == 'Prof') %>% filter( sex == 'Male')
+plot5 <- yprofdata$salary
+
+xprofdata <- data %>% select(sex, salary, rank) %>% filter(!is.na(rank)) %>% filter(rank == 'Prof') %>% filter( sex == 'Female')
+plot6 <- xprofdata$salary
+
+ggplot()+
+  geom_density(yassdata, mapping= aes(plot1, col= 'Male Associated Prof.'))+
+  geom_density(xassdata, mapping= aes(plot2, color = 'Female Associated Prof.'))+
+  geom_density(yastdata, mapping= aes(plot3, color = 'Male Assistant Prof.'))+
+  geom_density(xastdata, mapping= aes(plot4, color= 'Female Assistant Prof.'))+
+  geom_density(yprofdata, mapping= aes(plot5, color = 'Male Prof.'))+
+  geom_density(xprofdata, mapping= aes(plot6, color = 'Female Prof.'))+
+  coord_cartesian(xlim = c(50000, 200000))+
+  xlab("US Dollars")+
+  labs(title= "Professor salary separated by gender and rank")
+```
+
+**Findings: The density graph of all combined catagories showed a natural tendency for male professors of all ranks to be payed more than their female counterparts.
 
 ### How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
 ```{r, message=FALSE, warning=FALSE}
@@ -105,4 +140,4 @@ ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) +
 
 **Jack**For my individual graph, I did how salaries of professors vary based on their rank. The data was already tidy so I just selected the columns I needed using the select function. For my graph, I used a box plot because it shows the salaries compared to the ranking the best. I kept it simple and just used the boxplot function from ggplot as well as a theme to change the graph background.
 
-**Joe**
+**Joe** For my individual graph, I did a density plot to visualize pay disparity between the two genders. I saw that males were often spread out more on the x-axis, meaning that there was more variablility in their pay and that they were likely being payed more than their female counterparts. As for females, they were generall more distributed along the y-axis, meaning that there was more consistency in their pay and they were likely being payed less than their male counterparts.
