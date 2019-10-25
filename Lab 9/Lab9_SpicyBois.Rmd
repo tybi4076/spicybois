@@ -4,6 +4,12 @@ author: "Spicy Bois"
 date: "10/17/2019"
 output: html_document
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
 # How do factors like professor rank, discipline, years since phd, years of service and sex effect the salaries of professors?
 
 ### Why is it important/interesting
@@ -33,9 +39,8 @@ Codebook Link: https://vincentarelbundock.github.io/Rdatasets/doc/carData/Salari
 
 ## Individual Questions
 
-##How do salaries of professors vary based on their rank? (Jack)
-```{r}
-
+### How do salaries of professors vary based on their rank? (Jack)
+```{r, message=FALSE, warning=FALSE}
 dataBase <- read_csv("Salaries.csv")
 
 Salaries <- dataBase %>% select(rank, salary)
@@ -45,11 +50,8 @@ ggplot(data = Salaries, mapping = aes(x = rank, y = salary)) + geom_boxplot() + 
 ```
 **Findings** : As expected, as the rank of the professor increases, so does the salary. The IQR of each rank is increases as the rank increases. However, professors have the largest range of values, some being even below both rankings. There are also outliers for the rank of professor on the top end of the range. Although, for the most part, as rank increases so does salary, there are values that contradict this for all ranks.
 
-<<<<<<< HEAD
 ### How does the seniority of a professor impact their salary? (Trent)
-```{r}
-library(tidyverse)
-
+```{r, message=FALSE, warning=FALSE}
 data <- read_csv("Salaries.csv")
 seniority <- data %>% select(yrs.service, salary)
 
@@ -57,11 +59,26 @@ ggplot(data) + geom_point(aes(x = yrs.service, y = salary)) + geom_smooth(aes(x 
 ```
 
 ### Which discipline makes the most money? (Logan)
+```{r, message=FALSE, warning=FALSE}
+data_disp <- read_csv("Salaries.csv")
+data_disp <- data_disp %>% 
+  select(salary, discipline) %>%
+  group_by(discipline) %>%
+  summarise(min = min(salary), max = max(salary), avg = mean(salary))
+
+ggplot(dataBase_disp, aes(x = discipline)) + 
+  geom_col(aes(y = max, fill = "Maximum")) + 
+  geom_col(aes(y = avg, fill = "Avgerage")) + 
+  geom_col(aes(y = min, fill = "Mimimum")) + 
+  labs(title = "Min, Max, Average salary per discipline", x = "Discipline", y = "Salary")
+```
+
+**Finings:** The graph above shows that Discipline B, which is the applied depertments, gets payed more than Discipline A (theoretical depertments). This is stays true no matter if you look at the average, minimun, or maximun salary for each discipline.
 
 ### How does the gender of a professor impact their salary? (Joe)
 
 ### How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
-```{r}
+```{r, message=FALSE, warning=FALSE}
 data <- read_csv("Salaries.csv")
 
 phd <- data %>% select(salary, yrs.since.phd)
@@ -80,7 +97,7 @@ ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) +
 ## Team Report
 **Trent:**
 
-**Logan:**
+**Logan:** I graphed the min, max, and average salary for each discipline (theoretical vs. applied) to determine which proffessor of disciple get payed more. To do this I used the summerize function to calculate the minimum salary, maximum salary, and average salary.
 
 **Tyler** For my individual graph, I graphed the years a teacher has had their PHD with their salary to see how the years since they got a PHD effects the salary. To do this I used a select funtion to select my data that I was going to use so I could make it simplier for me to work with the data.
 
