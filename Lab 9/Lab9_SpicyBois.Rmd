@@ -37,18 +37,21 @@ Codebook Link: https://vincentarelbundock.github.io/Rdatasets/doc/carData/Salari
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+```
 
-##jack(edit)
+##How do salaries of professors vary based on their rank? (Jack)
+```{r}
+
 dataBase <- read_csv("Salaries.csv")
-
 
 Salaries <- dataBase %>% select(rank, salary)
 
-ggplot(data = Salaries, mapping = aes(x = rank, y = salary)) + geom_boxplot()
-
+ggplot(data = Salaries, mapping = aes(x = rank, y = salary)) + geom_boxplot() + theme_bw()
 
 ```
+**Findings** : As expected, as the rank of the professor increases, so does the salary. The IQR of each rank is increases as the rank increases. However, professors have the largest range of values, some being even below both rankings. There are also outliers for the rank of professor on the top end of the range. Although, for the most part, as rank increases so does salary, there are values that contradict this for all ranks.
 
+<<<<<<< HEAD
 ### How does the seniority of a professor impact their salary? (Trent)
 ```{r}
 library(tidyverse)
@@ -72,6 +75,7 @@ ggplot(data) + geom_point(aes(x = yrs.service, y = salary)) + geom_smooth(aes(x 
 
 **Tyler**
 
-**Jack**
+**Jack**For my individual graph, I did how salaries of professors vary based on their rank. The data was already tidy so I just selected the columns I needed using the select function. For my graph, I used a box plot because it shows the salaries compared to the ranking the best. I kept it simple and just used the boxplot function from ggplot as well as a theme to change the graph background.
 
 **Joe**
+=======
