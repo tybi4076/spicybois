@@ -4,7 +4,36 @@ author: "Spicy Bois"
 date: "10/17/2019"
 output: html_document
 ---
+# How do factors like professor rank, discipline, years since phd, years of service and sex effect the salaries of professors?
 
+### Why is it important/interesting
+This question could help find trends and patterns within the salaries of professors to ensure that fair compensation is being provided, especially considering factors such as gender and seniority.
+
+### Who is hiring us?
+For the purpose of our the data we found, we are being asked by a college ethics board to analyze the salaries of several different types of professors to ensure equality and fairness in their compensations.
+
+### Description of the Dataset
+This Data set has 397 observations (professors) on the following 6 variables: rank, discipline, years since PHD, years of service, gender, and salary, from the accademic year 2008-09.
+
+  * **rank:** Associate Professor (AssocProf), Asstistant Proffessor  (AsstProf), Proffessor (Prof)
+
+  * **discipline:** a factor with levels A (“theoretical” departments) or B (“applied” departments).
+
+  * **yrs.since.phd:** The years since professor got PhD.
+
+  * **yrs.service:** The years years the professor has worked/service.
+
+  * **sex:** Female or Male
+
+  * **salary:** nine-month salary, in dollars.
+
+Data Source: https://vincentarelbundock.github.io/Rdatasets/datasets.html
+
+Codebook Link: https://vincentarelbundock.github.io/Rdatasets/doc/carData/Salaries.html
+
+## Individual Questions
+
+### How does the rank of a professor impact their salary? (Jack)
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
@@ -20,4 +49,29 @@ ggplot(data = Salaries, mapping = aes(x = rank, y = salary)) + geom_boxplot()
 
 ```
 
+### How does the seniority of a professor impact their salary? (Trent)
+```{r}
+library(tidyverse)
 
+data <- read_csv("Salaries.csv")
+seniority <- data %>% select(yrs.service, salary)
+
+ggplot(data) + geom_point(aes(x = yrs.service, y = salary)) + geom_smooth(aes(x = yrs.service, y = salary, color = 'Trend line')) + labs(title = "Distribution of Salaries by Years of Service", y = "Annual Salary (US Dollars)", x = "Years of Service (years)") + facet_grid(rank~ .) + theme_bw()
+```
+
+### Which discipline makes the most money? (Logan)
+
+### How does the gender of a professor impact their salary? (Joe)
+
+### How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
+
+## Team Report
+**Trent:**
+
+**Logan:**
+
+**Tyler**
+
+**Jack**
+
+**Joe**
