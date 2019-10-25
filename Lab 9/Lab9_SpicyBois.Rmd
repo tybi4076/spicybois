@@ -48,6 +48,7 @@ Salaries <- dataBase %>% select(rank, salary)
 ggplot(data = Salaries, mapping = aes(x = rank, y = salary)) + geom_boxplot() + theme_bw()
 
 ```
+
 **Findings** : As expected, as the rank of the professor increases, so does the salary. The IQR of each rank is increases as the rank increases. However, professors have the largest range of values, some being even below both rankings. There are also outliers for the rank of professor on the top end of the range. Although, for the most part, as rank increases so does salary, there are values that contradict this for all ranks.
 
 ### How does the seniority of a professor impact their salary? (Trent)
@@ -66,7 +67,7 @@ data_disp <- data_disp %>%
   group_by(discipline) %>%
   summarise(min = min(salary), max = max(salary), avg = mean(salary))
 
-ggplot(dataBase_disp, aes(x = discipline)) + 
+ggplot(data_disp, aes(x = discipline)) + 
   geom_col(aes(y = max, fill = "Maximum")) + 
   geom_col(aes(y = avg, fill = "Avgerage")) + 
   geom_col(aes(y = min, fill = "Mimimum")) + 
@@ -91,6 +92,7 @@ ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) +
   theme_bw()
 
 ```
+
 **Findings** :As I expected the salary increases for a Professor as the more years they have their PHD. However, I didn't expect the spread of the of the salarys to increase the more years a professor has their PHD. Also, their are a few professors that have a lower salary then others that have had a PHD for less years then them. As well, professors tend to hit the mean salary after they have had their PHD for 23 years. 
 
 
@@ -104,4 +106,3 @@ ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) +
 **Jack**For my individual graph, I did how salaries of professors vary based on their rank. The data was already tidy so I just selected the columns I needed using the select function. For my graph, I used a box plot because it shows the salaries compared to the ranking the best. I kept it simple and just used the boxplot function from ggplot as well as a theme to change the graph background.
 
 **Joe**
-=======
