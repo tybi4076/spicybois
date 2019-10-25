@@ -33,12 +33,6 @@ Codebook Link: https://vincentarelbundock.github.io/Rdatasets/doc/carData/Salari
 
 ## Individual Questions
 
-### How does the rank of a professor impact their salary? (Jack)
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-```
-
 ##How do salaries of professors vary based on their rank? (Jack)
 ```{r}
 
