@@ -58,6 +58,7 @@ seniority <- data %>% select(yrs.service, salary)
 
 ggplot(data) + geom_point(aes(x = yrs.service, y = salary)) + geom_smooth(aes(x = yrs.service, y = salary, color = 'Trend line')) + labs(title = "Distribution of Salaries by Years of Service", y = "Annual Salary (US Dollars)", x = "Years of Service (years)") + facet_grid(rank~ .) + theme_bw()
 ```
+**Findings** : I faceted the graphs to show the distribution of salaries by years of service among the professors, associate professors, and assistant professors, due to the large difference between rankings. Initially I thought having more seniority would result in a higher wage, however, the trend is much more of a linear flatline. For example, there are professors who have been teaching for over 40 years who are still being payed less than a professor who has been teaching for less than 10 years. This could be a result of the type of material a professor teaches, but I would recommend that the ethics board should look into compensating the more senior professors a more, which would result in a more positive-sloped-trendline. 
 
 ### Which discipline makes the most money? (Logan)
 ```{r, message=FALSE, warning=FALSE}
@@ -132,7 +133,7 @@ ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) +
 
 
 ## Team Report
-**Trent:**
+**Trent:** I graphed the relationship between years served and professor salary, and faceted it by professor type. I used a combination of geom_point and geom_smooth to present this data with a trendline. I also formatted the lab as a whole.
 
 **Logan:** I graphed the min, max, and average salary for each discipline (theoretical vs. applied) to determine which proffessor of disciple get payed more. To do this I used the summerize function to calculate the minimum salary, maximum salary, and average salary.
 
