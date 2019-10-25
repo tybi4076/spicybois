@@ -8,7 +8,16 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+
+##jack(edit)
 dataBase <- read_csv("Salaries.csv")
+
+
+Salaries <- dataBase %>% select(rank, salary)
+
+ggplot(data = Salaries, mapping = aes(x = rank, y = salary)) + geom_boxplot()
+
+
 ```
 
 
