@@ -61,6 +61,19 @@ ggplot(data) + geom_point(aes(x = yrs.service, y = salary)) + geom_smooth(aes(x 
 ### How does the gender of a professor impact their salary? (Joe)
 
 ### How does the amount of time a teacher has had their Phd effect their Slary? (Tyler)
+```{r}
+data <- read_csv("Salaries.csv")
+
+phd <- data %>% select(salary, yrs.since.phd)
+
+ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) + 
+  geom_smooth(aes(x = yrs.since.phd, y = salary), se = FALSE, method = lm) + 
+  labs(title = "How Does Years Since PHD Effect a Proffessors Salary", x = "Years Since PHD", y = "Salary") +
+  theme_bw()
+
+```
+
+
 
 ## Team Report
 **Trent:**
