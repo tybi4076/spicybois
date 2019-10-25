@@ -69,12 +69,12 @@ phd <- data %>% select(salary, yrs.since.phd)
 
 ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) + 
   geom_smooth(aes(x = yrs.since.phd, y = salary), se = FALSE, method = lm) + 
-  geom_hline(yintercept = mean(phd$salary), color = 'red')
-  labs(title = "How Does Years Since PHD Effect a Proffessors Salary", x = "Years Since PHD", y = "Salary") +
+  geom_hline(yintercept = mean(phd$salary), color = 'red') +
+  labs(title = "How Does Years Since PHD Effect a Professor's Salary", x = "Years Since PHD", y = "Salary") +
   theme_bw()
 
 ```
-
+**Findings** :As I expected the salary increases for a Professor as the more years they have their PHD. However, I didn't expect the spread of the of the salarys to increase the more years a professor has their PHD. Also, their are a few professors that have a lower salary then others that have had a PHD for less years then them. As well, professors tend to hit the mean salary after they have had their PHD for 23 years. 
 
 
 ## Team Report
@@ -82,7 +82,7 @@ ggplot(data = phd) + geom_point(aes(x = yrs.since.phd, y = salary)) +
 
 **Logan:**
 
-**Tyler**
+**Tyler** For my individual graph, I graphed the years a teacher has had their PHD with their salary to see how the years since they got a PHD effects the salary. To do this I used a select funtion to select my data that I was going to use so I could make it simplier for me to work with the data.
 
 **Jack**For my individual graph, I did how salaries of professors vary based on their rank. The data was already tidy so I just selected the columns I needed using the select function. For my graph, I used a box plot because it shows the salaries compared to the ranking the best. I kept it simple and just used the boxplot function from ggplot as well as a theme to change the graph background.
 
