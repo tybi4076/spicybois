@@ -7,6 +7,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+questions <- read_csv("Questions_trunc.csv")
+answers <- read_csv("Answers_trunc.csv")
 ```
 
 ## Lab 10
+
+```{r}
+(questions)
+(answers)
+```
+
