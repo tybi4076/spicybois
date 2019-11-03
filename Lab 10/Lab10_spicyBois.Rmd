@@ -17,9 +17,76 @@ str(questions)
 ```
 
 # Lab 10
+```{r}
+library(tidyverse)
+library(lubridate)
+library(stringr)
+
+answers <- read_csv("Answers_trunc.csv")
+questions <- read_csv("Questions_trunc.csv")
+colnames(answers)
+colnames(questions)
+str(answers)
+str(questions)
+
+merged <- answers %>%
+  left_join(questions, c('ParentId' = 'Id')) 
+
+colnames(merged)
+str(merged)
+
+merged <- merged %>% 
+  mutate(total_time = CreationDate.x - CreationDate.y) %>%
+  filter(total_time>0)
+
+
+ggplot(data = merged, mapping = aes(y = Score.x, x = total_time)) +
+  geom_point() +
+  geom_smooth() +
+  ylim(0, 100) +
+  labs(x = "Time Since Question Was Posted", y = "Score of Answer", title = "How the Score of the answer is effected by time ellapsed since question was posted") +
+  theme_bw()
+```
 
 
 ##Individual Sections
+
+### Does the time of day effect the score? (Tyler)
+```{r}
+
+library(tidyverse)
+library(lubridate)
+library(stringr)
+
+q_time <- questions %>%
+  separate(CreationDate, into = c('Date', 'Time'), sep = " ") %>%
+  separate('Time', into = c('hour', 'min', 'sec'), sep = ':') %>%
+  mutate(temp = ifelse(hour>=16 & hour<=19 , "Good Time", "Bad Time")) %>%
+  mutate(s = ifelse(Score>=51, "High Score", "Low Score")) %>%
+  select(-X7)
+
+a_time <- answers %>%
+  separate(CreationDate, into = c('Date', 'Time'), sep = " ") %>%
+  separate('Time', into = c('hour', 'min', 'sec'), sep = ':') %>%
+  mutate(temp = ifelse(hour>=16 & hour<=19 , "Good Time", "Bad Time")) %>%
+  mutate(s = ifelse(Score>=51, "High Score", "Low Score")) %>%
+  select(-X7)
+
+ggplot(data = a_time) +
+  geom_bar(mapping  = aes(temp, fill = temp)) +
+  facet_wrap(.~s) +
+  theme_dark() +
+  labs(title = "Time of Day Posting Relation to Scores for Questions", caption = "A high score is above 50 \n A Good Time is between 4pm and 8pm", x = "Time of Day", fill = "Time of Day", y = "Count")
+
+ggplot(data = q_time) +
+  geom_bar(mapping  = aes(temp, fill = temp)) +
+  facet_wrap(.~s) + 
+  theme_dark() +
+  labs(title = "Time of Day Posting Relation to Scores for Questions", caption = "A high score is above 50 \n A Good Time is between 4pm and 8pm", x = "Time of Day", fill = "Time of Day", y = "Count") 
+
+```
+**Findings:** What I found is that the time of day doesn't effect whether a post gets a high or a low score. This doesn't change either for a question or an answer as most posts are low scoring posts, the time of day doesn't effect the score significantly.
+
 
 ### Does code being included in questions/answers effect the user score? (Trent)
 ```{r}
@@ -63,4 +130,10 @@ ggplot(data = a_code) +
   facet_wrap(~ code) +
   labs(title = "How a score of a answer if effected by whether or not code is included", x = "Score", y = "Count", fill="Score", caption = "high represents answers with scores over 50 votes, and low represents answers with less than 50 votes. TRUE reprenents answers that had code attatched to them, and FALSE answers do not")
 ```
-Clearly, while there are still several low scoring questions and answers that included code, it does make a difference in whether or not a question/answer has a high score if code is included. For example, roughly 6% of answers that had over 50 upvotes included code, whereas only 0.8% had over 50 upvotes that did not have code included. So while the effect is not hugely substantial, it can still make a difference in question/answer score to include code. 
+**Findings:** Clearly, while there are still several low scoring questions and answers that included code, it does make a difference in whether or not a question/answer has a high score if code is included. For example, roughly 6% of answers that had over 50 upvotes included code, whereas only 0.8% had over 50 upvotes that did not have code included. So while the effect is not hugely substantial, it can still make a difference in question/answer score to include code. 
+
+
+
+##Team Reports
+
+**Tyler:** For this lab I analyzed how the time of day effected the amount of high or low scores. I did this by first separating the DateTime variable into a date and a time, and then separating the time into hour, min, and second. After separting that I set time to be the start and end of popular times people are online and a score to be the dictator of a high or low score. I then used ifelse's to create new columns to for scores whether they were high or low and for times whether it was inside or outside the time frame.
