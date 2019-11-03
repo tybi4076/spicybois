@@ -154,6 +154,43 @@ ggplot(question_count, aes(x = count, y = act_score, color = rank)) +
   labs(title = "Question Word Count vs. Average Score", x = "Question Word Count", y = "Score", caption = "Removed Scores that did not make sence (i.e. negative scores)")
 ```
 
+###Does the addition of additional questions or followup increase a question/answer's score? (Joe)
+
+```{r}
+answers <- read_csv("Answers_trunc.csv")
+questions <- read_csv("Questions_trunc.csv")
+install.packages("stringr")
+```
+```{r}
+library(stringr)
+library(tidyverse)
+library(dplyr)
+```
+```{r}
+questionmarks <- questions %>% 
+  select('Body', 'Score') %>%
+  mutate(questions = str_detect(Body, "`?`")) %>%
+  mutate(score = case_when((Score>=41)~"high", ((Score<41)~"low")))
+
+ggplot(data = questionmarks) +
+  geom_bar(mapping = aes(score, fill = score)) +
+  labs(title = "Effect of followup questions on scores", 
+       x = "Score", y = "Count",
+       fill="Score")
+```
+```{r}
+clearup <- answers %>% 
+  select('Body', 'Score') %>%
+  mutate(answers = str_detect(Body, "`?`")) %>%
+  mutate(score = case_when((Score>=41)~"high", ((Score<41)~"low")))
+
+ggplot(data = clearup) +
+  geom_bar(mapping = aes(score, fill = score)) +
+  labs(title = "Effect of clearup questions on scores", 
+       x = "Score", y = "Count",
+       fill="Score")
+```
+
 **Finding:** It seems that if the test maker wants the test takers to do their best, they shoud have a question's that has a word length of 20-25 words long. For the low scorers, it seems that the question length has no meaning to them.
 
 ##Team Reports
@@ -164,6 +201,6 @@ ggplot(question_count, aes(x = count, y = act_score, color = rank)) +
 
 **Logan:** I analyzed the effect that word length has on the score for both the question and answer. To do this I first split the graph into the high and low scores to differacite between the top scores and those who did not understandt the question. I then counted the number of words in the questoin. I did this by counting the number of spaces. Then I ploted what I found.
 
-
+**Joe** I looked at the effect that additional questions had on the scores of both the questions and the answers. I did this by finding a count of question marks in both the question and answer's "Body" column, then comparing that to the score that the question/answer of which the "Body" belonged to. I found that the scores were generall lower when there were additional questions in the bodies. I think that this is because people like simple questions and answers.
 
 
