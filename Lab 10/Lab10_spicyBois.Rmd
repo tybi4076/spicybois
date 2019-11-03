@@ -186,7 +186,7 @@ clearup <- answers %>%
 
 ggplot(data = clearup) +
   geom_bar(mapping = aes(score, fill = score)) +
-  labs(title = "Effect of clearup questions on scores", 
+  labs(title = "Effect of clarifying questions on scores", 
        x = "Score", y = "Count",
        fill="Score")
 ```
