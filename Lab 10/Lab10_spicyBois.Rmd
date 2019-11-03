@@ -17,6 +17,8 @@ str(questions)
 ```
 
 # Lab 10
+
+##Timeliness of the Answer as a Feature (Team)
 ```{r}
 library(tidyverse)
 library(lubridate)
@@ -44,10 +46,11 @@ ggplot(data = merged, mapping = aes(y = Score.x, x = total_time)) +
   geom_point() +
   geom_smooth() +
   ylim(0, 100) +
-  labs(x = "Time Since Question Was Posted", y = "Score of Answer", title = "How the Score of the answer is effected by time ellapsed since question was posted") +
+  geom_vline(xintercept=604800, color = "red")+
+  labs(x = "Time Since Question Was Posted", y = "Score of Answer", title = "How the Score of the answer is effected by time ellapsed since question was posted", caption = "red line indicates 1 week mark between when a question is asked and when it gets answered") +
   theme_bw()
 ```
-
+**Findings:** As clearly shown in the graph, most questions are answered within the first week, and the sooner the answer, the more likely the answer will have a higher score. After this week mark, there is less correlation between answer score and time for the question to be answered, and the timeliness of the answer has less of an effect on the score itself. 
 
 ##Individual Sections
 
@@ -137,3 +140,5 @@ ggplot(data = a_code) +
 ##Team Reports
 
 **Tyler:** For this lab I analyzed how the time of day effected the amount of high or low scores. I did this by first separating the DateTime variable into a date and a time, and then separating the time into hour, min, and second. After separting that I set time to be the start and end of popular times people are online and a score to be the dictator of a high or low score. I then used ifelse's to create new columns to for scores whether they were high or low and for times whether it was inside or outside the time frame.
+
+**Tyler:** I analyzed the correlation between if a question/answer included code, and how that effected the score. I did this by using the string detect function to find answers that included code, and filtered them into boolian "high" and "low" variables, based on whether there score was over 50 or not. I used a geom_bar to present my findings.
