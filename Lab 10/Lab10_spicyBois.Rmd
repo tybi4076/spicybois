@@ -17,7 +17,7 @@ answers <- read_csv("Answers_trunc.csv")
 
 # Lab 10
 ##Timeliness of the Answer as a Feature (Team)
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 merged <- answers %>%
   left_join(questions, c('ParentId' = 'Id')) 
 
@@ -33,21 +33,13 @@ ggplot(data = merged, mapping = aes(y = Score.x, x = total_time)) +
   geom_vline(xintercept=604800, color = "red")+
   labs(x = "Time Since Question Was Posted", y = "Score of Answer", title = "How the Score of the answer is effected by time ellapsed since question was posted", caption = "red line indicates 1 week mark between when a question is asked and when it gets answered") +
   theme_bw()
-question_count <- data %>%
-  filter(Total_Score != 0, Total_Score >= Score) %>%
-  mutate(count = str_count(Question, "[:blank:]")) %>%
-  group_by(count) %>%
-  summarise(avg_score = mean(Score / Total_Score * 100)) %>%
-  arrange(desc(avg_score))
-
-ggplot(question_count, aes(x = count, y = avg_score)) + geom_point() + geom_smooth(se = FALSE)
 ```
 **Findings:** As clearly shown in the graph, most questions are answered within the first week, and the sooner the answer, the more likely the answer will have a higher score. After this week mark, there is less correlation between answer score and time for the question to be answered, and the timeliness of the answer has less of an effect on the score itself. 
 
 ##Individual Sections
 
 ### Does the time of day effect the score? (Tyler)
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 q_time <- questions %>%
   separate(CreationDate, into = c('Date', 'Time'), sep = " ") %>%
   separate('Time', into = c('hour', 'min', 'sec'), sep = ':') %>%
@@ -78,7 +70,7 @@ ggplot(data = q_time) +
 **Findings:** What I found is that the time of day doesn't effect whether a post gets a high or a low score. This doesn't change either for a question or an answer as most posts are low scoring posts, the time of day doesn't effect the score significantly.
 
 ### Does code being included in questions/answers effect the user score? (Trent)
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 q_code <- questions %>%
   mutate(code = str_detect(Body, "<code>")) %>%
   mutate(rank = case_when((Score>=50)~"high", ((Score<50)~"low"))) %>%
@@ -121,12 +113,12 @@ ggplot(data = a_code) +
 **Findings:** Clearly, while there are still several low scoring questions and answers that included code, it does make a difference in whether or not a question/answer has a high score if code is included. For example, roughly 6% of answers that had over 50 upvotes included code, whereas only 0.8% had over 50 upvotes that did not have code included. So while the effect is not hugely substantial, it can still make a difference in question/answer score to include code. 
 
 ### Does the word count of the Answer effects the score? (Logan)
-```{r, message=FALSE}
-answers <- read_csv("Answers_trunc.csv", skip = 1, col_names = c("Answer_Id", "Testee_Id", "Answered_Date", "Question_Id", "Score", "Answer", "X7"))
-questions <- read_csv("Questions_trunc.csv", skip = 1, col_names = c("Question_Id", "Creator_Id", "Creation_Date", "Total_Score", "Question", "Correct_Answer", "X7"))
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+answer <- read_csv("Answers_trunc.csv", skip = 1, col_names = c("Answer_Id", "Testee_Id", "Answered_Date", "Question_Id", "Score", "Answer", "X7"))
+question <- read_csv("Questions_trunc.csv", skip = 1, col_names = c("Question_Id", "Creator_Id", "Creation_Date", "Total_Score", "Question", "Correct_Answer", "X7"))
 
 data <- 
-  answerS %>%
+  answer %>%
   left_join(question, "Question_Id") %>% 
   mutate(Total_Time = Answered_Date - Creation_Date) %>%
   filter(Total_Time > 0) %>%
@@ -144,7 +136,7 @@ ggplot(answer_count, aes(x = count, y = act_score, color = rank)) +
 **Findings:** The graph above shows that to get the a high score, it is best to keep your answer betwwen 100-500 words long. Anything longer will severaly impact your score. If you are aiming to get a low score, say you don't know the answer, it is best to keep is aroun 250 words or above 1000 words. The best answer would be around 3000 words. 
 
 ### Does the word count of the Question effect the score? (Logan)
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 question_count <- data %>%
   filter(Total_Score != 0, Total_Score >= Score, Score >= 0) %>%
   mutate(act_score = (100*Score/Total_Score), rank = case_when((act_score >= 50)~"high", ((act_score < 50)~"low")), count = str_count(Question, "[:blank:]"))
@@ -156,17 +148,8 @@ ggplot(question_count, aes(x = count, y = act_score, color = rank)) +
 
 ###Does the addition of additional questions or followup increase a question/answer's score? (Joe)
 
-```{r}
-answers <- read_csv("Answers_trunc.csv")
-questions <- read_csv("Questions_trunc.csv")
-install.packages("stringr")
-```
-```{r}
-library(stringr)
-library(tidyverse)
-library(dplyr)
-```
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
+
 questionmarks <- questions %>% 
   select('Body', 'Score') %>%
   mutate(questions = str_detect(Body, "`?`")) %>%
@@ -177,8 +160,7 @@ ggplot(data = questionmarks) +
   labs(title = "Effect of followup questions on scores", 
        x = "Score", y = "Count",
        fill="Score")
-```
-```{r}
+
 clearup <- answers %>% 
   select('Body', 'Score') %>%
   mutate(answers = str_detect(Body, "`?`")) %>%
