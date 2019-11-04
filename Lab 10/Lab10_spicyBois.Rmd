@@ -126,7 +126,7 @@ answers <- read_csv("Answers_trunc.csv", skip = 1, col_names = c("Answer_Id", "T
 questions <- read_csv("Questions_trunc.csv", skip = 1, col_names = c("Question_Id", "Creator_Id", "Creation_Date", "Total_Score", "Question", "Correct_Answer", "X7"))
 
 data <- 
-  answer %>%
+  answerS %>%
   left_join(question, "Question_Id") %>% 
   mutate(Total_Time = Answered_Date - Creation_Date) %>%
   filter(Total_Time > 0) %>%
