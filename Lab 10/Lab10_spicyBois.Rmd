@@ -37,6 +37,7 @@ ggplot(data = merged, mapping = aes(y = Score.x, x = total_time)) +
 
 **Findings:** As clearly shown in the graph, most questions are answered within the first week, and the sooner the answer, the more likely the answer will have a higher score. After this week mark, there is less correlation between answer score and time for the question to be answered, and the timeliness of the answer has less of an effect on the score itself. 
 
+## Individual Sections
 **Conclusion:** Due to the size of the data set and the sheer number of outliers, we would not consider this data to be normally distributed. Since a z-score is a measurement of a value's relationship to the mean (average) of a group of values, measured in terms of standard deviations from the mean, we would not be able to calculate z-scores and percentiles of an individual’s answer score due to the huge range of the data and the amount of outliers. 
 
 **What makes a good question or answer:** The ideal question is roughly 20-25 words long, and the ideal answer is roughly 100-500 words long, as keeping the questions/answers short are easier to read and comprehend, resulting in higher scores. Including code will also help raise user scores, so the best way to make a good question/answer is to keep it brief and concise, and include code if you can.
@@ -155,7 +156,7 @@ ggplot(question_count, aes(x = count, y = act_score, color = rank)) +
   labs(title = "Question Word Count vs. Average Score", x = "Question Word Count", y = "Score", caption = "Removed Scores that did not make sence (i.e. negative scores)")
 ```
 
-###Does the addition of additional questions or followup increase a question/answer's score? (Joe)
+### Does the addition of additional questions or followup increase a question/answer's score? (Joe)
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE}
 

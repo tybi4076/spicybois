@@ -1,0 +1,12 @@
+---
+title: "Lab11"
+author: "Spicy Bois"
+date: "11/4/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab 11
