@@ -10,3 +10,64 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Lab 11
+
+
+```{r}
+library(tidyverse)
+library(babynames)
+library(stringr)
+
+data <- babynames
+
+findMyName <- data %>% 
+  filter(str_detect(name, "^Jac*$"))
+
+findName <- data %>%
+  filter(str_detect(name, "^A[r]+[iyea][ea][l]+[ea]*$") | (str_detect(name, "^R[ae][aey]?[ch]+[aey]+[l]+e*$"))) %>% 
+  filter(year %in% list(1973, 1988, 1990)) %>% 
+  filter(sex == 'F')
+
+findRachel <- data %>%
+  filter(str_detect(name, "^R[ae][aey]?[ch]+[aey]+[l]+e*$")) %>% 
+  filter(year %in% list(1973, 1988, 1990)) %>% 
+  filter(sex == 'F')
+
+names <- findName %>% 
+  group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
+  summarize(variants = n())
+
+findAriel
+names
+
+ggplot(data = names, mapping = aes(x = initial, y = prop, fill = initial))+
+  geom_col()+
+  facet_wrap(~year)+
+  labs(title = "Baby Names and Their Proportion of the Population By Year", x = "Names (All Versions of Ariel and Rachel)", y = "Proportion of Babies w/ that Name")+
+  theme_bw()
+```
+
+```{r}
+library(tidyverse)
+library(babynames)
+library(stringr)
+
+data <- babynames
+
+findMyName <- data %>% 
+  filter(str_detect(name, "^Jac")) %>% 
+  filter(sex == 'M')
+
+mynames <- findMyName %>% 
+  group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
+  summarize(variants = n())
+
+ggplot(data = mynames, mapping = aes(x = year, y = prop))+
+  facet_wrap(~initial)+
+  geom_col()+
+  labs(title = "Baby Names and Their Proportion of the Population from 1880-2018", x = "Names Starting with 'Jac'", y = "Proportion of Babies w/ that Name")+
+  theme_bw()
+
+findMyName
+```
+
+
