@@ -46,6 +46,7 @@ ggplot(data = names, mapping = aes(x = initial, y = prop, fill = initial))+
   theme_bw()
 ```
 
+**Jack Braglia's Graphs**
 ```{r}
 library(tidyverse)
 library(babynames)
@@ -57,7 +58,15 @@ findMyName <- data %>%
   filter(str_detect(name, "^Jac")) %>% 
   filter(sex == 'M')
 
+findJack <- data %>% 
+  filter(str_detect(name, "^Jack$")) %>% 
+  filter(sex == 'M')
+
 mynames <- findMyName %>% 
+  group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
+  summarize(variants = n())
+
+myJack <- findJack %>% 
   group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
   summarize(variants = n())
 
@@ -67,7 +76,31 @@ ggplot(data = mynames, mapping = aes(x = year, y = prop))+
   labs(title = "Baby Names and Their Proportion of the Population from 1880-2018", x = "Names Starting with 'Jac'", y = "Proportion of Babies w/ that Name")+
   theme_bw()
 
-findMyName
+ggplot(data = myJack, mapping = aes(x = year, y = prop))+
+  facet_wrap(~initial)+
+  geom_col()+
+  labs(title = "Popularity of 'Jack' from 1880-2018", x = "Baby Named 'Jack'", y = "Proportion of Babies w/ Name Jack")+
+  theme_bw()
+
+goodnames <- data %>% 
+  filter(prop <= .001) %>% 
+  filter(prop >= .0001) %>% 
+  filter(year >= 2010) 
+
+findKeira <- data %>% 
+  filter(str_detect(name, "^Summer$")) %>% 
+  filter(year >= 2010) %>% 
+  filter(sex == 'F')
+
+findKeira
+goodnames
+
+  
+
 ```
+
+How popular is your name now compared to when you were born? 
+
+How popular is your name now relative to the other names that start with the same three letters?
 
 
