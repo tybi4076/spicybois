@@ -7,9 +7,21 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(babynames)
+library(stringr)
 ```
 
 # Lab 11
+
+```{r}
+data <- babynames
+babies2018 <- read.csv(file = "yob2018.txt", header= FALSE)
+colnames(babies2018) <- c("name", "sex","n")
+babies2018$year <- rep(2018,nrow(babies2018))
+babies2018$prop = babies2018$n / sum(babies2018$n)
+babies2018
+```
 
 
 ```{r}
