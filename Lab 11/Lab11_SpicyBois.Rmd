@@ -25,7 +25,7 @@ babies2018
 totalbabies <- full_join(babynames, babies2018)
 totalbabies
 ```
-
+**Ariel and Rachel Team Plot**
 
 ```{r}
 library(tidyverse)
@@ -121,23 +121,33 @@ findDelilah <- data %>%
   filter(year >= 2010) %>% 
   filter(sex == 'F')
 
-findJosue <- data %>% 
+findZion <- data %>% 
   filter(str_detect(name, "^Zion$")) %>% 
   filter(year >= 2010) %>% 
   filter(sex == 'M')
 
+findZion <- data %>% 
+  filter(str_detect(name, "^Jack$")) %>% 
+  filter(year == 2018) %>% 
+  filter(sex == 'M')
+
 findDelilah
-findJosue
+findZion
 goodnames
 
-  
+
 
 ```
+**Jack Questions**
 
 How popular is your name now compared to when you were born? 
 
-My name is slightly more popular than it was when I was born according to the proportion the name was given to the population. The pro
+My name is less popular than it was when I was born according to the proportion the name was given to the population. The proportion of my name to the population in 1998 was .00314434. In 2018 it was .002533153. This is a difference of .000611187 between the year I was born and 2018.
 
 How popular is your name now relative to the other names that start with the same three letters?
 
+
+**Jack Baby Recommendations**
+Female - Delilah
+Male - Zion
 
