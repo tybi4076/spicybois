@@ -21,6 +21,9 @@ colnames(babies2018) <- c("name", "sex","n")
 babies2018$year <- rep(2018,nrow(babies2018))
 babies2018$prop = babies2018$n / sum(babies2018$n)
 babies2018
+
+totalbabies <- full_join(babynames, babies2018)
+totalbabies
 ```
 
 
@@ -29,10 +32,8 @@ library(tidyverse)
 library(babynames)
 library(stringr)
 
-data <- babynames
+data <- totalbabies
 
-findMyName <- data %>% 
-  filter(str_detect(name, "^Jac*$"))
 
 findName <- data %>%
   filter(str_detect(name, "^A[r]+[iyea][ea][l]+[ea]*$") | (str_detect(name, "^R[ae][aey]?[ch]+[aey]+[l]+e*$"))) %>% 
@@ -48,7 +49,7 @@ names <- findName %>%
   group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
   summarize(variants = n())
 
-findAriel
+findName
 names
 
 ggplot(data = names, mapping = aes(x = initial, y = prop, fill = initial))+
@@ -64,7 +65,7 @@ library(tidyverse)
 library(babynames)
 library(stringr)
 
-data <- babynames
+data <- totalbabies
 
 findMyName <- data %>% 
   filter(str_detect(name, "^Jac")) %>% 
@@ -74,11 +75,20 @@ findJack <- data %>%
   filter(str_detect(name, "^Jack$")) %>% 
   filter(sex == 'M')
 
+findJackAlive <- data %>% 
+  filter(str_detect(name, "^Jack$")) %>% 
+  filter(sex == 'M') %>% 
+  filter(year >= 1998)
+
 mynames <- findMyName %>% 
   group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
   summarize(variants = n())
 
 myJack <- findJack %>% 
+  group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
+  summarize(variants = n())
+
+myJackAlive <- findJackAlive %>% 
   group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
   summarize(variants = n())
 
@@ -94,17 +104,30 @@ ggplot(data = myJack, mapping = aes(x = year, y = prop))+
   labs(title = "Popularity of 'Jack' from 1880-2018", x = "Baby Named 'Jack'", y = "Proportion of Babies w/ Name Jack")+
   theme_bw()
 
+ggplot(data = myJackAlive, mapping = aes(x = year, y = prop))+
+  facet_wrap(~initial)+
+  geom_col()+
+  labs(title = "Popularity of 'Jack' from 1998-2018", x = "Baby Named 'Jack'", y = "Proportion of Babies w/ Name Jack")+
+  theme_bw()
+
 goodnames <- data %>% 
   filter(prop <= .001) %>% 
-  filter(prop >= .0001) %>% 
-  filter(year >= 2010) 
+  filter(prop >= .0005) %>% 
+  filter(year >= 2010) %>% 
+  filter(sex == 'M')
 
-findKeira <- data %>% 
-  filter(str_detect(name, "^Summer$")) %>% 
+findDelilah <- data %>% 
+  filter(str_detect(name, "^Delilah$")) %>% 
   filter(year >= 2010) %>% 
   filter(sex == 'F')
 
-findKeira
+findJosue <- data %>% 
+  filter(str_detect(name, "^Zion$")) %>% 
+  filter(year >= 2010) %>% 
+  filter(sex == 'M')
+
+findDelilah
+findJosue
 goodnames
 
   
@@ -112,6 +135,8 @@ goodnames
 ```
 
 How popular is your name now compared to when you were born? 
+
+My name is slightly more popular than it was when I was born according to the proportion the name was given to the population. The pro
 
 How popular is your name now relative to the other names that start with the same three letters?
 
