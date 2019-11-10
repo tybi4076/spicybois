@@ -13,7 +13,7 @@ library(stringr)
 ```
 
 # Lab 11
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 data <- babynames
 babies2018 <- read.csv(file = "yob2018.txt", header= FALSE)
 colnames(babies2018) <- c("name", "sex","n")
@@ -24,7 +24,7 @@ totalbabies <- full_join(babynames, babies2018)
 ```
 
 ## Ariel and Rachel Team Plot
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 data <- totalbabies
 
 findName <- data %>%
@@ -49,7 +49,7 @@ ggplot(data = names, mapping = aes(x = initial, y = prop, fill = initial))+
 ```
 
 ## The Little Mermaid Effect
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 data <- totalbabies
 
 Ariel <- data %>% 
@@ -86,7 +86,7 @@ To show the effects that the Little Mermaid had on female names from 1988 to 199
 
 
 ## Jack Braglia Individual Graphs
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 data <- totalbabies
 
 findMyName <- data %>% 
@@ -166,7 +166,7 @@ Male - Zion
 
 ## Tyler Bischoff Individual Graphs
 ### Populatity of Names Starting With "TYL" Over Time
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 findme <- babynames %>%
   filter(str_detect(name, "^Tyl")) %>% 
   filter(sex == 'M') %>% 
@@ -180,7 +180,7 @@ ggplot(data = findme) +
 ```
 
 ### Popularity of the Name Tyler Since 2000
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 mecurrent <- babynames %>%
   filter(str_detect(name, "^Tyler$")) %>% 
   filter(year >=2000) %>% 
@@ -195,7 +195,7 @@ ggplot(data = mecurrent) +
 ```
 
 ### Popularity of the Name Tyler 18 Years Before 2000
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 meB4Current <- babynames %>% 
   filter(str_detect(name, "^Tyler$")) %>% 
   filter(year <=2000) %>%
@@ -214,7 +214,7 @@ ggplot(data = meB4Current) +
 
 
 ### Tyler's Trendy Name Picks
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 goodnames <- babynames %>% 
   filter(prop < 0.001 ) %>%
   filter(prop >= 0.0001)
@@ -238,7 +238,7 @@ ggplot(data = namePick) +
 ## Trent Collins Individual Graphs 
 
 ### Plot of the poularity of the name "Trent" over time
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 data <- totalbabies
 
 first3 <- data %>% 
@@ -276,7 +276,7 @@ ggplot()+
 ```
 
 ### Polularity of the name "Trent" 20 years before and after 1998
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 ggplot()+
   geom_col(data = beforeTrent, mapping = aes(x = year, y = prop), fill = "dodgerblue4") +
   theme(axis.text.x = element_text(angle = 90))+
@@ -305,7 +305,7 @@ ggplot()+
 I used the regular expression "^Trent$" to find my name, because my name is not short for "Trenton", it is just those five letters on my birth certificate, and there is no other way to spell "Trent". My name did not start to pick up in popularity until the late 20th century, and hit a peak popularity in the late 90's. My name had a similar trend as names starting with "Tre", but certainly to a smaller scale. 
 
 ### Trent's Recommendations for Trending Baby Names
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 data <- totalbabies
 
 trendyM <- data %>% 
@@ -331,7 +331,7 @@ As clearly show in the graph, the names "Watson" for a male and "Holland" for a 
 
 ## Logan Individual Graphs
 ### Populatity of Names Starting With "Log" Over Time
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 #Logan, Logen, Loghen, Logann, Loganne
 babynames_log <- totalbabies %>% 
   filter(str_detect(name, "^Log"))
@@ -343,7 +343,7 @@ ggplot(babynames_log_var,  aes(x = year, y = prop)) +
 ```
 
 ### Popularity of the Name Logan Since 2000
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 babynames_logan <- totalbabies %>% 
   filter(str_detect(name, "^Log+h*[a|e|i|o|u|y]h*n+e*$"))
 babynames_logan_var <- babynames_logan %>% group_by(year, initial = str_sub(name, 1, 1), prop) %>% summarise(count = sum(n))
@@ -354,7 +354,7 @@ ggplot(data = babynames_logan_var %>% filter(year >= 2000), aes(x = year, y = pr
 ```
 
 ### Popularity of the Name Logan 18 Years Before 2000
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 ggplot(data = babynames_logan_var %>% filter(year <= 2000, year >= 1982), aes(x = year, y = prop)) +
   geom_col() +
   labs(title = "The popularity of Logan 1982-2000", x = "Year", y = "Proportion of All Names")
@@ -364,7 +364,7 @@ ggplot(data = babynames_logan_var %>% filter(year <= 2000, year >= 1982), aes(x 
 
 
 ### Logan's Trendy Name Picks
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 goodnames <- totalbabies %>% 
   filter(prop <= .001) %>% 
   filter(prop >= .0005) %>% 
@@ -382,6 +382,7 @@ ggplot(data = namePick) +
   geom_line(mapping = aes(x = year, y = prop, color = name)) +
   labs(title = "Name Picks Over Time", x = "Year", y = "Proportion", size = 10)
 ```
+
 **Findings:** I picked the two names Lucia for a girl and Archer for a boy. These names, as shown in the graph. Have been on the increase, but aren't super popular yet so these names are great picks. They should contiune to rise in popularity as seen in the graphs.
 
 ## Conclusion
