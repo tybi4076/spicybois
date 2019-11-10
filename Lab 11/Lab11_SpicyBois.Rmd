@@ -178,6 +178,52 @@ How popular is your name now relative to the other names that start with the sam
 **Jack Baby Recommendations**
 Female - Delilah
 Male - Zion
+## Tyler Bischoff Individual Graphs
+
+###Populatity of Names Starting With "TYL" Over Time
+```{r}
+findme <- names %>%
+  filter(str_detect(name, "^Tyl")) %>% 
+  filter(sex == 'M') %>% 
+  group_by(year, initial = str_sub(name, 1, 3), prop) %>% 
+  summarise(yes = sum(n))
+
+ggplot(data = findme) +
+  geom_col(mapping = aes(x = year, y = prop)) +
+  theme_bw() +
+  labs(title = "The popularity of Tyl Names since 1880", x = "Year", y = "Proportion of All Names")
+```
+
+###Popularity of the Name Tyler Since 2000
+```{r}
+mecurrent <- names %>%
+  filter(str_detect(name, "^Tyler$")) %>% 
+  filter(year >=2000) %>% 
+  filter(sex == 'M') %>% 
+  group_by(year, initial = str_sub(name, 1, 5), prop) %>% 
+  summarise(yes = sum(n))
+
+ggplot(data = mecurrent) +
+  geom_col(mapping = aes(x = year, y = prop)) +
+  theme_bw() +
+  labs(title = "The popularity of Tyler since 2000", x = "Year", y = "Proportion of All Names")
+```
+
+###Popularity of the Name Tyler 18 Years Before 2000
+```{r}
+meB4Current <- names %>% 
+  filter(str_detect(name, "^Tyler$")) %>% 
+  filter(year <=2000) %>%
+  filter(year >= 1982) %>% 
+  filter(sex == 'M') %>% 
+  group_by(year, initial = str_sub(name, 1, 5), prop) %>% 
+  summarise(yes = sum(n))
+
+ggplot(data = meB4Current) +
+  geom_col(mapping = aes(x = year, y = prop)) +
+  theme_bw() +
+  labs(title = "The popularity of Tyler 1982-2000", x = "Year", y = "Proportion of All Names")
+```
 
 
 ## Trent Collins Individual Graphs 
