@@ -23,10 +23,9 @@ babies2018$prop = babies2018$n / sum(babies2018$n)
 babies2018
 
 totalbabies <- full_join(babynames, babies2018)
-totalbabies
 ```
-**Ariel and Rachel Team Plot**
 
+## Ariel and Rachel Team Plot
 ```{r}
 library(tidyverse)
 library(babynames)
@@ -49,9 +48,6 @@ names <- findName %>%
   group_by(year, initial = str_sub(name, 1, 1), prop) %>% 
   summarize(variants = n())
 
-findName
-names
-
 ggplot(data = names, mapping = aes(x = initial, y = prop, fill = initial))+
   geom_col()+
   facet_wrap(~year)+
@@ -59,7 +55,44 @@ ggplot(data = names, mapping = aes(x = initial, y = prop, fill = initial))+
   theme_bw()
 ```
 
-**Jack Braglia's Graphs**
+## The Little Mermaid Effect
+```{r}
+data <- totalbabies
+
+Ariel <- data %>% 
+  filter(str_detect(name, "^A[r]+[iyea][ea][l]+$")) %>%
+  filter(sex == 'F') %>%
+  filter(year >= 1988 & year <= 1990) %>%
+  group_by(year, initial = str_sub(name, 1, 1)) %>% 
+  summarise(prop = sum(prop))
+  
+Jessica <- data %>% 
+  filter(str_detect(name, "^Jessica$")) %>%
+  filter(sex == 'F') %>%
+  filter(year >= 1988 & year <= 1990) 
+
+Ashley <- data %>% 
+  filter(str_detect(name, "^Ashley$")) %>%
+  filter(sex == 'F') %>%
+  filter(year >= 1988 & year <= 1990)
+
+Amanda <- data %>% 
+  filter(str_detect(name, "^Amanda$")) %>%
+  filter(sex == 'F') %>%
+  filter(year >= 1988 & year <= 1990)
+
+ggplot()+
+  geom_smooth(data = Ariel, mapping = aes(x = year, y = prop, color="Ariel")) +
+  geom_smooth(data = Jessica, mapping = aes(x = year, y = prop, color="Jessica"))+
+  geom_smooth(data = Ashley, mapping = aes(x = year, y = prop, color="Ashley")) +
+  geom_smooth(data = Amanda, mapping = aes(x = year, y = prop, color="Amanda")) +
+  labs(title = "Popularity of the names 'Ariel', 'Jessica', 'Ashley', and 'Amanda' from 1988 to 1990", x = "year", y = "Proportion of Babies")
+```
+
+To show the effects that the Little Mermaid had on female names from 1988 to 1990, the graph above compares the proportions of all the versions of the name "Ariel" to the top three female baby names of 1988, "Jessica", "Ashley", and "Amanda". Doing so, it become clear that while Ariel may not have been as directly popular as any of those names during this time period, there was a significant increase to females named "Ariel" over the time span, where as the proportion for all three of the most popular female names from 1988 actually dropped over the two year period. 
+
+
+## Jack Braglia Individual Graphs
 ```{r}
 library(tidyverse)
 library(babynames)
@@ -94,7 +127,7 @@ myJackAlive <- findJackAlive %>%
 
 ggplot(data = mynames, mapping = aes(x = year, y = prop))+
   facet_wrap(~initial)+
-  geom_col()+
+  geom_point()+
   labs(title = "Baby Names and Their Proportion of the Population from 1880-2018", x = "Names Starting with 'Jac'", y = "Proportion of Babies w/ that Name")+
   theme_bw()
 
@@ -126,11 +159,6 @@ findZion <- data %>%
   filter(year >= 2010) %>% 
   filter(sex == 'M')
 
-findZion <- data %>% 
-  filter(str_detect(name, "^Jack$")) %>% 
-  filter(year == 2018) %>% 
-  filter(sex == 'M')
-
 findDelilah
 findZion
 goodnames
@@ -151,3 +179,105 @@ How popular is your name now relative to the other names that start with the sam
 Female - Delilah
 Male - Zion
 
+
+## Trent Collins Individual Graphs 
+
+### Plot of the poularity of the name "Trent" over time
+```{r}
+library(tidyverse)
+library(babynames)
+library(stringr)
+
+data <- totalbabies
+
+first3 <- data %>% 
+  filter(str_detect(name, "^Tre")) %>% 
+  filter(sex == 'M') %>% 
+  group_by(year, name = substr(name, 1, 3)) %>% 
+  summarise(prop = sum(prop))
+
+justTrent <- data %>% 
+  filter(str_detect(name, "^Trent$")) %>% 
+  filter(sex == 'M') %>%
+  group_by(year, name) %>% 
+  summarise(prop = sum(prop))
+
+afterTrent <- data %>% 
+  filter(str_detect(name, "^Trent$")) %>% 
+  filter(sex == 'M') %>%
+  filter(year >= 1998 & year <= 2018) %>%
+  group_by(year, name) %>% 
+  summarise(prop = sum(prop))
+
+beforeTrent <- data %>% 
+  filter(str_detect(name, "^Trent$")) %>% 
+  filter(sex == 'M') %>%
+  filter(year >= 1978 & year <= 1998) %>%
+  group_by(year, name) %>% 
+  summarise(prop = sum(prop))
+
+ggplot()+
+  geom_smooth(data = first3, mapping = aes(x = year, y = prop, color = "darkslategray1"),se = FALSE)+
+  geom_smooth(data = justTrent, mapping = aes(x = year, y = prop, color = "orchid1"),se = FALSE)+
+  labs(title = "Proportion of the name 'Trent' and names starting with 'Tre' from 1880-2018", x = "year", y = "Proportion of Babies")+
+  scale_color_discrete(name = "Names", labels = c("starting with 'Tre'", "'Trent'")) +
+  theme_bw()
+```
+
+### Polularity of the name "Trent" 20 years before and after 1998
+```{r}
+ggplot()+
+  geom_col(data = beforeTrent, mapping = aes(x = year, y = prop), fill = "dodgerblue4") +
+  theme(axis.text.x = element_text(angle = 90))+
+  labs(title = "Proportion of the name 'Trent' from 1978-1998", x = "year", y = "Proportion of Babies")+
+  scale_x_continuous(breaks = c(1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998)) + 
+  theme(axis.line = element_line(colour = "black"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank()) 
+
+ggplot()+
+  geom_col(data = afterTrent, mapping = aes(x = year, y = prop), fill = "firebrick") +
+  theme(axis.text.x = element_text(angle = 90))+
+  labs(title = "Proportion of the name 'Trent' from 1998-2018", x = "year", y = "Proportion of Babies")+
+  scale_x_continuous(breaks = c(1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018)) + 
+  theme(axis.line = element_line(colour = "black"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank()) 
+
+
+```
+
+I used the regular expression "^Trent$" to find my name, because my name is not short for "Trenton", it is just those five letters on my birth certificate, and there is no other way to spell "Trent". My name did not start to pick up in popularity until the late 20th century, and hit a peak popularity in the late 90's. My name had a similar trend as names starting with "Tre", but certainly to a smaller scale. 
+
+### Trent's Recommendations for Trending Baby Names
+```{r}
+data <- totalbabies
+
+trendyM <- data %>% 
+  filter(str_detect(name, "^Watson$")) %>%
+  filter(sex == 'M')
+
+trendyF <- data %>% 
+  filter(str_detect(name, "^Holland$")) %>%
+  filter(sex == 'F')
+
+ggplot()+
+  geom_smooth(data = trendyM, mapping = aes(x = year, y = n, color = "darkslategray1"),se = FALSE)+
+  geom_smooth(data = trendyF, mapping = aes(x = year, y = n, color = "orchid1"),se = FALSE)+
+  labs(title = "Change in occurances of 'Trending baby names' by year", x = "year", y = "Number of Occurances")+
+  scale_color_discrete(name = "Names", labels = c("'Watson'", "'Holland'")) +
+  theme_bw()
+```
+
+As clearly show in the graph, the names "Watson" for a male and "Holland" for a female are both examples of names that are not widely popular, but are starting to gain popularity over the past couple of years, and have occurrences on a positive upslope. Therefore, my name recommendations are:
+-Watson for male
+-Holland for female
+
+## Conclusion
+
+## Team Report
+**Trent:** In this lab, I did the graph and write up to the Litte Mermaid Effect section by comparing the change in proportions of the name Ariel to the three most popular female names from 1988. I used a geom_smooth plot to showcase this effect. For every name detected in this lab, I used the string dectect feature, and used geom_smooth plots and histograms to compare how proportions of names change over time.
