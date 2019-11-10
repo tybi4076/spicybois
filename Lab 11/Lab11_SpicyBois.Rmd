@@ -157,8 +157,6 @@ goodnames
 How popular is your name now compared to when you were born? 
 My name is less popular than it was when I was born according to the proportion the name was given to the population. The proportion of my name to the population in 1998 was .00314434. In 2018 it was .002533153. This is a difference of .000611187 between the year I was born and 2018.
 
-How popular is your name now relative to the other names that start with the same three letters?
-
 
 **Jack Baby Recommendations**
 Female - Delilah
@@ -393,4 +391,6 @@ ggplot(data = namePick) +
 **Tyler:** In this Lab I made my individual plots by filtering out names with strings. I then used the different filtered out portions to make my different plots. For the plots about my names I used bar grabs as it shows the popularity of the name for each year. For my recommendations for baby names I used a line plot to show how both the male and female name were on the rise. 
 
 **Logan:** In this Lab, I did the graph for the poularity for "Logan". I then used different filtered out porsions to make different plots for this popluarity. For my recommendations for baby names I used a line plot to show the names I picked were on the rise of popularity. 
+
+**Jack:** In this lab, I created the Little Mermaid Effect graph as well as setting up answers for the main part of the lab's questions. I made my individual plots by utilizing the string detect function. To find my recommendations for baby names I also utilized string detect and filtered by proportion to find a name that was not popular. From there I checked the proportions for that name to see if the name was on the rise.
 
