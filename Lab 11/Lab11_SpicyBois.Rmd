@@ -13,26 +13,19 @@ library(stringr)
 ```
 
 # Lab 11
-
 ```{r}
 data <- babynames
 babies2018 <- read.csv(file = "yob2018.txt", header= FALSE)
 colnames(babies2018) <- c("name", "sex","n")
-babies2018$year <- rep(2018,nrow(babies2018))
+babies2018$year <- rep(2018, nrow(babies2018))
 babies2018$prop = babies2018$n / sum(babies2018$n)
-babies2018
 
 totalbabies <- full_join(babynames, babies2018)
 ```
 
 ## Ariel and Rachel Team Plot
 ```{r}
-library(tidyverse)
-library(babynames)
-library(stringr)
-
 data <- totalbabies
-
 
 findName <- data %>%
   filter(str_detect(name, "^A[r]+[iyea][ea][l]+[ea]*$") | (str_detect(name, "^R[ae][aey]?[ch]+[aey]+[l]+e*$"))) %>% 
@@ -94,10 +87,6 @@ To show the effects that the Little Mermaid had on female names from 1988 to 199
 
 ## Jack Braglia Individual Graphs
 ```{r}
-library(tidyverse)
-library(babynames)
-library(stringr)
-
 data <- totalbabies
 
 findMyName <- data %>% 
@@ -162,14 +151,10 @@ findZion <- data %>%
 findDelilah
 findZion
 goodnames
-
-
-
 ```
+
 **Jack Questions**
-
 How popular is your name now compared to when you were born? 
-
 My name is less popular than it was when I was born according to the proportion the name was given to the population. The proportion of my name to the population in 1998 was .00314434. In 2018 it was .002533153. This is a difference of .000611187 between the year I was born and 2018.
 
 How popular is your name now relative to the other names that start with the same three letters?
@@ -178,11 +163,11 @@ How popular is your name now relative to the other names that start with the sam
 **Jack Baby Recommendations**
 Female - Delilah
 Male - Zion
-## Tyler Bischoff Individual Graphs
 
-###Populatity of Names Starting With "TYL" Over Time
+## Tyler Bischoff Individual Graphs
+### Populatity of Names Starting With "TYL" Over Time
 ```{r}
-findme <- names %>%
+findme <- babynames %>%
   filter(str_detect(name, "^Tyl")) %>% 
   filter(sex == 'M') %>% 
   group_by(year, initial = str_sub(name, 1, 3), prop) %>% 
@@ -194,9 +179,9 @@ ggplot(data = findme) +
   labs(title = "The popularity of Tyl Names since 1880", x = "Year", y = "Proportion of All Names")
 ```
 
-###Popularity of the Name Tyler Since 2000
+### Popularity of the Name Tyler Since 2000
 ```{r}
-mecurrent <- names %>%
+mecurrent <- babynames %>%
   filter(str_detect(name, "^Tyler$")) %>% 
   filter(year >=2000) %>% 
   filter(sex == 'M') %>% 
@@ -209,9 +194,9 @@ ggplot(data = mecurrent) +
   labs(title = "The popularity of Tyler since 2000", x = "Year", y = "Proportion of All Names")
 ```
 
-###Popularity of the Name Tyler 18 Years Before 2000
+### Popularity of the Name Tyler 18 Years Before 2000
 ```{r}
-meB4Current <- names %>% 
+meB4Current <- babynames %>% 
   filter(str_detect(name, "^Tyler$")) %>% 
   filter(year <=2000) %>%
   filter(year >= 1982) %>% 
@@ -224,12 +209,13 @@ ggplot(data = meB4Current) +
   theme_bw() +
   labs(title = "The popularity of Tyler 1982-2000", x = "Year", y = "Proportion of All Names")
 ```
+
 **Findings:** To find my name for the last 2 graphs I used the regular expresion of ^Tyler$ so that I would find my exact name. I did need the dollar sign at the end because there is a name Tylerjames which is not my name. There is also no other way to spell Tyler so finding my name was pretty simple. I found that my names since I was born has been on the decrease of popularity since. I also found that my name peaked in 1994 and has been going down in popularity since then. 
 
 
-###Tyler's Trendy Name Picks
+### Tyler's Trendy Name Picks
 ```{r}
-goodnames <- names %>% 
+goodnames <- babynames %>% 
   filter(prop < 0.001 ) %>%
   filter(prop >= 0.0001)
 
@@ -245,6 +231,7 @@ ggplot(data = namePick) +
   geom_line(mapping = aes(x = year, y = prop, color = name)) +
   labs(title = "Name Picks Over Time", x = "Year", y = "Proportion", size = 10)
 ```
+
 **Findings:** I picked the two names Ember for a girl and River for a boy. These names, as shown in the graph. Have been on the increase, but aren't super popular yet so these names are great picks. They will contiue to rise in popularity as shown by their current slope. That is why I picked the names Ember and River.
 
 
@@ -252,10 +239,6 @@ ggplot(data = namePick) +
 
 ### Plot of the poularity of the name "Trent" over time
 ```{r}
-library(tidyverse)
-library(babynames)
-library(stringr)
-
 data <- totalbabies
 
 first3 <- data %>% 
@@ -345,9 +328,68 @@ As clearly show in the graph, the names "Watson" for a male and "Holland" for a 
 -Watson for male
 -Holland for female
 
+
+## Logan Individual Graphs
+### Populatity of Names Starting With "Log" Over Time
+```{r}
+#Logan, Logen, Loghen, Logann, Loganne
+babynames_log <- totalbabies %>% 
+  filter(str_detect(name, "^Log"))
+babynames_log_var <- babynames_log %>% group_by(year, initial = str_sub(name, 1, 3), prop) %>% summarise(count = sum(n))
+
+ggplot(babynames_log_var,  aes(x = year, y = prop)) +
+  geom_col() +
+  labs(title = "The popularity of Log Names since 1880", x = "Year", y = "Proportion of All Names")
+```
+
+### Popularity of the Name Logan Since 2000
+```{r}
+babynames_logan <- totalbabies %>% 
+  filter(str_detect(name, "^Log+h*[a|e|i|o|u|y]h*n+e*$"))
+babynames_logan_var <- babynames_logan %>% group_by(year, initial = str_sub(name, 1, 1), prop) %>% summarise(count = sum(n))
+
+ggplot(data = babynames_logan_var %>% filter(year >= 2000), aes(x = year, y = prop)) +
+  geom_col() +
+  labs(title = "The popularity of Logan since 2000", x = "Year", y = "Proportion of All Names")
+```
+
+### Popularity of the Name Logan 18 Years Before 2000
+```{r}
+ggplot(data = babynames_logan_var %>% filter(year <= 2000, year >= 1982), aes(x = year, y = prop)) +
+  geom_col() +
+  labs(title = "The popularity of Logan 1982-2000", x = "Year", y = "Proportion of All Names")
+```
+
+**Findings:** To find my name for the last 2 graphs I used the regular expresion of "^Log+h*[a|e|i|o|u|y]h*n+e*$" so that I would find my name and the different veriations of it. It seemed that most ways to spell "Logan" all started with "Log". There are sometimes one or more "g"'s thus the + after the 'g'. There are also sometimes an 'h' after the h thus the astrixs. Following that there is a vowel. followed by an somties another 'h'. Also there is always, atleat one n thus I used another '+". After looking through the list of babynames, I found that there are times when my name is spelt with an 'e' ending it, but only somtimes. I found that my names befoure I was born, was increasing in popularity since, then it started leveling out after 2001. It seems there was a jump in popularity in 2017, then a huge drop in 2018. 
+
+
+### Logan's Trendy Name Picks
+```{r}
+goodnames <- totalbabies %>% 
+  filter(prop <= .001) %>% 
+  filter(prop >= .0005) %>% 
+  filter(year >= 2010)
+
+femaleName <- goodnames %>%
+  filter(name == "Lucia", sex == 'F')
+
+maleName <- goodnames %>% 
+  filter(name == "Archer", sex == "M")
+
+namePick <- full_join(maleName, femaleName)
+
+ggplot(data = namePick) +
+  geom_line(mapping = aes(x = year, y = prop, color = name)) +
+  labs(title = "Name Picks Over Time", x = "Year", y = "Proportion", size = 10)
+```
+**Findings:** I picked the two names Lucia for a girl and Archer for a boy. These names, as shown in the graph. Have been on the increase, but aren't super popular yet so these names are great picks. They should contiune to rise in popularity as seen in the graphs.
+
 ## Conclusion
 
 ## Team Report
 **Trent:** In this lab, I did the graph and write up to the Litte Mermaid Effect section by comparing the change in proportions of the name Ariel to the three most popular female names from 1988. I used a geom_smooth plot to showcase this effect. For every name detected in this lab, I used the string dectect feature, and used geom_smooth plots and histograms to compare how proportions of names change over time.
 
 **Tyler:** In this Lab I made my individual plots by filtering out names with strings. I then used the different filtered out portions to make my different plots. For the plots about my names I used bar grabs as it shows the popularity of the name for each year. For my recommendations for baby names I used a line plot to show how both the male and female name were on the rise. 
+
+**Logan:** In this Lab, I did the graph for the poularity for "Logan". I then used different filtered out porsions to make different plots for this popluarity. For my recommendations for baby names I used a line plot to show the names I picked were on the rise of popularity. 
+
