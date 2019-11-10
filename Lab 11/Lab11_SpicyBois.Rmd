@@ -224,6 +224,28 @@ ggplot(data = meB4Current) +
   theme_bw() +
   labs(title = "The popularity of Tyler 1982-2000", x = "Year", y = "Proportion of All Names")
 ```
+**Findings:** To find my name for the last 2 graphs I used the regular expresion of ^Tyler$ so that I would find my exact name. I did need the dollar sign at the end because there is a name Tylerjames which is not my name. There is also no other way to spell Tyler so finding my name was pretty simple. I found that my names since I was born has been on the decrease of popularity since. I also found that my name peaked in 1994 and has been going down in popularity since then. 
+
+
+###Tyler's Trendy Name Picks
+```{r}
+goodnames <- names %>% 
+  filter(prop < 0.001 ) %>%
+  filter(prop >= 0.0001)
+
+maleName <- goodnames %>% 
+  filter(name == "River", sex == "M")
+
+femaleName <- goodnames %>%
+  filter(name == "Ember", sex == 'F')
+
+namePick <- full_join(maleName, femaleName)
+
+ggplot(data = namePick) +
+  geom_line(mapping = aes(x = year, y = prop, color = name)) +
+  labs(title = "Name Picks Over Time", x = "Year", y = "Proportion", size = 10)
+```
+**Findings:** I picked the two names Ember for a girl and River for a boy. These names, as shown in the graph. Have been on the increase, but aren't super popular yet so these names are great picks. They will contiue to rise in popularity as shown by their current slope. That is why I picked the names Ember and River.
 
 
 ## Trent Collins Individual Graphs 
@@ -327,3 +349,5 @@ As clearly show in the graph, the names "Watson" for a male and "Holland" for a 
 
 ## Team Report
 **Trent:** In this lab, I did the graph and write up to the Litte Mermaid Effect section by comparing the change in proportions of the name Ariel to the three most popular female names from 1988. I used a geom_smooth plot to showcase this effect. For every name detected in this lab, I used the string dectect feature, and used geom_smooth plots and histograms to compare how proportions of names change over time.
+
+**Tyler:** In this Lab I made my individual plots by filtering out names with strings. I then used the different filtered out portions to make my different plots. For the plots about my names I used bar grabs as it shows the popularity of the name for each year. For my recommendations for baby names I used a line plot to show how both the male and female name were on the rise. 
