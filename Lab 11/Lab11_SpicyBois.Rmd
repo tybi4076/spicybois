@@ -84,6 +84,69 @@ ggplot()+
 
 To show the effects that the Little Mermaid had on female names from 1988 to 1990, the graph above compares the proportions of all the versions of the name "Ariel" to the top three female baby names of 1988, "Jessica", "Ashley", and "Amanda". Doing so, it become clear that while Ariel may not have been as directly popular as any of those names during this time period, there was a significant increase to females named "Ariel" over the time span, where as the proportion for all three of the most popular female names from 1988 actually dropped over the two year period. 
 
+###Joe's Individual Graphs
+
+```{r}
+library(tidyverse)
+library(babynames)
+library(stringr)
+names <- babynames
+
+JosephModern <- names %>%
+  filter(sex == 'M') %>%
+  filter(str_detect(name, "^Joseph$")) %>%
+  filter(year >= 1999)
+
+JosephPrebirth <- names %>%
+  filter(sex == 'M') %>%
+  filter(str_detect(name, "^Joseph$")) %>%
+  filter(year >= 1980, year <= 1999)
+
+ggplot(data = JosephModern, mapping = aes(x = year, y = prop)) +
+  geom_col() +
+  labs(title = "Proportion of the name 'Joseph' after my birth", x = "Year", y = "Proportion")
+
+ggplot(data = JosephPrebirth, mapping = aes(x = year, y = prop)) +
+  geom_col()+
+  labs(title = "Proportion of the name 'Joseph' before my birth", x = "Year", y = "Proportion")
+```
+```{r}
+namesJos <- names %>% 
+  filter(sex == 'M') %>%
+  filter(str_detect(name, "^Jos")) %>%
+  group_by(year, name = substr(name, 1, 3)) %>%
+  summarise(prop1 = sum(prop))
+
+Joseph <- names %>% 
+  filter(sex == 'M') %>%
+  filter(str_detect(name, "^Joseph$")) %>%
+  mutate(propJ = prop)
+
+Joseph
+
+namesJos
+
+ggplot() +
+  geom_smooth(data = namesJos, mapping = aes(x = year, y = prop1)) +
+  geom_smooth(data = Joseph, mapping = aes(x = year, y = propJ), color = 'red') +
+  labs(title = "Popularity of the name 'Joseph' vs other male names that begin with 'Jos'", x = "Year", y = "Proportion of all names")
+```
+###Baby name recommendations
+```{r}
+maleName <- babynames %>%
+  filter(sex == 'M') %>%
+  filter(str_detect(name, "^Bryce$"))
+
+femaleName <- babynames %>%
+  filter(sex == 'F') %>%
+  filter(str_detect(name, "^Arya$"))
+
+ggplot() +
+  geom_smooth(data = maleName, mapping = aes(x = year, y = prop)) +
+  geom_smooth(data =femaleName, mapping = aes(x = year, y =prop, color = 'red'))
+```
+**The name Joe or Joseph has gotten significantly less popular since I was born. But so have all other "Jos" names.
+
 
 ## Jack Braglia Individual Graphs
 ```{r, message=FALSE, warning=FALSE, error=FALSE}
@@ -394,3 +457,4 @@ ggplot(data = namePick) +
 
 **Jack:** In this lab, I created the Little Mermaid Effect graph as well as setting up answers for the main part of the lab's questions. I made my individual plots by utilizing the string detect function. To find my recommendations for baby names I also utilized string detect and filtered by proportion to find a name that was not popular. From there I checked the proportions for that name to see if the name was on the rise.
 
+**Joe** I helped develop the code for the base of the team graphs. I also did my own personal graphs collaboratively with other teammates, working together to develop coherent code. I recommend using the names Bryce (Bryce Harper) and Arya (Arya Stark) because they both hold value in modern culture. I used the str_detect function to great lengths in this lab to find regex that matched what I needed.
