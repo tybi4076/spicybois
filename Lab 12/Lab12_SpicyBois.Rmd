@@ -51,6 +51,9 @@ We mix up the group labels $A$ and $B$ over our sampled data many times. We comp
 You will implement the following function, perm_mean, to create 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
 
 ```{r, eval = F}
+library(tidyverse)
+library(forcats)
+library(gapminder)
 perm_mean <- function(perms = 1000, all_values, n_A) {
   ## Variables ##
   # perms: The number of permutations 
@@ -112,7 +115,8 @@ Implement the following function, perm_cor, to create 1000 iterations of the cor
 
 ```{r, eval = F}
 
-perm_cor <- function(perms = 1000, x, y) {
+perm_cor <- function(perms = 1000, x, y)
+{
   ## Variables ##
   # perms: The number of permutations 
   # x: Vector of Variable 1 - for computing correlation
@@ -122,22 +126,24 @@ perm_cor <- function(perms = 1000, x, y) {
   # Step 1:
   # Create vector of zeroes of length "perms" to store
   # permuted mean differnces
-
+  corrs<-numeric(perms)
+  
   # Loop throught number of permutations
   for (i in c(1:perms))
   {
     # Step 2:
     # Randomly mix up the values in the vector "y"
-    
-    
+    randY<-sample(y)
     # Step 3:
     # Compute the correlation between x and the randomly mixed
     # up y-vector. Store this value in the vector from step 1.
+    corrs[i]<-cor(x,randY)
     
   }
   
   # Step 4:
   # Return new updated vector, created in step 1
+  return(corrs)
   
 }
 ```
@@ -163,3 +169,6 @@ Your data science team must come up with two specific questions of interest abou
 # Format and Order for Team Lab Report
 
 Create a team R Markdown document knitted to html and submitted to OSF. Put your team name in the filename. Make sure your code works on the updated dataset realeased on Friday.
+
+
+**Tyler:** I made the perm_cor function. I did this by first making a correlation vector full of 0's based on the number of inputted perms. Then I go into the for loop and in the for loop I first shuffle the Y vector and then find the correlation of X and the shuffled Y. I then take that correlation value and store it into spot "i" of the vector of correlations. I then return the vector of correlations
