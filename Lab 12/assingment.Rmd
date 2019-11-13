@@ -1,0 +1,157 @@
+---
+title: 'Lab 12: Gapminder Permutation Tests'
+author: "Nick Varberg, adapted from Michael Ramsey"
+date: "November 12, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+# Overall Description of Lab 12
+
+**Due: 5:00PM Friday, November 15, 2019 on OSF**  
+
+**Note: Data changes all the time, whether in the form of completely new data, data record updating, or data appending. Regardless, it’s important to write code that is easily adaptabale and executable on a similar, but different, dataset. The dataset you will use for this lab will be released (via email) on Friday before or during class. The dataset will be an update of the gapminder dataset. Your code will need to run on the new dataset. You should write your code to account for this last minute change of the data.**
+
+Each teammate should individually practice answering all of the questions in this lab and creating all of the plots. If you get stuck, ask your teammates for help. Compare your results with your teammates and reconcile any discrepancies. Only a team report should be submitted. There are no individual sections in this report.
+
+In this lab you will practice: 
+
+* calculating percentiles and probabilities
+* writing functions to repeat actions multiple times (iterate)
+* plotting histograms and determining what constitutes an "extreme" value in the distribution
+* computing p-values, determining if an observed change is "significant".
+
+# Permutation Tests
+
+In this lab, you will learn how to perform permutation tests. Taken from Wikipedia, "A permutation test (also called a randomization test, re-randomization test, or an exact test) is a type of statistical significance test in which the distribution of the test statistic under the null hypothesis is obtained by calculating all possible values of the test statistic under rearrangements of the labels on the observed data points." The key idea behind permutation tests is to make a statistical argument about whether the labels matter.
+
+To perform a permutation test: scramble up the labels, resample the data, and calculate a summary of the data. Repeat this process 1000 or more times. Then, plot the 1000 summaries as a histogram and plot the summary of the actual data on the histogram. Decide if the actual data is extreme based on the percentile of the actual summary.
+
+To do all of this, you need to write a function and then runs 1000 or more iterations. You also need to plot histograms and calculate percentiles, which you have practiced.
+
+# Two-Sample Permutation Test
+
+Say we want to know if groups $A$ and $B$ have different means for some variable like age or gdp per capita. We conduct a hypothesis test where the null hypothesis $H_0$ is that the means are the same and the alternative hypothesis $H_1$ that the means are different. 
+
+> **H0:** $\mu_A - \mu_B = 0$  
+**H1:** $\mu_A - \mu_B \neq 0$
+
+To test our hypothesis, we run an experiment in which we take samples (of age, gdp per capita, etc.) of sizes $n_A$ and $n_B$ from populations $A$ and $B$. Then we calculate the sample means of both groups $\bar{X_A}$ and $\bar{X_B}$.
+
+If the null hypothesis is true, $\bar{X_A} - \bar{X_B} \approx 0$.
+
+We mix up the group labels $A$ and $B$ over our sampled data many times. We compute $\bar{X_A} - \bar{X_B}$ fr each iteration and make a histogram of all the iterations. We find the actual $\bar{X_A} - \bar{X_B}$ percentile on the histogram. We reject the null hypothesis in favor of the alternative if the percentile of the actual $\bar{X_A} - \bar{X_B}$ is in the critical region.
+
+
+You will implement the following function, perm_mean, to create 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
+
+```{r, eval = F}
+
+perm_mean <- function(perms = 1000, all_values, n_A) {
+  ## Variables ##
+  # perms: The number of permutations 
+  # all_values (num): all data values
+  # n_A (int): Size of group A
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms)) {
+    # Step 2:
+    # Randomly separate vector "values" into disjoint 
+    # groups of size "nA" and "nB" respectively
+    
+    
+    # Step 3:
+    # Compute the sample means for the two groups from 
+    # step 2
+    
+    
+    # Step 4: 
+    # Compute the difference in sample means, store the
+    # value in the vector from step 1
+
+    
+  }
+  
+  # Step 5:
+  # Return the permuted mean differences vector
+
+  
+}
+```
+
+# Linear Correlation Permuation Test
+
+Say we want to figure out if two variables in a dataset are linearly correlated. For example, is a person's age correlated with a person's income?
+
+Recall that the Pearson correlation coefficient measures the strength of the linear relationship $\rho$ between two random variables, $X$ and $Y$. A correlation close to 1 indicates a strong, positive linear relationship. A correlation close to -1 indicates a strong, negative linear relationship. A correlation close to 0 indicates no linear relationship.
+
+Our null hypothesis is that the variables are not correlated. Our alternative hypothesis is that the variables are correlated.
+
+> **H0:** $\rho = 0$  
+**H1:** $\rho \neq 0$
+
+To test our hypothesis, we shuffle the labels on both variables many times. For each iteration, we compute the Pearson linear correlation $\rho$. Make a histogram of all the shuffled correlations. Plot the actual correlation between the variables on the histogram. Reject the null hypothesis if the percentile of the actual correlation is in the critical region.
+
+
+Implement the following function, perm_cor, to create 1000 iterations of the correlation permuation test. Fill in the function-skeleton to implement the function.
+
+```{r, eval = F}
+
+perm_cor <- function(perms = 1000, x, y) {
+  ## Variables ##
+  # perms: The number of permutations 
+  # x: Vector of Variable 1 - for computing correlation
+  # y: Vector of Variable 2 - for computing correlation
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly mix up the values in the vector "y"
+    
+    # Step 3:
+    # Compute the correlation between x and the randomly mixed
+    # up y-vector. Store this value in the vector from step 1.
+    
+  }
+  
+  # Step 4:
+  # Return new updated vector, created in step 1
+  
+}
+```
+
+# Gapminder Questions
+
+Your data science team must come up with two specific questions of interest about the gapminder data set (from 'gapminder' library). 
+
+* Briefly describe the gapminder dataset.
+
+* Explain why your questions are important. One of the questions should be answered with the two-sample mean permutation test, and the other with the correlation permutation test.
+
+* Finish the function skeletons to implement the two-sample permuation test and the correlation permutation test. Run a two-sample mean permutation test. Run a correlation permutation test.
+
+* Create visualizations of the statistical tests.
+
+* Make data-based conclusions about the results. Do you believe there are differences among the groups you are comparing? 
+
+* Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.
+
+* Summarize each individual's contribution to the lab.
+
+# Format and Order for Team Lab Report
+
+Create a team R Markdown document knitted to html and submitted to OSF. Put your team name in the filename. Make sure your code works on the updated dataset realeased on Friday.
