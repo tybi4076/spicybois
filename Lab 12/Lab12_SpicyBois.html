@@ -370,9 +370,27 @@ summary {
 </div>
 
 
-<div id="lab-12" class="section level1">
-<h1>Lab 12</h1>
-<p>#Two-sample permuation test</p>
+<div id="gapminder-questions" class="section level1">
+<h1>Gapminder Questions</h1>
+<div id="your-data-science-team-must-come-up-with-two-specific-questions-of-interest-about-the-gapminder-data-set-from-gapminder-library." class="section level2">
+<h2>Your data science team must come up with two specific questions of interest about the gapminder data set (from ‘gapminder’ library).</h2>
+<ol style="list-style-type: decimal">
+<li><p>What is the difference between the life expectancy between Asia countries and Europe countries?</p></li>
+<li><p>Is there a corrilation between life expectancy and gpd?</p></li>
+</ol>
+</div>
+<div id="briefly-describe-the-gapminder-dataset." class="section level2">
+<h2>Briefly describe the gapminder dataset.</h2>
+<p>The gapminder is a dataset that charts data such as life exp, population, and gdp for most countries in the world. This data is recodered for each year form 1950 to 2007.</p>
+</div>
+<div id="explain-why-your-questions-are-important.-one-of-the-questions-should-be-answered-with-the-two-sample-mean-permutation-test-and-the-other-with-the-correlation-permutation-test." class="section level2">
+<h2>Explain why your questions are important. One of the questions should be answered with the two-sample mean permutation test, and the other with the correlation permutation test.</h2>
+<p>These questions are important in order to figure out how to best increase the life expentancy of a certian country. THis is important because everyone wants to life longer.</p>
+</div>
+<div id="finish-the-function-skeletons-to-implement-the-two-sample-permuation-test-and-the-correlation-permutation-test.-run-a-two-sample-mean-permutation-test.-run-a-correlation-permutation-test." class="section level2">
+<h2>Finish the function skeletons to implement the two-sample permuation test and the correlation permutation test. Run a two-sample mean permutation test. Run a correlation permutation test.</h2>
+<div id="two-sample-permuation-test" class="section level3">
+<h3>Two-sample permuation test</h3>
 <p>Perm_mean creates 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.</p>
 <pre class="r"><code>perm_mean &lt;- function(perms = 1000, all_values, n_A) {
   ## Variables ##
@@ -416,8 +434,8 @@ summary {
   
 }</code></pre>
 </div>
-<div id="linear-correlation-permuation-test" class="section level1">
-<h1>Linear Correlation Permuation Test</h1>
+<div id="linear-correlation-permuation-test" class="section level3">
+<h3>Linear Correlation Permuation Test</h3>
 <p>Perm_cor will create 1000 iterations of the correlation permuation test. Fill in the function-skeleton to implement the function.</p>
 <pre class="r"><code>perm_cor &lt;- function(perms = 1000, x, y) {
   ## Variables ##
@@ -429,18 +447,18 @@ summary {
   # Step 1:
   # Create vector of zeroes of length &quot;perms&quot; to store
   # permuted mean differnces
-  corrs&lt;-numeric(perms)
+  corrs &lt;- numeric(perms)
   
   # Loop throught number of permutations
   for (i in c(1:perms)) {
     # Step 2:
     # Randomly mix up the values in the vector &quot;y&quot;
-    randY&lt;-sample(y)
+    randY &lt;- sample(y)
+    
     # Step 3:
     # Compute the correlation between x and the randomly mixed
     # up y-vector. Store this value in the vector from step 1.
-    corrs[i]&lt;-cor(x,randY)
-    
+    corrs[i] &lt;- cor(x, randY)
   }
   
   # Step 4:
@@ -448,37 +466,26 @@ summary {
   return(corrs)
   
 }</code></pre>
-<pre class="r"><code>#ggplot(gapminder, aes(x = perm_mean(1704, gapminder$lifeExp, 1))) + geom_histogram()</code></pre>
-<pre class="r"><code>#ggplot(gapminder, aes(x = perm_cor(1704, gapminder$lifeExp, gapminder$pop))) + geom_histogram()</code></pre>
 </div>
-<div id="gapminder-questions" class="section level1">
-<h1>Gapminder Questions</h1>
-<p>Your data science team must come up with two specific questions of interest about the gapminder data set (from ‘gapminder’ library).</p>
-<ol style="list-style-type: decimal">
-<li></li>
-<li></li>
-</ol>
-<ul>
-<li><p>Briefly describe the gapminder dataset.</p>
-<ul>
-<li>The gapminder dataset connectets the public to varies data sets gathered by goverment’s, Universities, and other organizations; into an easy to access search engine.</li>
-</ul></li>
-<li><p>Explain why your questions are important. One of the questions should be answered with the two-sample mean permutation test, and the other with the correlation permutation test.</p>
-<ul>
-<li></li>
-</ul></li>
-<li><p>Finish the function skeletons to implement the two-sample permuation test and the correlation permutation test. Run a two-sample mean permutation test. Run a correlation permutation test.</p>
-<ul>
-<li></li>
-</ul></li>
-<li><p>Create visualizations of the statistical tests.</p></li>
-<li><p>Make data-based conclusions about the results. Do you believe there are differences among the groups you are comparing?</p></li>
-<li><p>Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.</p></li>
-<li><p>Summarize each individual’s contribution to the lab.</p></li>
-</ul>
-<p>##Team Report</p>
+</div>
+<div id="create-visualizations-of-the-statistical-tests." class="section level2">
+<h2>Create visualizations of the statistical tests.</h2>
+<pre class="r"><code>#ggplot(mydata, aes(x = perm_mean(3313, mydata$lifeExp, 2))) + geom_histogram()</code></pre>
+<pre class="r"><code>#ggplot(mydata, aes(x = perm_cor(3313, mydata$lifeExp, mydata$pop))) + geom_histogram()</code></pre>
+</div>
+<div id="make-data-based-conclusions-about-the-results.-do-you-believe-there-are-differences-among-the-groups-you-are-comparing" class="section level2">
+<h2>Make data-based conclusions about the results. Do you believe there are differences among the groups you are comparing?</h2>
+</div>
+<div id="generate-percentiles-summary-statistics-max-min-and-probabilites-p-values-to-justify-your-conclusions." class="section level2">
+<h2>Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.</h2>
+</div>
+<div id="team-report" class="section level2">
+<h2>Team Report</h2>
 <p><strong>Tyler:</strong> I made the perm_cor function. I did this by first making a correlation vector full of 0’s based on the number of inputted perms. Then I go into the for loop and in the for loop I first shuffle the Y vector and then find the correlation of X and the shuffled Y. I then take that correlation value and store it into spot “i” of the vector of correlations. I then return the vector of correlations</p>
 <p><strong>Trent:</strong></p>
+<p><strong>Logan:</strong></p>
+<p><strong>Joe</strong> I assisted creating the perm_cor function. I also answered a couple misc. questions throughout the lab.</p>
+</div>
 </div>
 
 

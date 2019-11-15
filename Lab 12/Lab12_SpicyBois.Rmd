@@ -15,11 +15,26 @@ library(gapminder)
 mydata <- gapminder_unfiltered
 ```
 
-# Lab 12
+# Gapminder Questions
 
-#Two-sample permuation test 
+## Your data science team must come up with two specific questions of interest about the gapminder data set (from 'gapminder' library). 
 
-#The Gapminder dataset contains data that is used to describe the size, wealth, and health of all nations in the world over a time period of 1952 to 2007.
+1) What is the difference between the life expectancy between Asia countries and Europe countries?
+
+2) Is there a corrilation between life expectancy and gpd?
+
+
+## Briefly describe the gapminder dataset.
+
+The gapminder is a dataset that charts data such as life exp, population, and gdp for most countries in the world. This data is recodered for each year form 1950 to 2007.
+
+## Explain why your questions are important. One of the questions should be answered with the two-sample mean permutation test, and the other with the correlation permutation test.
+
+These questions are important in order to figure out how to best increase the life expentancy of a certian country. THis is important because everyone wants to life longer.
+
+## Finish the function skeletons to implement the two-sample permuation test and the correlation permutation test. Run a two-sample mean permutation test. Run a correlation permutation test.
+
+### Two-sample permuation test 
 
 Perm_mean creates 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
 
@@ -67,7 +82,7 @@ perm_mean <- function(perms = 1000, all_values, n_A) {
 }
 ```
 
-# Linear Correlation Permuation Test
+### Linear Correlation Permuation Test
 
 Perm_cor will create 1000 iterations of the correlation permuation test. Fill in the function-skeleton to implement the function.
 
@@ -82,18 +97,18 @@ perm_cor <- function(perms = 1000, x, y) {
   # Step 1:
   # Create vector of zeroes of length "perms" to store
   # permuted mean differnces
-  corrs<-numeric(perms)
+  corrs <- numeric(perms)
   
   # Loop throught number of permutations
   for (i in c(1:perms)) {
     # Step 2:
     # Randomly mix up the values in the vector "y"
-    randY<-sample(y)
+    randY <- sample(y)
+    
     # Step 3:
     # Compute the correlation between x and the randomly mixed
     # up y-vector. Store this value in the vector from step 1.
-    corrs[i]<-cor(x,randY)
-    
+    corrs[i] <- cor(x, randY)
   }
   
   # Step 4:
@@ -103,49 +118,21 @@ perm_cor <- function(perms = 1000, x, y) {
 }
 ```
 
+## Create visualizations of the statistical tests.
 
 ```{r}
-mydata
-```
-
-
-# Gapminder Questions
-
-Your data science team must come up with two specific questions of interest about the gapminder data set (from 'gapminder' library). 
-
-1) How does the life exp of different countries grown over the years? Which countries increase the most? Which contries did not change?
-
-2) 
-
-* Briefly describe the gapminder dataset.
-    
-    * The gapminder is a dataset that charts data such as life exp, population, and gdp for most countries in the world. This data is recodered for each year form 1950 to 2007.
-
-* Explain why your questions are important. One of the questions should be answered with the two-sample mean permutation test, and the other with the correlation permutation test.
-
-  *  
-
-* Finish the function skeletons to implement the two-sample permuation test and the correlation permutation test. Run a two-sample mean permutation test. Run a correlation permutation test.
-
-```{r}
-ggplot(mydata %>% group_by(country) %>% summarise(cor = mean(perm_mean(1000, lifeExp, 2))), aes(x = cor)) + geom_histogram()
+#ggplot(mydata, aes(x = perm_mean(3313, mydata$lifeExp, 2))) + geom_histogram()
 ```
 
 ```{r}
-ggplot(mydata, aes(x = perm_cor(3313, mydata$lifeExp, mydata$pop))) + geom_histogram()
+#ggplot(mydata, aes(x = perm_cor(3313, mydata$lifeExp, mydata$pop))) + geom_histogram()
 ```
 
-* Create visualizations of the statistical tests.
+## Make data-based conclusions about the results. Do you believe there are differences among the groups you are comparing? 
 
-  * 
+## Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.
 
-* Make data-based conclusions about the results. Do you believe there are differences among the groups you are comparing? 
-
-  * 
-  
-* Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.
-
-##Team Report
+## Team Report
 
 **Tyler:** I made the perm_cor function. I did this by first making a correlation vector full of 0's based on the number of inputted perms. Then I go into the for loop and in the for loop I first shuffle the Y vector and then find the correlation of X and the shuffled Y. I then take that correlation value and store it into spot "i" of the vector of correlations. I then return the vector of correlations
 
