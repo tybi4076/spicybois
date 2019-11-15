@@ -370,12 +370,15 @@ summary {
 </div>
 
 
-<div id="briefly-describe-the-gapminder-dataset." class="section level1">
-<h1>Briefly describe the gapminder dataset.</h1>
-<p>The gapminder is a dataset that charts data such as life exp, population, and gdp for most countries in the world. This data is recodered for each year form 1950 to 2007.</p>
+<div id="lab-12" class="section level1">
+<h1>Lab 12</h1>
+<div id="briefly-describe-the-gapminder-dataset." class="section level2">
+<h2>Briefly describe the gapminder dataset.</h2>
+<p>The gapminder is a dataset that charts data such as life exp, population, and gdp for most countries in the world. This data is recodered for each year form 1950 to 2007. * country * continent * year * lifeExp - life expectancy at birth * pop - total population * gdpPercap - per-capita GDP (per-capita GDP (Gross domestic product) is given in units of international dollars)</p>
 </div>
-<div id="what-is-the-difference-between-the-life-expectancy-between-japan-and-sweden" class="section level1">
-<h1>What is the difference between the life expectancy between Japan and Sweden?</h1>
+</div>
+<div id="q1---what-is-the-difference-between-the-life-expectancy-between-japan-and-sweden" class="section level1">
+<h1>Q1 - What is the difference between the life expectancy between Japan and Sweden?</h1>
 <div id="why-is-this-question-are-important" class="section level2">
 <h2>Why is this question are important?</h2>
 <p>These questions are important in order to figure out how to best increase the life expentancy of a certian country. THis is important because everyone wants to life longer.</p>
@@ -432,8 +435,10 @@ mydata_two &lt;- mydata %&gt;% filter(country == &quot;Sweden&quot;)
 
 mean_one &lt;- mean(mydata_one$lifeExp)
 mean_two &lt;- mean(mydata_two$lifeExp)
-mean_tot_dif &lt;- mean_one - mean_two
-#mean_per &lt;- perm_mean(1000, mydata_filterd$lifeExp, length(mydata_one$lifeExp))</code></pre>
+mean_tot_dif &lt;- mean_two - mean_one
+#mean_per &lt;- perm_mean(1000, mydata_filterd$lifeExp, length(mydata_one$lifeExp))
+mean_tot_dif</code></pre>
+<pre><code>## [1] 1.535362</code></pre>
 </div>
 <div id="graph-two-sample-mean-permutation-test." class="section level2">
 <h2>Graph Two-sample mean permutation test.</h2>
@@ -449,6 +454,7 @@ mean_tot_dif &lt;- mean_one - mean_two
 </div>
 <div id="generate-percentiles-summary-statistics-max-min-and-probabilites-p-values-to-justify-your-conclusions." class="section level2">
 <h2>Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.</h2>
+<p>We can justify our conclusion, because the mean difference between Life Expectancy in Japan vs. Sweden is only a difference of about 1.5 years (sweden having the larger life expectancy), meaning they are esentially equal in terms of country health</p>
 </div>
 </div>
 <div id="is-there-a-corrilation-between-life-expectancy-and-gpd" class="section level1">
@@ -508,16 +514,25 @@ mean_tot_dif &lt;- mean_one - mean_two
 <div id="conclusion-based-on-correlation-permutation-test." class="section level2">
 <h2>Conclusion based on Correlation permutation test.</h2>
 <p>There is a linear correlation between life exp and the gdp due the bell curve.</p>
+<pre class="r"><code>#actual_cor &lt;- cor(mydata$gdpPercap, mydata$lifeExp)
+
+#cor_mydata &lt;- tibble(correlation = perm_cor(perms = 1000, mydata$gdpPercap, #mydata$lifeExp))
+
+#(percentile_cor &lt;- nrow(filter(cor_mydata, correlation &lt;= actual_cor))/1000 * 100)
+
+#actual_cor</code></pre>
 </div>
 <div id="generate-percentiles-summary-statistics-max-min-and-probabilites-p-values-to-justify-your-conclusions.-1" class="section level2">
 <h2>Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.</h2>
+<p>We calculated that the actual correlation between life expectancy and GDP per capita from the data set is 0.63. Due to the extremity of this value, we reject the null hypothesis. It makes logical sense that there would be a strong positive correlation between GDP and life expectany due to the nature of macro-economics, and therefore our data supports this claim.</p>
 </div>
 <div id="team-report" class="section level2">
 <h2>Team Report</h2>
 <p><strong>Tyler:</strong> I made the perm_cor function. I did this by first making a correlation vector full of 0’s based on the number of inputted perms. Then I go into the for loop and in the for loop I first shuffle the Y vector and then find the correlation of X and the shuffled Y. I then take that correlation value and store it into spot “i” of the vector of correlations. I then return the vector of correlations</p>
-<p><strong>Trent:</strong></p>
-<p><strong>Logan:</strong> Ploted the graphs, and thed the conclusion based on test.</p>
+<p><strong>Trent:</strong> I found the relevent data value to support our conclusions, as well as formatted the lab</p>
+<p><strong>Logan:</strong> Ploted the graphs, and then the conclusion based on test.</p>
 <p><strong>Joe</strong> I assisted creating the perm_cor function. I also answered a couple misc. questions throughout the lab.</p>
+<p><strong>Jack: </strong> I Helped create group plots as well as helped make the write up</p>
 </div>
 </div>
 
