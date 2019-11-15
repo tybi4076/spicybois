@@ -19,10 +19,9 @@ mydata <- gapminder_unfiltered
 
 ## Your data science team must come up with two specific questions of interest about the gapminder data set (from 'gapminder' library). 
 
-1) What is the difference between the life expectancy between Asia countries and Europe countries?
+1) What is the difference between the life expectancy between China and Great Britan?
 
 2) Is there a corrilation between life expectancy and gpd?
-
 
 ## Briefly describe the gapminder dataset.
 
