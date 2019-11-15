@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
 
 #Two-sample permuation test 
 
+#The Gapminder dataset contains data that is used to describe the size, wealth, and health of all nations in the world over a time period of 1952 to 2007.
+
 Perm_mean creates 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
 
 ```{r, eval = F}
@@ -124,3 +126,5 @@ Your data science team must come up with two specific questions of interest abou
 **Tyler:** I made the perm_cor function. I did this by first making a correlation vector full of 0's based on the number of inputted perms. Then I go into the for loop and in the for loop I first shuffle the Y vector and then find the correlation of X and the shuffled Y. I then take that correlation value and store it into spot "i" of the vector of correlations. I then return the vector of correlations
 
 **Trent:** 
+
+**Joe**  I assisted creating the perm_cor function. I also answered a couple misc. questions throughout the lab.
