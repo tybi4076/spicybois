@@ -5,26 +5,99 @@ date: "11/18/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+library(tidyverse)
+library(forcats)
+library(gapminder)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+##Individual Sections
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+###Tyler's Section
+####The Deaths in Moldova are much greater then the deaths of Austria
+**DataSet: ** The Dataset I use is the Total Deaths Dataset. This Dataset has all the deaths that have happened in the country for each year for every country starting in 1990 all the way to 2016. I also have a dataset that is the amount of deaths per 100000 people. This has the same stats as the total deaths table
 
-```{r cars}
-summary(cars)
+```{r}
+
+perm_mean <- function(perms = 1000, all_values, n_A)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # all_values (num): all data values
+  # n_A (int): Size of group A
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  perm_mean_diffs <- numeric(perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly separate vector "values" into disjoint 
+    # groups of size "nA" and "nB" respectively
+    rand_order <- sample(all_values)
+    
+    # Step 3:
+    # Compute the sample means for the two groups from 
+    # step 2(
+    groupA <- rand_order[1:n_A]
+    groupB <- rand_order[(n_A+1):length(all_values)]
+    
+    # Step 4: 
+    # Compute the difference in sample means, store the
+    # value in the vector from step 1
+    mean_dif<- mean(groupA) - mean(groupB)
+    perm_mean_diffs[i] <- mean_dif
+  }
+  
+  # Step 5:
+  # Return the permuted mean differences vector
+  return(perm_mean_diffs)
+  
+}
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{r}
+deaths <- read_csv("murder_total_deaths.csv") 
+deathTotal <- deaths %>% gather('1990':'2016', key = 'Year', value = 'Total_Deaths') %>% filter(country == 'Moldova' | country == 'Austria')
+deathPerOnek <- read_csv("murder_per_100000_people.csv") %>% gather('1950':'2016', key = 'Year', value = 'Death_Ratio') %>% filter(country == 'Moldova' | country == 'Austria', Year >= 1990)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+deathFacts <- full_join(deathTotal, deathPerOnek)
+deathau <-deathFacts %>% filter(country == "Austria")
+deathmold <-deathFacts %>% filter(country == "Moldova")
+meanTest <- perm_mean(1000, deathFacts$Total_Deaths, 27)
+meanTest2 <- perm_mean(1000, deathFacts$Death_Ratio, 27)
+
+
+
+ggplot(data = deathFacts) +
+  geom_point(mapping = aes(x = Year, y = Total_Deaths, color = country))+
+  labs(title = "Total Deaths per Year", x = "Year", y = "Total Deaths")
+  
+ggplot(data = deathFacts) +
+  geom_point(mapping = aes(x = Year, y = Death_Ratio, color = country))+
+  labs(title = "Deaths per 100000 People Per Year", x = "Year", y = "Deaths per 100000 People")
+
+ggplot() +
+  geom_histogram(mapping = aes(meanTest)) +
+  geom_vline(xintercept = (mean(deathmold$Total_Deaths) - mean(deathau$Total_Deaths)), color = "Red") +
+  labs(title = "Histogram of the Mean Total Deaths of Moldova - Austria", x = "Mean of Deaths", y = "Count", caption = "Red Line is the True Data\nPercentile = 99.99001")
+
+ggplot() +
+  geom_histogram(mapping = aes(meanTest2)) +
+  geom_vline(xintercept = (mean(deathmold$Death_Ratio) - mean(deathau$Death_Ratio)), color = "Red") +
+  labs(title = "Histogram of the Mean Deaths per 100000 People of Moldova - Austria", x = "Mean of Deaths Per 100000 People", y = "Count", caption = "Red Line is the True Data\nPercentile = 99.99001")
+
+map(deaths, mean)
+
+
 ```
+**Permutation Test: ** My Null Hypothosis was that the mean deaths of Moldovo are the same as Austria. My Alternative Hypothosis was that Moldova's deaths were higher then Austria's. My conclusion is that we reject the null hypothesis with a percentile pf 99.99001. We have sufficient evidence that the mean deaths of Moldova is bigger then the mean deaths of Austria
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+**Map Function: ** I used the Map function to find the mean amount of deaths for each year using the dataset for total amount of deaths per year per country.
