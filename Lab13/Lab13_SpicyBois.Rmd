@@ -164,7 +164,7 @@ ggplot() +
 ```{r}
 library(tidyverse)
 library(readxl)
-polperson <- read.csv('yearlyco2person.csv', check.names = FALSE)
+polperson <- read_csv('yearlyco2person.csv', check.names = FALSE)
 
 poltop <- polperson %>% gather('2004':'2014', key ="Year", value = 'Total') %>% filter(country == 'United States' | country == "China" | country == "India") %>% select(Year, Total, country) %>% type.convert("Year", double) %>% type.convert("country", as.is = TRUE)
 polbottom <- polperson %>% gather('2004':'2014', key ="Year", value = 'Total') %>% filter(country == "Tuvalu" | country == "Nauru" | country == "Palau") %>% select(Year, Total, country) %>% type.convert("Year", double) %>% type.convert("country", as.is = TRUE)
