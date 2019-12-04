@@ -158,4 +158,76 @@ ggplot() +
 
 
 
+#Joe's Section
+#Null Hypothesis: The largest countries in the world have the same polution per capita than smaller countries. My alternative hypothesis is that the largest countries have a higher polution per capita than small countries. 
+#Datasets: I am using the dataset "CO2 emmissions (tonnes per person)" from Gapminder
+```{r}
+library(tidyverse)
+library(readxl)
+polperson <- read.csv('yearlyco2person.csv', check.names = FALSE)
+
+poltop <- polperson %>% gather('2004':'2014', key ="Year", value = 'Total') %>% filter(country == 'United States' | country == "China" | country == "India") %>% select(Year, Total, country) %>% type.convert("Year", double) %>% type.convert("country", as.is = TRUE)
+polbottom <- polperson %>% gather('2004':'2014', key ="Year", value = 'Total') %>% filter(country == "Tuvalu" | country == "Nauru" | country == "Palau") %>% select(Year, Total, country) %>% type.convert("Year", double) %>% type.convert("country", as.is = TRUE)
+topmean <- polperson %>% gather('2004':'2014', key ="Year", value = 'Total') %>% select(Year, country, Total) %>% filter(country == 'United States' | country == "China" | country == "India") %>% type.convert("Year", double) %>% select(Total)
+botmean <- polperson %>% gather('2004':'2014', key ="Year", value = 'Total') %>% select(Year, country, Total) %>% filter(country == "Tuvalu" | country == "Nauru" | country == "Palau") %>% select(Year, Total, country) %>% type.convert("Year", double) %>% select(Total)
+
+A <- map_dbl(topmean, mean) #grabbing a mean value for CO2 output of largest countries from 2004 to 2014
+B <- map_dbl(botmean, mean) #grabbing a mean value for CO2 output of smallest countries from 2004 to 2014
+
+xeno <- perm_mean(perms = 1000, topmean, 33)
+
+ggplot(data = poltop)+
+ geom_smooth(mapping = aes(x= Year , y = Total, color = country), se = FALSE)+
+  labs(title = "Yearly Carbon Output of Most Populous Countries per Person", x = "Year", y = "Output in thousands of tonnes per person") +
+  geom_hline(yintercept = A)+
+  geom_hline(yintercept = B)
+
+ggplot(data = polbottom)+
+ geom_smooth(mapping = aes(x= Year , y = Total, color = country), se = FALSE)+
+  labs(title = "Yearly Carbon Output of Least Populous Countries per Person", x = "Year", y = "Output in thousands of tonnes per person") +
+  geom_hline(yintercept = B)+
+  geom_hline(yintercept = A)
+```
+```{r}
+perm_mean <- function(perms = 1000, all_values, n_A)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # all_values (num): all data values
+  # n_A (int): Size of group A
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  perm_mean_diffs <- numeric(perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly separate vector "values" into disjoint 
+    # groups of size "nA" and "nB" respectively
+    rand_order <- sample(all_values)
+    
+    # Step 3:
+    # Compute the sample means for the two groups from 
+    # step 2(
+    groupA <- rand_order[1:n_A]
+    groupB <- rand_order[(n_A+1):length(all_values)]
+    
+    # Step 4: 
+    # Compute the difference in sample means, store the
+    # value in the vector from step 1
+    mean_dif<- mean(groupA) - mean(groupB)
+    perm_mean_diffs[i] <- mean_dif
+  }
+  
+  # Step 5:
+  # Return the permuted mean differences vector
+  return(perm_mean_diffs)
+  
+}
+```
+#I wanted to know whether the industry of a populous country offset the inefficiencies of a relatively unpopulated country. I used the map function just to grab a quick mean of the 3 top and 3 bottom countries to compare the two sets of countries. I found that the mean values of the top 3 countries was far greater than that of the bottom 3 countries. I found that the ALTERNATIVE HYPOTHESIS was infact true and the null hypothesis was not. I attempted to integrate the perm_mean that I developed with Tyler, but I could not do so without making my code unfunctional.
 
