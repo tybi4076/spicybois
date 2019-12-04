@@ -174,8 +174,6 @@ botmean <- polperson %>% gather('2004':'2014', key ="Year", value = 'Total') %>%
 A <- map_dbl(topmean, mean) #grabbing a mean value for CO2 output of largest countries from 2004 to 2014
 B <- map_dbl(botmean, mean) #grabbing a mean value for CO2 output of smallest countries from 2004 to 2014
 
-xeno <- perm_mean(perms = 1000, topmean, 33)
-
 ggplot(data = poltop)+
  geom_smooth(mapping = aes(x= Year , y = Total, color = country), se = FALSE)+
   labs(title = "Yearly Carbon Output of Most Populous Countries per Person", x = "Year", y = "Output in thousands of tonnes per person") +
