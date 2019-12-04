@@ -231,3 +231,69 @@ perm_mean <- function(perms = 1000, all_values, n_A)
 ```
 #I wanted to know whether the industry of a populous country offset the inefficiencies of a relatively unpopulated country. I used the map function just to grab a quick mean of the 3 top and 3 bottom countries to compare the two sets of countries. I found that the mean values of the top 3 countries was far greater than that of the bottom 3 countries. I found that the ALTERNATIVE HYPOTHESIS was infact true and the null hypothesis was not. I attempted to integrate the perm_mean that I developed with Tyler, but I could not do so without making my code unfunctional.
 
+
+## Trent Collins Indivdual
+
+### Question: Is there a correlation between total energy production and the total number of people effected (injured/killed) by storms in the United States?
+
+**Null Hypothesis: ** There is 0 correlation between total energy produced and people effected by dangerous storms.
+
+**Alternative Hypothesis: ** There is non-zero, positive correlation between total energy produced and people effected by dangerous storms.
+
+The test statistic that I am using is correlation.
+
+```{r, echo=FALSE, messages = FALSE}
+library(tidyverse)
+library(gapminder)
+library(readr)
+library(dplyr)
+library(stringr)
+
+storm <- read_csv("storm_affected_annual_number.csv")
+energy <- read_csv("energy_production_total.csv")
+
+us_Storm <- storm %>%
+  filter(country == "United States") %>%
+  select("1970":"2008") %>% 
+  gather("1970":"2008", key = "year", value = "People effected by storms")
+
+us_Energy <- energy %>%
+  filter(country == "United States") %>%
+  select("1970":"2008") %>% 
+  gather("1970":"2008", key = "year", value = "Total energy produced")
+
+us_Data <- us_Storm %>% left_join(us_Energy, by = "year") %>% filter(!is.na("People effected by storms")) %>% filter(!is.na("Total energy produced"))
+
+perm_cor <- function(perms = 1000, x, y)
+{
+  vec <- numeric(perms)
+  for (i in c(1:perms))
+  {
+    r_Y <- sample(y)
+    vec[i] <- cor(x, r_Y)
+  }
+  return(vec)
+}
+
+justStorm <- c(us_Data$`People effected by storms`)
+justStorm[is.na(justStorm)] <- 0
+
+justEnergy <- c(us_Data$`Total energy produced`)
+
+us_data_corr <- perm_cor(1000, justEnergy, justStorm)
+actual_corr <- cor(justEnergy, justStorm)
+
+
+ggplot() + 
+  aes(us_data_corr)+ 
+  geom_histogram(binwidth=.05, colour="black", fill="grey") +   geom_vline(xintercept = actual_corr, color="red") + labs(title = "Correlation between Energy Production and the Severity of Storms in the USA", x ="correlation")
+
+p_value <- 1 - sum(us_data_corr < actual_corr)/1000 #.012
+p_value
+
+my_percentile <- sum(us_data_corr <   actual_corr)/length(us_data_corr) *100 #98.8
+my_percentile
+```
+**Analysis: ** The real data value falls in the 99th percentile of the data, and the p value of the real data is .014, indicating that the real data has a statistically significant correlation. Due to the low p-value, I reject the null hypothesis. This indicates that there is a correlation between severe storms and higher energy production.
+
+**Speculation: ** These findings make sense, as the higher energy production and consumption has been linked to recent climate change and global warming. Warmer air can contain more water vapor than cooler air. Global analyses show that the amount of water vapor in the atmosphere has in fact increased due to human-caused warming. This extra moisture is available to storm systems, resulting in heavier rainfalls, and more intense storms, which can cause more casualties and injuries.
