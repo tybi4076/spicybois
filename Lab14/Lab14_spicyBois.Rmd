@@ -94,6 +94,11 @@ ggplot(data= babies, (mapping = aes(x= mage, y= bwtoz)))+
   geom_point(na.rm = TRUE) +
   geom_smooth(method= "lm", na.rm = TRUE) +
   theme_minimal()
+
+joeModel <- lm(mage ~ bwtoz, data = babies)
+joeDataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(joeModel)
+
+
 ```
 
 
