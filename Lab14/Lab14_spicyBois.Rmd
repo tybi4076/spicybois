@@ -68,31 +68,24 @@ labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y =
 
 **Findings:** Clearly, mothers at any age can give birth to their infants with a wide range of gestational ranges. However, as shown on the graph by a red line, certain ages seem to have a more prominant amount of gestaional ages under 270 days, which classifies as a premature birth. It seems that women in their early to mid-twenties have a slightly higher tendancy to have premature delivieries. 
 
-## Fathers Weight vs. Weigth at Birth (Tyler)
+## Is the Babies Weight at Birth effected by the Father's Weight(Tyler)
 
 ```{r}
-#bwtoz <- babies$bwtoz
-#dwt <- babies$dwt
-corDwtBwtoz <- cor(bwtoz,dwt, use = "na.or.complete")
 
-model <- lm(dwt ~ bwtoz, data = babies)
-dataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(model)
+model <- lm(bwtoz ~ dwt, data = babies)
+dataGrid <- babies %>% data_grid(dwt) %>% add_predictions(model)
 
-ggplot(babies, aes(bwtoz)) +
-  geom_point(aes(y=dwt)) +
-  geom_line(aes(y = pred), data = dataGrid, color = "Green4", size = 1.5)
+ggplot(babies, aes(dwt)) +
+  geom_point(aes(y=bwtoz)) +
+  geom_line(aes(y = pred), data = dataGrid, color = "Green4", size = 1.5) +
+  labs(title = "Fathers Weight VS. Babies Weight At Birth", x = "Fathers Weight", y = "Babies Weight at Birth") +
+  theme_bw()
 
-
-#ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) + 
-#  geom_point(mapping = aes(color = smoke), na.rm = TRUE) +
- # geom_smooth(method = "lm", se = FALSE, na.rm = TRUE) +
-  #theme_bw() +
-  #labs(title = "Fathers Weight V Birth Weight", x = "Weight At Birth", y = "Fathers Weight", caption = corDwtBwtoz)
   
 
 ```
 
-**Findings:** As Shown in the graph, Fathers weight doesn't have much effect on the weight of the new baby. With a correlation oh 0.1511, the data doesn't really effect eachother. There is not really any clear trends between fathers weight and the weight of a new born baby. 
+**Findings:** This question is important as it can show how much a father's weight can effect the babies weight at birth to understand if it's a factor in the babies weight. The new tools I used was lm, data_grid, and add_predictions. The answer of this question is that the father's weight does not effect the babies weigth. As shown in the graph the spread is so high and correlation would then be so low that it would be insignificant.
 
 ## Age of Mother vs. Weight at Birth (Joe)
 
