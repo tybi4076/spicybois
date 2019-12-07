@@ -106,15 +106,18 @@ ggplot(babies, aes(bwtoz)) +
 ```{r}
 cor(babies$bwtoz, babies$mht, use = "na.or.complete")
 
-ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
-  geom_point()+
-  geom_smooth(method = "lm", se = FALSE)+
-  facet_wrap(~smoke)+
-  theme_bw() +
-  labs(title = "Mother's Height vs. Baby's Weight at Birth split by Smokers", x = "Baby's Weight", y = "Mother's Height")
+jackModel <- lm(mht ~ bwtoz, data = babies)
+jackDataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(jackModel)
+
+ggplot(babies, aes(bwtoz)) +
+  geom_point(aes(y = mht)) +
+  geom_line(aes(y = pred), data = jackDataGrid, color = "Red2") +
+  labs(title = "Mother's Height vs. Baby's Weight at Birth", x = "Baby's Weight", y = "Mother's Height")
 ```
 
 **Findings: ** As shown in the graphs, the mother's height doesn't seem to have an effect on the baby's weight. At first I thought a confounding variable may be the mother's weight because the taller you are, typically the more you weigh. The results with the smoking didn't change much as the correlation between the height and weight was .1845, and faceting with smoker's had similar correlation, with an exception of "NA" as there weren't many data points.
+
+New INFO: With the new plot I added, it seems like the predictions compared to the observations have no real correlation at all. The observed values vary and although they are kind of grouped, there is no reason to assume in any way that mother's height can predict what a baby's weight will be.
 
 ## Team Report
 **Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
