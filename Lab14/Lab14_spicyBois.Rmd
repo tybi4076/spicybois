@@ -90,14 +90,16 @@ ggplot(babies, aes(dwt)) +
 ## Age of Mother vs. Weight at Birth (Joe)
 
 ```{r}
-ggplot(data= babies, (mapping = aes(x= mage, y= bwtoz)))+
-  geom_point(na.rm = TRUE) +
-  geom_smooth(method= "lm", na.rm = TRUE) +
-  theme_minimal()
+
 
 joeModel <- lm(mage ~ bwtoz, data = babies)
 joeDataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(joeModel)
 
+ggplot(babies, aes(bwtoz)) +
+  geom_point(aes(y=mage)) +
+  geom_line(aes(y = pred), data = joeDataGrid, color = "Red4", size = 1) +
+  labs(title = "Mother's Age VS. Babies Weight At Birth", y = "Mother's Age", x = "Babies Weight at Birth") +
+  theme_bw()
 
 ```
 
