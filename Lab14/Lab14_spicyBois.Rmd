@@ -1,3 +1,137 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+---
+title: "Lab 4"
+author: "SpicyBois: Logan, Trent, Tyler, Joe, Jack"
+date: "9/16/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(purrr)
+library(modelr)
+babies <- read.csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = bwt.oz)
+```
+
+# Does Smoking Lead to Babies Born Prematurely and with Low Birth Weight?
+
+## The effects of smoking on gestation. (TEAM)
+```{r}
+smoke_names <- c(
+                    `0` = "never smoked",
+                    `1` = "does smoke",
+                    `NA` = "NA"
+                    )
+ggplot(babies, aes(Premature))+ 
+geom_bar()+
+facet_grid(.~smoke, labeller = as_labeller(smoke_names))+
+labs(title = "How Smoking Can Effect if an Infant is Premature", x = "Status of Birth", y = "Count", caption = "0 represents a normal mature birth, 1 represents a premature birth")
+```
+
+**Findings:** While the difference is minimal, it is clear that there is a higher number of premature births for women who do smoke, and a smaller amount of healthy and mature infants birthed.
+
+## Effects of gestation on birth weights. (TEAM)
+```{r}
+ggplot(babies, aes(x = gestation, y = bwtoz)) + 
+  facet_grid(.~smoke) +
+  geom_density_2d(na.rm = TRUE) + 
+  geom_smooth(se = FALSE, method = "lm", na.rm = TRUE) + 
+  geom_vline(xintercept = 270, color = "red") + 
+  labs(title = "Gestation vs. Babies Weight", x = "Babies Weight (oz)", y = "Gestation", caption = "To left of Red Line is Premature Birth")
+```
+
+**Findings:** The gestation of the babies does effect the weight of the baby after birth. It is seen that, on average, the longer the gestation the heavier the baby will be. However, this gestation seems to effect the weight more, if the momther smokes. 
+
+## Team's Recomendation
+Our recomendation is the doctor's to warn against smoking while pregrent, as it can decrease teh gestation possibly make the baby come out prematurly. 
+
+## Babies Weight vs. Parity split by Smoke (Logan)
+```{r}
+ggplot(babies, aes(y = bwtoz, x = parity)) + facet_grid(smoke~.) + stat_summary(fun.y="mean", geom="col") + geom_smooth(method = "lm", se = FALSE) + 
+  labs(title = "Parity vs. Average Babies Weight", x = "Parity (How many previous pregrencies)", y = "Average Baby Weight (OZ)") + 
+  scale_x_continuous(breaks = seq(0, 13))
+```
+
+**Findings:** The parity of the mother does not signifcantly effect the babies weight even if the mother smokes or not. In other words, no matter how many previous pregnancies (including fetal deaths and still births), the mother had, will not effect the babies weight, this is true for smokers and non-smokers.
+
+## Mother's Age vs. Gestation Age of Infant (Trent)
+```{r}
+ggplot(data = babies, aes(x= mage, y=gestation))+
+geom_point(na.rm = TRUE)+
+geom_hline(yintercept = 270, color = "red")+
+theme_bw()+
+scale_fill_gradient(low="red", high="yellow") +
+labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y = "Gestation Age", caption = "Under Red Line is Premature Birth")
+```
+
+**Findings:** Clearly, mothers at any age can give birth to their infants with a wide range of gestational ranges. However, as shown on the graph by a red line, certain ages seem to have a more prominant amount of gestaional ages under 270 days, which classifies as a premature birth. It seems that women in their early to mid-twenties have a slightly higher tendancy to have premature delivieries. 
+
+## Is the Babies Weight at Birth effected by the Father's Weight(Tyler)
+
+```{r}
+
+model <- lm(bwtoz ~ dwt, data = babies)
+dataGrid <- babies %>% data_grid(dwt) %>% add_predictions(model)
+
+ggplot(babies, aes(dwt)) +
+  geom_point(aes(y=bwtoz)) +
+  geom_line(aes(y = pred), data = dataGrid, color = "Green4", size = 1.5) +
+  labs(title = "Fathers Weight VS. Babies Weight At Birth", x = "Fathers Weight", y = "Babies Weight at Birth") +
+  theme_bw()
+
+  
+
+```
+
+**Findings:** This question is important as it can show how much a father's weight can effect the babies weight at birth to understand if it's a factor in the babies weight. The new tools I used was lm, data_grid, and add_predictions. The answer of this question is that the father's weight does not effect the babies weigth. As shown in the graph the spread is so high and correlation would then be so low that it would be insignificant.
+
+## Age of Mother vs. Weight at Birth (Joe)
+
+```{r}
+joeModel <- lm(mage ~ bwtoz, data = babies)
+joeDataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(joeModel)
+
+ggplot(babies, aes(bwtoz)) +
+  geom_point(aes(y=mage)) +
+  geom_line(aes(y = pred), data = joeDataGrid, color = "Red4", size = 1) +
+  labs(title = "Mother's Age VS. Babies Weight At Birth", y = "Mother's Age", x = "Babies Weight at Birth") +
+  theme_bw()
+```
+**Findings:**  The model shows that the general trend for the correlation between birth weight and mother's age is as mothers get older, the weight of the child increases. 
+**Subquestions** 
+**A:** The question answered by this model is, "Do older mothers have healthier babies at birth?" This is important to understand because the heath of the baby is the most important thing that mothers think about when they are planning their family. 
+**B:** I used skills that I learned in the Model Basics chapter of the text book. 
+**C:** Older mothers do have heavier babies, which I believe mean that the babies are healthier. This is relevent to the team question because it regards the health of the child.  
+
+## Mother's Height vs. Weight at Birth (Jack)
+
+```{r}
+cor(babies$bwtoz, babies$mht, use = "na.or.complete")
+
+ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+  facet_wrap(~smoke)+
+  theme_bw() +
+  labs(title = "Mother's Height vs. Baby's Weight at Birth split by Smokers", x = "Baby's Weight", y = "Mother's Height")
+```
+
+**Findings: ** As shown in the graphs, the mother's height doesn't seem to have an effect on the baby's weight. At first I thought a confounding variable may be the mother's weight because the taller you are, typically the more you weigh. The results with the smoking didn't change much as the correlation between the height and weight was .1845, and faceting with smoker's had similar correlation, with an exception of "NA" as there weren't many data points.
+
+## Team Report
+**Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
+
+**Trent:** I created the team plot that compared the amount of premature births between smokers and non smokers, as well as my individual graph. I used the facet function to compare smokers and non smokers, and used the horizontal line function as well as a different theme to add non-default aesthetics to my graphs.
+
+**Jack:** I created the plot for Mother's height vs. Baby's weight split by smokers. I used the facet function in order to split the data between smoker's and non-smoker's (as well as those who answered "N/A"). I also used a different theme to change up the aesthetic of my graphs.
+
+=======
+>>>>>>> Stashed changes
 ---
 title: "Lab 4"
 author: "SpicyBois: Logan, Trent, Tyler, Joe, Jack"
@@ -134,4 +268,8 @@ My graph answers the question we had by determining that there are not really in
 
 Update: I created my predictions model for mother's height vs baby's weight in ounces at birth. I created a linear model and added prediction points in order to create the new graph.
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> master
+>>>>>>> Stashed changes
 **Joe:** I created a graph that plotted the age of the mother versus the birthweight of the child. I used a geom_smooth function to show the general general trend of the graph which yielded a general positive correleation. I think that this is fairly showing that the age of the mother is positively correlated with the birthweight of the child. I then used a model to create a predictive model between birth weight and the age of the mother.
