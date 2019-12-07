@@ -90,8 +90,6 @@ ggplot(babies, aes(dwt)) +
 ## Age of Mother vs. Weight at Birth (Joe)
 
 ```{r}
-
-
 joeModel <- lm(mage ~ bwtoz, data = babies)
 joeDataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(joeModel)
 
@@ -100,7 +98,6 @@ ggplot(babies, aes(bwtoz)) +
   geom_line(aes(y = pred), data = joeDataGrid, color = "Red4", size = 1) +
   labs(title = "Mother's Age VS. Babies Weight At Birth", y = "Mother's Age", x = "Babies Weight at Birth") +
   theme_bw()
-
 ```
 
 
@@ -126,4 +123,4 @@ ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
 
 **Jack:** I created the plot for Mother's height vs. Baby's weight split by smokers. I used the facet function in order to split the data between smoker's and non-smoker's (as well as those who answered "N/A"). I also used a different theme to change up the aesthetic of my graphs.
 
-**Joe:** I created a graph that plotted the age of the mother versus the birthweight of the child. I used a geom_smooth function to show the general general trend of the graph which yielded a general positive correleation. I think that this is fairly showing that the age of the mother is positively correlated with the birthweight of the child.
+**Joe:** I created a graph that plotted the age of the mother versus the birthweight of the child. I used a geom_smooth function to show the general general trend of the graph which yielded a general positive correleation. I think that this is fairly showing that the age of the mother is positively correlated with the birthweight of the child. I then used a model to create a predictive model between birth weight and the age of the mother.
