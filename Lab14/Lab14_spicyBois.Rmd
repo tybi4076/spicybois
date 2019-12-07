@@ -126,4 +126,6 @@ New INFO: With the new plot I added, it seems like the predictions compared to t
 
 **Jack:** I created the plot for Mother's height vs. Baby's weight split by smokers. I used the facet function in order to split the data between smoker's and non-smoker's (as well as those who answered "N/A"). I also used a different theme to change up the aesthetic of my graphs.
 
+Update: I created my predictions model for mother's height vs baby's weight in ounces at birth. I created a linear model and added prediction points in order to create the new graph.
+
 **Joe:** I created a graph that plotted the age of the mother versus the birthweight of the child. I used a geom_smooth function to show the general general trend of the graph which yielded a general positive correleation. I think that this is fairly showing that the age of the mother is positively correlated with the birthweight of the child. I then used a model to create a predictive model between birth weight and the age of the mother.
