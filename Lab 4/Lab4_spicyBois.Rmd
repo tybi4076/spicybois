@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(purrr)
+library(modelr)
 babies <- read.csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
 babies <- rename(babies, bwtoz = bwt.oz)
 ```
@@ -69,15 +71,23 @@ labs(title = "Mother's Age vs. Gestation Age of Infant", x = "Mother's Age", y =
 ## Fathers Weight vs. Weigth at Birth (Tyler)
 
 ```{r}
-bwtoz <- babies$bwtoz
-dwt <- babies$dwt
+#bwtoz <- babies$bwtoz
+#dwt <- babies$dwt
 corDwtBwtoz <- cor(bwtoz,dwt, use = "na.or.complete")
 
-ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) + 
-  geom_point(mapping = aes(color = smoke), na.rm = TRUE) +
-  geom_smooth(method = "lm", se = FALSE, na.rm = TRUE) +
-  theme_bw() +
-  labs(title = "Fathers Weight V Birth Weight", x = "Weight At Birth", y = "Fathers Weight", caption = corDwtBwtoz)
+model <- lm(dwt ~ bwtoz, data = babies)
+dataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(model)
+
+ggplot(babies, aes(bwtoz)) +
+  geom_point(aes(y=dwt)) +
+  geom_line(aes(y = pred), data = dataGrid, color = "Green4", size = 1.5)
+
+
+#ggplot(data = babies, mapping = aes(x = bwtoz,  y = dwt)) + 
+#  geom_point(mapping = aes(color = smoke), na.rm = TRUE) +
+ # geom_smooth(method = "lm", se = FALSE, na.rm = TRUE) +
+  #theme_bw() +
+  #labs(title = "Fathers Weight V Birth Weight", x = "Weight At Birth", y = "Fathers Weight", caption = corDwtBwtoz)
   
 
 ```
