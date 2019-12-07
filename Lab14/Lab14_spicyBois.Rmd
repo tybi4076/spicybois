@@ -84,11 +84,9 @@ ggplot(babies, aes(dwt)) +
   labs(title = "Fathers Weight VS. Babies Weight At Birth", x = "Fathers Weight", y = "Babies Weight at Birth") +
   theme_bw()
 
-  
-
 ```
 
-**Findings:** This question is important as it can show how much a father's weight can effect the babies weight at birth to understand if it's a factor in the babies weight. The new tools I used was lm, data_grid, and add_predictions. The answer of this question is that the father's weight does not effect the babies weigth. As shown in the graph the spread is so high and correlation would then be so low that it would be insignificant.
+**Findings:** This question is important as it can show how much a father's weight can effect the babies weight at birth to understand if it's a factor in the babies weight. The new tools I used was lm, data_grid, and add_predictions. The answer of this question is that the father's weight does not effect the babies weigth. As shown in the graph the spread is so high and correlation would then be so low that it would be insignificant. This relates to the team part as this is one part of health that could effect a babies health
 
 ## Age of Mother vs. Weight at Birth (Joe)
 
@@ -267,6 +265,8 @@ My graph answers the question we had by determining that there are not really in
 **Jack:** I created the plot for Mother's height vs. Baby's weight split by smokers. I used the facet function in order to split the data between smoker's and non-smoker's (as well as those who answered "N/A"). I also used a different theme to change up the aesthetic of my graphs.
 
 Update: I created my predictions model for mother's height vs baby's weight in ounces at birth. I created a linear model and added prediction points in order to create the new graph.
+
+**Tyler:** I created the plot for father's weight and babies weight at birth. I created a linear modeal, made a new data grid and added the predictions to it. 
 
 <<<<<<< Updated upstream
 =======
