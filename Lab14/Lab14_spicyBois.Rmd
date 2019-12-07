@@ -119,6 +119,12 @@ ggplot(babies, aes(bwtoz)) +
 
 New INFO: With the new plot I added, it seems like the predictions compared to the observations have no real correlation at all. The observed values vary and although they are kind of grouped, there is no reason to assume in any way that mother's height can predict what a baby's weight will be.
 
+**New Tools Used: **
+For this lab, I used the new model features that we learned in class. I created predictions and plotted them against eachother and interpreted data from their.
+
+**Answer to Question: **
+My graph answers the question we had by determining that there are not really in health benefits or harms when you are comparing the mother's height and the baby's weight at birth. In other words, the mother's height does NOT effect the well-being of their child.
+
 ## Team Report
 **Logan:** I created the plot for Parity vs. the Average Weight of Babies. I used a stat function summary to average the baby weight. I also used the scale function in order to make the graph easier to read. As well as, used the facet function to show the the data split between smokers and non-smokers. I also create the 2nd team graph.
 
