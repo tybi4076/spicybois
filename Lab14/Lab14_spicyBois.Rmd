@@ -115,16 +115,14 @@ ggplot(babies, aes(bwtoz)) +
 **C:** Older mothers do have heavier babies, which I believe mean that the babies are healthier. This is relevent to the team question because it regards the health of the child.  
 
 ## Mother's Height vs. Weight at Birth (Jack)
-
 ```{r}
-cor(babies$bwtoz, babies$mht, use = "na.or.complete")
+jackModel <- lm(mht ~ bwtoz, data = babies)
+jackDataGrid <- babies %>% data_grid(bwtoz) %>% add_predictions(jackModel)
 
-ggplot(data = babies, (mapping = aes(y = mht, x = bwtoz)))+
-  geom_point()+
-  geom_smooth(method = "lm", se = FALSE)+
-  facet_wrap(~smoke)+
-  theme_bw() +
-  labs(title = "Mother's Height vs. Baby's Weight at Birth split by Smokers", x = "Baby's Weight", y = "Mother's Height")
+ggplot(babies, aes(bwtoz)) +
+  geom_point(aes(y = mht)) +
+  geom_line(aes(y = pred), data = jackDataGrid, color = "Red2") +
+  labs(title = "Mother's Height vs. Baby's Weight at Birth", x = "Baby's Weight", y = "Mother's Height")
 ```
 
 **Findings: ** As shown in the graphs, the mother's height doesn't seem to have an effect on the baby's weight. At first I thought a confounding variable may be the mother's weight because the taller you are, typically the more you weigh. The results with the smoking didn't change much as the correlation between the height and weight was .1845, and faceting with smoker's had similar correlation, with an exception of "NA" as there weren't many data points.
