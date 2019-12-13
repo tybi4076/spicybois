@@ -8,10 +8,107 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-```
-
-## Lab 15
-```{r, warning=FALSE, message=FALSE}
 movies <- read_csv("movies.csv") %>% select(-c("poster_url", "genres")) %>% separate(release_date, sep="-", into=c("release_day", "release_month", "release_year")) %>% mutate(release_day = as.numeric(release_day), release_year = as.numeric(release_year))
 ```
+
+# How does diffent qualities effect the susses of the movies? (TEAM)
+
+## How does the size of the Studio effect quality of movie? (Logan)
+```{r}
+rename_studio <- function(names) {
+  returnVec <- vector("character", length = length(names))
+  
+  for(i in 1:length(names)) {
+    studio_name <- names[i]
+    
+		if(studio_name == "20thCentury-Fox" | studio_name == "20thCentury-FoxFilmCorporation" | studio_name == "20thCenturyFox" | studio_name == "20thCenturyFoxFilmCorporation" | studio_name == "Fox" | studio_name == "FoxSearchlightPictures") {
+			returnVec[i] = "20thCenturyFox"
+		} else if(studio_name == "Carolco" | studio_name == "CarolcoPictures") {
+			returnVec[i] = "Carolco"
+		} else if(studio_name == "Columbia" | studio_name == "ColumbiaPictures") {
+			returnVec[i] = "Columbia"
+		} else if(studio_name == "DreamWorks" | studio_name == "DreamWorksPictures") {
+			returnVec[i] = "DreamWorks"
+		} else if(studio_name == "Imagine" | studio_name == "ImagineEntertainment") {
+			returnVec[i] = "Imagine"
+		} else if(studio_name == "Lionsgate" | studio_name == "LionsgateFilms") {
+			returnVec[i] = "Lionsgate"
+		} else if(studio_name == "Marvel" | studio_name == "MarvelStudios") {
+			returnVec[i] = "Marvel"
+		} else if(studio_name == "Metro-Goldwyn-Mayer" | studio_name == "MGM") {
+			returnVec[i] = "MGM"
+		} else if(studio_name == "NewLine" | studio_name == "NewLineCinema") {
+			returnVec[i] = "NewLine"
+		} else if(studio_name == "Paramount" | studio_name == "ParamountPictures") {
+			returnVec[i] = "Paramount"
+		} else if(studio_name == "Summit" | studio_name == "SummitEntertainment") {
+			returnVec[i] = "Summit"
+		} else if(studio_name == "Touchstone" | studio_name == "TouchstonePictures") {
+			returnVec[i] = "Touchstone"
+		} else if(studio_name == "UnitedArtists" | studio_name == "UnitedArtistsPictures" | studio_name == "UnitedFilmDistributionCompany") {
+			returnVec[i] = "UnitedArtists"
+		} else if(studio_name == "Universal" | studio_name == "UniversalPictures" | studio_name == "UniversalStudios") {
+			returnVec[i] = "Universal"
+		} else if(studio_name == "Disney" | studio_name == "WaltDisneyPictures" | studio_name == "WaltDisneyProductions") {
+			returnVec[i] = "Disney"
+		} else if(studio_name == "WarnerBros" | studio_name == "WarnerBros." | studio_name == "WarnerBros.Pictures") {
+			returnVec[i] = "WarnerBros"
+		} else {
+			returnVec[i] = studio_name
+		}
+  }
+  
+  return(returnVec)
+}
+```
+
+```{r, message=FALSE, warning=FALSE}
+movies_studio <- movies %>% 
+  separate(studio, sep = "/", into = c("main_studio", "sub_studio_1", "sub_studio_2")) %>% 
+  gather(main_studio, sub_studio_1, sub_studio_2, key = "studio_rank", value = "studio") %>%
+  filter(!is.na(studio)) %>%
+  mutate(studio = rename_studio(gsub(" ", "", studio))) %>%
+  arrange(title)
+```
+
+```{r}
+movies_group <- movies_studio %>% 
+  group_by(studio) %>% 
+  summarise(sum_gross = sum(adjusted), sum_rating = sum(imdb_rating), count = n(), avg_per_movie = (sum_gross/count), avg_rating_per_movie = (sum_rating/count)) %>%
+  arrange(studio)
+movies_group
+
+ggplot(movies_group, aes(x = reorder(studio, -avg_per_movie))) + 
+  geom_col(aes(y = avg_per_movie)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Average Gross per movie per Studio", x = "Studio", y = "Average Gross per Movie")
+
+ggplot(movies_group, aes(x = reorder(studio, -avg_rating_per_movie))) + 
+  geom_col(aes(y = avg_rating_per_movie)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Average IMDB Rating per movie per Studio", x = "Studio", y = "Average IMDB Rating per Movie")
+
+ggplot(movies_group, aes(x = reorder(studio, -count))) + 
+  geom_col(aes(y = count)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Number of Movies made per Studio", x = "Studio", y = "Number of Movies")
+
+ggplot(movies_group, aes(x = reorder(studio, -sum_gross))) + 
+  geom_col(aes(y = sum_gross)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Gross Sum per Studio", x = "Studio", y = "Gross Sum")
+```
+
+
+**Why is it important/interesting?** It is interesting, to undersand wether the bigger studios make better movies, or do they just creating a bunch of movies hopping 1-2 are great.
+
+**What new tools did you use?** I used theme to rotate the x axis to better view the studio names. I created a function inorder to better tidy the studio names, because that was a mess. 
+
+**What is the answer to the question?** To determine the quality I looked at both gross and IMDB ratings. To determine the scale of the studio I looked at the number of movies created. 
+I determined that Mid size studios seem to create better quality movies. If you look at the largest studio, WarnerBros, it is the 21st studio of average gross and the 23rd in ratings. However the studio that has the best gross, Marvel, is only 14th largest studio. Wereas Lightstorm has the average best scores yet it is near the bottom of the studio sizes. Looking over the 2nd-10th place ones similar trends continue, the studios that are higher quality, tend to be mid-size studios.
+
+**How does this relate to the overall question?** The Studio does impact the quality of the movie.
+
+**What are the ethical implications of your findings, conclusions, or recommendations?**It is seen that large size studios tend to be in the middle of the ranks for both gross and ratings. Yet they are still at the top for the total gross made. This means that dispite creating lesser quality movies, they can still make huge amounts of money. The ethical implications of my findings are that large size studios might care more about quickly making movies more than creating a qualty movie.
+
 
