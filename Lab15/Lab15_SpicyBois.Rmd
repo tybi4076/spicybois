@@ -111,4 +111,26 @@ I determined that Mid size studios seem to create better quality movies. If you 
 
 **What are the ethical implications of your findings, conclusions, or recommendations?**It is seen that large size studios tend to be in the middle of the ranks for both gross and ratings. Yet they are still at the top for the total gross made. This means that dispite creating lesser quality movies, they can still make huge amounts of money. The ethical implications of my findings are that large size studios might care more about quickly making movies more than creating a qualty movie.
 
+##Tyler's Section
+###Hows does the main genre of a movie effect its rating and gross amount of money made
+**Why is this interesting?** This is an important and interestinf question because it can show how movies do in the box office based on the genre. This can show how mush a movie could be projected to make depending on their genre
+```{r}
+
+ggplot(data = movies) +
+  geom_bar(stat = "identity", mapping = aes(x = genre_1, y = adjusted)) +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = -60, hjust = 1)) +
+  labs(title = "How Gross Worldwide Money Made is effected by Genre", x = "Genre", y = "Combinded Gross Money Made")
+
+ggplot(data = movies) +
+  geom_bar(stat = "identity", mapping = aes(x = genre_1, y = rt_freshness)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = -60, hjust = 1)) +
+  labs(title = "How ratings are effected by genre", x = "Genre", y = "Combined Rotten Tomatoes Freshness Score")
+
+
+```
+
+**Findings:** I have found that history movies have made the most money overall and have a high total freshness score. However, war movies have the highest combines rotten tomatoes score. This adds to the overall team question as it can show how certain genres of movies can make more money and do betetr in the box office. For this I used GGPLOT2, importing data, and tidying data. 
+
 
