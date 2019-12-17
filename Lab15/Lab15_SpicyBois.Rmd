@@ -132,7 +132,13 @@ ggplot(data = movies) +
 
 ```
 
-**Findings:** I have found that history movies have made the most money overall and have a high total freshness score. However, war movies have the highest combines rotten tomatoes score. This adds to the overall team question as it can show how certain genres of movies can make more money and do betetr in the box office. For this I used GGPLOT2, importing data, and tidying data. 
+**Findings:** I have found that history movies have made the most money overall and have a high total freshness score. However, war movies have the highest combines rotten tomatoes score. This adds to the overall team question as it can show how certain genres of movies can make more money and do betetr in the box office. 
+
+**Tools:** For this I used GGPLOT2, importing data, and tidying data.
+
+**Implications:** This can help movie producers and studios figure out what genre they can make a movie to make a lot of revenue
+
+**Lab 2 Reflection:** I feel like we did good on our goal. We started off not really working together but b lab 9 we started to get together and work on the lab as a team. I feel like this is one this we should keep doing. One thing that we did need to work on was organization through gitKraken just to avoid merge conflicts. I feel like my goals have changed as 6 months after graduation I would like to be going into graduate school. My 5-year goal has stayed the same
 
 
 =======
