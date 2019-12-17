@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ---
 title: "Lab15"
 author: "Spicy Bois"
@@ -134,3 +135,221 @@ ggplot(data = movies) +
 **Findings:** I have found that history movies have made the most money overall and have a high total freshness score. However, war movies have the highest combines rotten tomatoes score. This adds to the overall team question as it can show how certain genres of movies can make more money and do betetr in the box office. For this I used GGPLOT2, importing data, and tidying data. 
 
 
+=======
+---
+title: "Lab15"
+author: "Spicy Bois"
+date: "12/13/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+movies <- read_csv("movies.csv") %>% select(-c("poster_url", "genres")) %>% separate(release_date, sep="-", into=c("release_day", "release_month", "release_year")) %>% mutate(release_day = as.numeric(release_day), release_year = as.numeric(release_year))
+```
+
+# How does diffent qualities effect the susses of the movies? (TEAM)
+
+## How does the size of the Studio effect quality of movie? (Logan)
+```{r}
+rename_studio <- function(names) {
+  returnVec <- vector("character", length = length(names))
+  
+  for(i in 1:length(names)) {
+    studio_name <- names[i]
+    
+		if(studio_name == "20thCentury-Fox" | studio_name == "20thCentury-FoxFilmCorporation" | studio_name == "20thCenturyFox" | studio_name == "20thCenturyFoxFilmCorporation" | studio_name == "Fox" | studio_name == "FoxSearchlightPictures") {
+			returnVec[i] = "20thCenturyFox"
+		} else if(studio_name == "Carolco" | studio_name == "CarolcoPictures") {
+			returnVec[i] = "Carolco"
+		} else if(studio_name == "Columbia" | studio_name == "ColumbiaPictures") {
+			returnVec[i] = "Columbia"
+		} else if(studio_name == "DreamWorks" | studio_name == "DreamWorksPictures") {
+			returnVec[i] = "DreamWorks"
+		} else if(studio_name == "Imagine" | studio_name == "ImagineEntertainment") {
+			returnVec[i] = "Imagine"
+		} else if(studio_name == "Lionsgate" | studio_name == "LionsgateFilms") {
+			returnVec[i] = "Lionsgate"
+		} else if(studio_name == "Marvel" | studio_name == "MarvelStudios") {
+			returnVec[i] = "Marvel"
+		} else if(studio_name == "Metro-Goldwyn-Mayer" | studio_name == "MGM") {
+			returnVec[i] = "MGM"
+		} else if(studio_name == "NewLine" | studio_name == "NewLineCinema") {
+			returnVec[i] = "NewLine"
+		} else if(studio_name == "Paramount" | studio_name == "ParamountPictures") {
+			returnVec[i] = "Paramount"
+		} else if(studio_name == "Summit" | studio_name == "SummitEntertainment") {
+			returnVec[i] = "Summit"
+		} else if(studio_name == "Touchstone" | studio_name == "TouchstonePictures") {
+			returnVec[i] = "Touchstone"
+		} else if(studio_name == "UnitedArtists" | studio_name == "UnitedArtistsPictures" | studio_name == "UnitedFilmDistributionCompany") {
+			returnVec[i] = "UnitedArtists"
+		} else if(studio_name == "Universal" | studio_name == "UniversalPictures" | studio_name == "UniversalStudios") {
+			returnVec[i] = "Universal"
+		} else if(studio_name == "Disney" | studio_name == "WaltDisneyPictures" | studio_name == "WaltDisneyProductions") {
+			returnVec[i] = "Disney"
+		} else if(studio_name == "WarnerBros" | studio_name == "WarnerBros." | studio_name == "WarnerBros.Pictures") {
+			returnVec[i] = "WarnerBros"
+		} else {
+			returnVec[i] = studio_name
+		}
+  }
+  
+  return(returnVec)
+}
+```
+
+```{r, message=FALSE, warning=FALSE}
+movies_studio <- movies %>% 
+  separate(studio, sep = "/", into = c("main_studio", "sub_studio_1", "sub_studio_2")) %>% 
+  gather(main_studio, sub_studio_1, sub_studio_2, key = "studio_rank", value = "studio") %>%
+  filter(!is.na(studio)) %>%
+  mutate(studio = rename_studio(gsub(" ", "", studio))) %>%
+  arrange(title)
+```
+
+```{r}
+movies_group <- movies_studio %>% 
+  group_by(studio) %>% 
+  summarise(sum_gross = sum(adjusted), sum_rating = sum(imdb_rating), count = n(), avg_per_movie = (sum_gross/count), avg_rating_per_movie = (sum_rating/count)) %>%
+  arrange(studio)
+movies_group
+
+ggplot(movies_group, aes(x = reorder(studio, -avg_per_movie))) + 
+  geom_col(aes(y = avg_per_movie)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Average Gross per movie per Studio", x = "Studio", y = "Average Gross per Movie")
+
+ggplot(movies_group, aes(x = reorder(studio, -avg_rating_per_movie))) + 
+  geom_col(aes(y = avg_rating_per_movie)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Average IMDB Rating per movie per Studio", x = "Studio", y = "Average IMDB Rating per Movie")
+
+ggplot(movies_group, aes(x = reorder(studio, -count))) + 
+  geom_col(aes(y = count)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Number of Movies made per Studio", x = "Studio", y = "Number of Movies")
+
+ggplot(movies_group, aes(x = reorder(studio, -sum_gross))) + 
+  geom_col(aes(y = sum_gross)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Gross Sum per Studio", x = "Studio", y = "Gross Sum")
+```
+
+
+**Why is it important/interesting?** It is interesting, to undersand wether the bigger studios make better movies, or do they just creating a bunch of movies hopping 1-2 are great.
+
+**What new tools did you use?** I used theme to rotate the x axis to better view the studio names. I created a function inorder to better tidy the studio names, because that was a mess. 
+
+**What is the answer to the question?** To determine the quality I looked at both gross and IMDB ratings. To determine the scale of the studio I looked at the number of movies created. 
+I determined that Mid size studios seem to create better quality movies. If you look at the largest studio, WarnerBros, it is the 21st studio of average gross and the 23rd in ratings. However the studio that has the best gross, Marvel, is only 14th largest studio. Wereas Lightstorm has the average best scores yet it is near the bottom of the studio sizes. Looking over the 2nd-10th place ones similar trends continue, the studios that are higher quality, tend to be mid-size studios.
+
+**How does this relate to the overall question?** The Studio does impact the quality of the movie.
+
+**What are the ethical implications of your findings, conclusions, or recommendations?**It is seen that large size studios tend to be in the middle of the ranks for both gross and ratings. Yet they are still at the top for the total gross made. This means that dispite creating lesser quality movies, they can still make huge amounts of money. The ethical implications of my findings are that large size studios might care more about quickly making movies more than creating a qualty movie.
+
+
+##Does the quality or target audience of a movie effect its box office returns? (Joe)
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+movies <- read_csv("movies.csv")
+
+blockbuster <- movies %>% select('title', 'adjusted', 'audience_freshness', 'rt_freshness') %>% filter(audience_freshness > 90) %>% filter(rt_freshness < 90) %>% arrange(desc(adjusted)) %>% slice(1:5) %>% mutate(stringr::str_trunc(title, 20))
+colnames(blockbuster)[5] <- "newname"
+bavg <- blockbuster %>% select('adjusted') %>% map(mean)
+bavg
+
+oscarbait <- movies %>% select('title', 'adjusted', 'rt_freshness', 'audience_freshness') %>% filter(rt_freshness > 90) %>% filter(audience_freshness < 80) %>% arrange(desc(adjusted)) %>% slice(1:5) %>% mutate(stringr::str_trunc(title, 20)) 
+colnames(oscarbait)[5] <- "newname"
+oavg <- oscarbait %>% select('adjusted') %>% map(mean)
+oavg
+
+excellence <- movies %>% select('title', 'adjusted', 'audience_freshness', 'rt_freshness') %>% filter(audience_freshness > 90) %>% filter(rt_freshness > 90) %>% arrange(desc(adjusted)) %>% slice(1:6) %>% mutate(stringr::str_trunc(title, 20))
+colnames(excellence)[5] <- "newname"
+eavg <- excellence %>% select('adjusted') %>% map(mean)
+eavg
+
+trash <- movies %>% select('title', 'adjusted', 'audience_freshness', 'rt_freshness') %>% filter(audience_freshness < 50) %>% filter(rt_freshness < 50) %>% arrange(desc(adjusted)) %>% slice(1:5) %>% mutate(stringr::str_trunc(title, 20))
+tavg <- trash %>% select('adjusted') %>% map(mean)
+tavg
+
+ggplot()+
+  geom_col(data = blockbuster, mapping = aes(x = newname, y = adjusted))+
+  labs(title = "Top 5 Grossing Crowdpleasers", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 867308679)
+ggplot()+
+  geom_col(data = oscarbait, mapping = aes(x = newname, y = adjusted))+
+  labs(title = "Top 5 Grossing Critic Pleasers", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 764569664)
+ggplot()+
+  geom_col(data = excellence, mapping = aes(x = newname, y = adjusted))+
+  labs(title = "Top 5 Grossing Movies Loved by Audience and Critics", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 1188399713)
+ggplot()+
+  geom_col(data = trash, mapping = aes(x = title, y = adjusted))+
+  labs(title = "Top 5 Grossing Disliked Movies", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 622350515)
+```
+**My question is interesting because it shows that investing resources and passion into making a good movie usually rewards everyone at the box office. The audience is happy, the critics are happy, and the production company is hauling in the cash. Making the best movie possible maximizes social surplus.**
+
+**I used the mapping tool from purrr to grab the average of a whole collumn of values from each tibble.**
+
+**Movies that are well liked by audience and critics to far better than any other category of movie. Movies that only critics like seem to do the worst. This lets production companies know that it is very much so worth it to create the best movie possible. If this were obeyed by every production studio in Hollywood, more high quality movies would be made instead of movies that are attempting to grab a quick profit.**
+
+**I believe that this shows that movie studios in Hollywood are not only unethical with their systematic destruction of established titles, but they're not even being efficient with there money making. They're just being lazy.**
+
+**My six-month goal is the same still. I just want to study something that is interesting to me and applicable in a workspace without spending more than six years here. My five year goal has changed. I think that it would be perfectly fine for me to be working an office job, as long as the office is a supportive and comfortable place to work. I learned a lot about coding this semester and even more about working in groups. I realized how much easier work goes when a team works as one. I wish that we had started working as a team earlier on into the year. I would also tell myself to stop staying up so late and to keep asking questions when I needed help.**##Does the quality or target audience of a movie effect its box office returns? (Joe)
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+movies <- read_csv("movies.csv")
+
+blockbuster <- movies %>% select('title', 'adjusted', 'audience_freshness', 'rt_freshness') %>% filter(audience_freshness > 90) %>% filter(rt_freshness < 90) %>% arrange(desc(adjusted)) %>% slice(1:5) %>% mutate(stringr::str_trunc(title, 20))
+colnames(blockbuster)[5] <- "newname"
+bavg <- blockbuster %>% select('adjusted') %>% map(mean)
+bavg
+
+oscarbait <- movies %>% select('title', 'adjusted', 'rt_freshness', 'audience_freshness') %>% filter(rt_freshness > 90) %>% filter(audience_freshness < 80) %>% arrange(desc(adjusted)) %>% slice(1:5) %>% mutate(stringr::str_trunc(title, 20)) 
+colnames(oscarbait)[5] <- "newname"
+oavg <- oscarbait %>% select('adjusted') %>% map(mean)
+oavg
+
+excellence <- movies %>% select('title', 'adjusted', 'audience_freshness', 'rt_freshness') %>% filter(audience_freshness > 90) %>% filter(rt_freshness > 90) %>% arrange(desc(adjusted)) %>% slice(1:6) %>% mutate(stringr::str_trunc(title, 20))
+colnames(excellence)[5] <- "newname"
+eavg <- excellence %>% select('adjusted') %>% map(mean)
+eavg
+
+trash <- movies %>% select('title', 'adjusted', 'audience_freshness', 'rt_freshness') %>% filter(audience_freshness < 50) %>% filter(rt_freshness < 50) %>% arrange(desc(adjusted)) %>% slice(1:5) %>% mutate(stringr::str_trunc(title, 20))
+tavg <- trash %>% select('adjusted') %>% map(mean)
+tavg
+
+ggplot()+
+  geom_col(data = blockbuster, mapping = aes(x = newname, y = adjusted))+
+  labs(title = "Top 5 Grossing Crowdpleasers", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 867308679)
+ggplot()+
+  geom_col(data = oscarbait, mapping = aes(x = newname, y = adjusted))+
+  labs(title = "Top 5 Grossing Critic Pleasers", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 764569664)
+ggplot()+
+  geom_col(data = excellence, mapping = aes(x = newname, y = adjusted))+
+  labs(title = "Top 5 Grossing Movies Loved by Audience and Critics", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 1188399713)
+ggplot()+
+  geom_col(data = trash, mapping = aes(x = title, y = adjusted))+
+  labs(title = "Top 5 Grossing Disliked Movies", x = "Movie Title", y = "Box Office Gross")+
+  geom_hline(yintercept = 622350515)
+```
+**My question is interesting because it shows that investing resources and passion into making a good movie usually rewards everyone at the box office. The audience is happy, the critics are happy, and the production company is hauling in the cash. Making the best movie possible maximizes social surplus.**
+
+**I used the mapping tool from purrr to grab the average of a whole collumn of values from each tibble.**
+
+**Movies that are well liked by audience and critics to far better than any other category of movie. Movies that only critics like seem to do the worst. This lets production companies know that it is very much so worth it to create the best movie possible. If this were obeyed by every production studio in Hollywood, more high quality movies would be made instead of movies that are attempting to grab a quick profit.**
+
+**I believe that this shows that movie studios in Hollywood are not only unethical with their systematic destruction of established titles, but they're not even being efficient with there money making. They're just being lazy.**
+
+**My six-month goal is the same still. I just want to study something that is interesting to me and applicable in a workspace without spending more than six years here. My five year goal has changed. I think that it would be perfectly fine for me to be working an office job, as long as the office is a supportive and comfortable place to work. I learned a lot about coding this semester and even more about working in groups. I realized how much easier work goes when a team works as one. I wish that we had started working as a team earlier on into the year. I would also tell myself to stop staying up so late and to keep asking questions when I needed help.**
