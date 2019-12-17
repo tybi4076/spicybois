@@ -250,7 +250,7 @@ I determined that Mid size studios seem to create better quality movies. If you 
 **What are the ethical implications of your findings, conclusions, or recommendations?**It is seen that large size studios tend to be in the middle of the ranks for both gross and ratings. Yet they are still at the top for the total gross made. This means that dispite creating lesser quality movies, they can still make huge amounts of money. The ethical implications of my findings are that large size studios might care more about quickly making movies more than creating a qualty movie.
 
 
-##Does the quality or target audience of a movie effect its box office returns? (Joe)
+## Does the quality or target audience of a movie effect its box office returns? (Joe)
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -302,3 +302,7 @@ ggplot()+
 **I believe that this shows that movie studios in Hollywood are not only unethical with their systematic destruction of established titles, but they're not even being efficient with there money making. They're just being lazy.**
 
 **My six-month goal is the same still. I just want to study something that is interesting to me and applicable in a workspace without spending more than six years here. My five year goal has changed. I think that it would be perfectly fine for me to be working an office job, as long as the office is a supportive and comfortable place to work. I learned a lot about coding this semester and even more about working in groups. I realized how much easier work goes when a team works as one. I wish that we had started working as a team earlier on into the year. I would also tell myself to stop staying up so late and to keep asking questions when I needed help.**
+
+
+## Logan's Reflection on Lab 2
+My goals have stayed the same as stated in Lab 2. I learned more about statitis and the impact it can have on almost everything. If I could give myself adivce at the beginning of the semester I would temm myself to start trying to communcatie with my parterners more often about the lab, stop the tendancy to procrastinate on the labs, and continues the overall work effort I did on the labs. 
